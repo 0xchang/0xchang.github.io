@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://0xchang.github.io/about/index.html</loc>
+    
+    <lastmod>2021-11-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://0xchang.github.io/link/index.html</loc>
+    
+    <lastmod>2021-11-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://0xchang.github.io/categories/index.html</loc>
+    
+    <lastmod>2021-11-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://0xchang.github.io/tags/index.html</loc>
+    
+    <lastmod>2021-11-25</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://0xchang.github.io/2021/11/24/redrock-wp-2021/</loc>
     
     <lastmod>2021-11-25</lastmod>
@@ -137,14 +165,14 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/python-pyautogui/</loc>
+    <loc>http://0xchang.github.io/tags/test/</loc>
     <lastmod>2021-11-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/test/</loc>
+    <loc>http://0xchang.github.io/tags/python-pyautogui/</loc>
     <lastmod>2021-11-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -158,14 +186,14 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/tools/</loc>
+    <loc>http://0xchang.github.io/tags/redrock-ctf-writeup/</loc>
     <lastmod>2021-11-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/redrock-ctf-writeup/</loc>
+    <loc>http://0xchang.github.io/tags/tools/</loc>
     <lastmod>2021-11-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

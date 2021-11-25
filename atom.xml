@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>0xchang&#39;s Blog</title>
   
-  
+  <subtitle>大风起兮云飞扬</subtitle>
   <link href="http://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="http://0xchang.github.io/"/>
