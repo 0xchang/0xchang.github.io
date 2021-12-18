@@ -130,7 +130,7 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/typora/</loc>
+    <loc>http://0xchang.github.io/tags/apache-centos7/</loc>
     <lastmod>2021-12-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -144,7 +144,14 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/apache-centos7/</loc>
+    <loc>http://0xchang.github.io/tags/typora/</loc>
+    <lastmod>2021-12-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://0xchang.github.io/tags/centos7-mariadb/</loc>
     <lastmod>2021-12-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -158,7 +165,7 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/centos7-mariadb/</loc>
+    <loc>http://0xchang.github.io/tags/python-pyautogui/</loc>
     <lastmod>2021-12-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -179,7 +186,7 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/python-pyautogui/</loc>
+    <loc>http://0xchang.github.io/tags/tools/</loc>
     <lastmod>2021-12-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -187,13 +194,6 @@
   
   <url>
     <loc>http://0xchang.github.io/tags/redrock-ctf-writeup/</loc>
-    <lastmod>2021-12-18</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://0xchang.github.io/tags/tools/</loc>
     <lastmod>2021-12-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
