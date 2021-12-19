@@ -130,14 +130,14 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/apache-centos7/</loc>
+    <loc>http://0xchang.github.io/tags/nmap/</loc>
     <lastmod>2021-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/nmap/</loc>
+    <loc>http://0xchang.github.io/tags/apache-centos7/</loc>
     <lastmod>2021-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -165,6 +165,13 @@
   </url>
   
   <url>
+    <loc>http://0xchang.github.io/tags/test/</loc>
+    <lastmod>2021-12-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://0xchang.github.io/tags/python-pyautogui/</loc>
     <lastmod>2021-12-19</lastmod>
     <changefreq>daily</changefreq>
@@ -173,13 +180,6 @@
   
   <url>
     <loc>http://0xchang.github.io/tags/python-pip/</loc>
-    <lastmod>2021-12-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://0xchang.github.io/tags/test/</loc>
     <lastmod>2021-12-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
