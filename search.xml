@@ -11,6 +11,52 @@
       </tags>
   </entry>
   <entry>
+    <title>Nmap简单使用</title>
+    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>nmap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装apache</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
+    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
+]]></content>
+      <tags>
+        <tag>apache centos7</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora简单语法</title>
     <url>/2021/11/24/Typora%E7%AE%80%E5%8D%95%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="Typora简单语法"><a href="#Typora简单语法" class="headerlink" title="Typora简单语法"></a>Typora简单语法</h2><p>​        typora是一款极致简洁的markdown文本编辑器，支持即时渲染技术，是编写markdown的好手，非常的好用。</p>
@@ -83,52 +129,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Nmap简单使用</title>
-    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
-
-<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>nmap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos7安装apache</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
-    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
-
-<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
-]]></content>
-      <tags>
-        <tag>apache centos7</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装mariadb</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
     <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
@@ -170,17 +170,6 @@
       </tags>
   </entry>
   <entry>
-    <title>first-blog</title>
-    <url>/2021/11/24/first-blog/</url>
-    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
-<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
-<p>11</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pyautogui的简单基础</title>
     <url>/2021/11/24/pyautogui%E7%9A%84%E7%AE%80%E5%8D%95%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="pyautogui的简单基础"><a href="#pyautogui的简单基础" class="headerlink" title="pyautogui的简单基础"></a>pyautogui的简单基础</h2><h3 id="安装pyautogui"><a href="#安装pyautogui" class="headerlink" title="安装pyautogui"></a>安装pyautogui</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip install pyautogui</span><br></pre></td></tr></table></figure>
@@ -202,6 +191,17 @@
 ]]></content>
       <tags>
         <tag>python pyautogui</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>first-blog</title>
+    <url>/2021/11/24/first-blog/</url>
+    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
+<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
+<p>11</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
       </tags>
   </entry>
   <entry>
