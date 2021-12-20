@@ -105,6 +105,57 @@
       </tags>
   </entry>
   <entry>
+    <title>beef+metasploit利用浏览器获取shell</title>
+    <url>/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
+    <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195046684.png" alt="image-20211220195046684"></p>
+<p>将文件中metasploit的<code>enable</code>的<code>false</code>修改为<code>true</code>,保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195427947.png" alt="image-20211220195427947"></p>
+<p>进入 /usr/share/beef-xss/extensions/metasploit/目录，编辑<code>config.yaml</code>文件，把<code>host</code>的参数跟<code>callback_host</code>参数修改成kali主机ip</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195701762.png" alt="image-20211220195701762"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195837527.png" alt="image-20211220195837527"></p>
+<p>将<code>custom path</code>的路径修改为 <code>/usr/share/metasploit-framework/</code>，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200034953.png" alt="image-20211220200034953"></p>
+<p>输入命令<code>/etc/init.d/postgresql start</code>，启动postgresql服务，输入命令<code>msfdb init</code>，初始化数据库</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200335286.png" alt="image-20211220200335286"></p>
+<p>终端中输入msfconsole，启动metasploit，输入<code>load msgrpc ServerHost=ip Pass=abc123</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200632568.png" alt="image-20211220200632568"></p>
+<p>打开新终端，输入cd /usr/share/beef-xss/，切换到beef-xss目录下，输入<code>./beef –x</code>加载模块</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200906579.png" alt="image-20211220200906579"></p>
+<p>打开浏览器，输入<code>http://ip:3000/ui/panel</code>，访问<code>beef</code>，账号密码都是<code>beef</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201119958.png" alt="image-20211220201119958"></p>
+<p>在靶机访问<code>http://ip:3000/demos/butcher/index.html</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201335685.png" alt="image-20211220201335685"></p>
+<p>返回kali,看到beef自动连接客户端，提示目标已上线</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201458346.png" alt="image-20211220201458346"></p>
+<p>单击目标ip,<code>Details</code>标签显示了客户端主机详细信息，如火狐浏览器，IE6，浏览器支持flash，支持vbscript脚本，操作系统类型</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201907661.png" alt="image-20211220201907661"></p>
+<p>单击<code>commands</code>标签，显示插件</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202003645.png" alt="image-20211220202003645"></p>
+<p>终端进入/var/www/html（apache2默认网站目录）,编辑一个<code>xss.html</code>文件，自定义xss.html网页</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202448920.png" alt="image-20211220202448920"></p>
+<p>终端修改/etc/apache2/ports.conf，修改默认端口号为8080，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202622345.png" alt="image-20211220202622345"></p>
+<p>终端启动<code>service apache2 start</code>，没有显示表示启动成功</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202805838.png" alt="image-20211220202805838"></p>
+<p>靶机输入<a href="http://192.168.1.2:8080/xss.html%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">http://192.168.1.2:8080/xss.html访问网页</a></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202925168.png" alt="image-20211220202925168"></p>
+<p>返回kali，刷新网页，单击目标ip，点击commans,依次选择<code>Browser</code>,<code>Hooked Domain</code>,<code>Redirect Browser</code>,单击最右侧的<code>RedirectURL</code>,输入<a href="http://192.168.1.2:3000/demos/butcher/index.html,%E4%BD%86%E5%8D%95%E5%87%BB%60Execute%60%EF%BC%8C%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%AE%BF%E9%97%AE%E6%AD%A4%E7%BD%91%E9%A1%B5">http://192.168.1.2:3000/demos/butcher/index.html,但单击`Execute`，目标主机自动访问此网页</a></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203358764.png" alt="image-20211220203358764"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203430757.png" alt="image-20211220203430757"></p>
+<p>单击commands标签，选择<code>Social Engineering</code>,<code>Pretty Theft</code>,最右侧选择框模板弹出，选择facebook模板，窃取账号密码，单击Execute，执行攻击</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203726251.png" alt="image-20211220203726251"></p>
+<p>靶机弹出facebook登录对话框，输入账号密码就会被窃取</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203846921.png" alt="image-20211220203846921"></p>
+<p>在beef的<code>Module Result History</code>标签页中，单击历史记录，发现窃取到账号密码</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203919754.png" alt="image-20211220203919754"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>beef msf shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>centos7安装apache</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
     <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
@@ -126,6 +177,25 @@
 ]]></content>
       <tags>
         <tag>apache centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装mariadb</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
+    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>centos7 mariadb</tag>
       </tags>
   </entry>
   <entry>
@@ -151,33 +221,17 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装mariadb</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
-    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+    <title>python永久换第三方库国内源</title>
+    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
 
-<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
-
+<p> 国内靠谱的 pip 镜像源有：</p>
+<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
+<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
 ]]></content>
       <tags>
-        <tag>centos7 mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>first-blog</title>
-    <url>/2021/11/24/first-blog/</url>
-    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
-<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
-<p>11</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
+        <tag>python pip</tag>
       </tags>
   </entry>
   <entry>
@@ -205,34 +259,14 @@
       </tags>
   </entry>
   <entry>
-    <title>python永久换第三方库国内源</title>
-    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-
-<p> 国内靠谱的 pip 镜像源有：</p>
-<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
-<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
+    <title>first-blog</title>
+    <url>/2021/11/24/first-blog/</url>
+    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
+<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
+<p>11</p>
 ]]></content>
       <tags>
-        <tag>python pip</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>samba提权</title>
-    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
-    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在445和139端口开放，使用msf，输入命令search samba</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
-<p>使用命令use exploit/multi/samba/usermap_script，启用漏洞利用模块，终端输入info，查看相关信息</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
-<p>输入set RHOST ip,设置目标ip地址，输入exploit，开始攻击，攻击成功后，建立会话</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
-<p>输入whoami查看权限，输入ifconfig，查看系统网络信息</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>samba 提权</tag>
+        <tag>test</tag>
       </tags>
   </entry>
   <entry>
@@ -393,27 +427,53 @@
       </tags>
   </entry>
   <entry>
+    <title>samba提权</title>
+    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
+    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
+<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
+<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
+<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>samba 提权</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sysmlink漏洞</title>
     <url>/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<h2 id="sysmlink-目录遍历漏洞"><a href="#sysmlink-目录遍历漏洞" class="headerlink" title="sysmlink 目录遍历漏洞"></a>sysmlink 目录遍历漏洞</h2><h3 id="利用sysmlink漏洞读取目标主机的passwd文件内容"><a href="#利用sysmlink漏洞读取目标主机的passwd文件内容" class="headerlink" title="利用sysmlink漏洞读取目标主机的passwd文件内容"></a>利用sysmlink漏洞读取目标主机的passwd文件内容</h3><h4 id="原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。"><a href="#原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。" class="headerlink" title="原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。"></a>原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>使用nmap -sV ip 扫描主机，确认开放445，139端口且安装了samba服务，版本为3</p>
+    <content><![CDATA[<h2 id="sysmlink-目录遍历漏洞"><a href="#sysmlink-目录遍历漏洞" class="headerlink" title="sysmlink 目录遍历漏洞"></a>sysmlink 目录遍历漏洞</h2><h3 id="利用sysmlink漏洞读取目标主机的passwd文件内容"><a href="#利用sysmlink漏洞读取目标主机的passwd文件内容" class="headerlink" title="利用sysmlink漏洞读取目标主机的passwd文件内容"></a>利用sysmlink漏洞读取目标主机的passwd文件内容</h3><h4 id="原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。"><a href="#原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。" class="headerlink" title="原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。"></a>原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>使用<code>nmap -sV ip</code> 扫描主机，确认开放<code>445</code>，<code>139</code>端口且安装了<code>samba</code>服务，版本为3</p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220165606561.png" alt="image-20211220165606561"></p>
-<p>命令行输入search samba，搜索samba的相关工具和载荷。</p>
+<p>命令行输入<code>search samba</code>，搜索samba的相关工具和载荷。</p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173445099.png" alt="image-20211220173445099"></p>
-<p>终端中输入use auxiliary/admin/smb/samba_symlink_traversal，启用漏洞利用模块</p>
-<p>输入info，”yes”表示必须要填写的信息</p>
+<p>终端中输入<code>use auxiliary/admin/smb/samba_symlink_traversal</code>，启用漏洞利用模块</p>
+<p>输入<code>info</code>，<code>&quot;yes&quot;</code>表示必须要填写的信息</p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173527544.png" alt="image-20211220173527544"></p>
-<p>输入set RHOST 192.168.1.3和set SMBSHARE tmp，设置主机ip地址和SAM可写文件</p>
+<p>输入<code>set RHOST 192.168.1.3</code>和<code>set SMBSHARE tmp</code>，设置主机ip地址和SAM可写文件</p>
 <p>输入exploit开始攻击</p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173602852.png" alt="image-20211220173602852"></p>
-<p>新建终端，输入smbclient //192.168.1.3/tmp，直接回车，无密码</p>
-<p>输入cd rootfs,进入rootfs目录，输入ls，列出目录</p>
+<p>新建终端，输入<code>smbclient //192.168.1.3/tmp</code>，直接回车，无密码</p>
+<p>输入<code>cd rootfs</code>,进入rootfs目录，输入ls，列出目录</p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173635907.png" alt="image-20211220173635907"></p>
-<p>输入more /etc/passwd</p>
+<p>输入<code>more /etc/passwd</code></p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173656794-16399930170041.png" alt="image-20211220173656794"></p>
 <p>此实验完成</p>
 ]]></content>
       <tags>
         <tag>sysmlink msf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用工具</title>
+    <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
+]]></content>
+      <tags>
+        <tag>tools</tag>
       </tags>
   </entry>
   <entry>
@@ -434,14 +494,5 @@
 <p>\d , \w  , \ s 匹配数字，字符，空格</p>
 <p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>常用工具</title>
-    <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
-]]></content>
-      <tags>
-        <tag>tools</tag>
-      </tags>
   </entry>
 </search>
