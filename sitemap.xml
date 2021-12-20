@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://0xchang.github.io/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</loc>
+    
+    <lastmod>2021-12-20</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://0xchang.github.io/2021/11/24/redrock-wp-2021/</loc>
     
     <lastmod>2021-12-18</lastmod>
@@ -116,7 +123,7 @@
 
   <url>
     <loc>http://0xchang.github.io/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -124,77 +131,84 @@
   
   <url>
     <loc>http://0xchang.github.io/tags/ddos-python-kali/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/nmap/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/typora/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/apache-centos7/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/centos7-mariadb/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/centos7-php/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/test/</loc>
-    <lastmod>2021-12-19</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://0xchang.github.io/tags/python-pip/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/python-pyautogui/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://0xchang.github.io/tags/python-pip/</loc>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/redrock-ctf-writeup/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://0xchang.github.io/tags/sysmlink-msf/</loc>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://0xchang.github.io/tags/tools/</loc>
-    <lastmod>2021-12-19</lastmod>
+    <lastmod>2021-12-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
