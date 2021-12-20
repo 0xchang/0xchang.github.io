@@ -6,7 +6,7 @@
   <link href="http://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="http://0xchang.github.io/"/>
-  <updated>2021-12-20T09:42:59.545Z</updated>
+  <updated>2021-12-20T11:22:54.660Z</updated>
   <id>http://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>samba提权</title>
+    <link href="http://0xchang.github.io/2021/12/20/samba%E6%8F%90%E6%9D%83/"/>
+    <id>http://0xchang.github.io/2021/12/20/samba%E6%8F%90%E6%9D%83/</id>
+    <published>2021-12-20T09:46:48.000Z</published>
+    <updated>2021-12-20T11:22:54.660Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在445和139端口开放，使用msf，输入命令search samba</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p><p>使用命令use exploit/multi/samba/usermap_script，启用漏洞利用模块，终端输入info，查看相关信息</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p><p>输入set RHOST ip,设置目标ip地址，输入exploit，开始攻击，攻击成功后，建立会话</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p><p>输入whoami查看权限，输入ifconfig，查看系统网络信息</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p><p>实验完成</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;samba提权&quot;&gt;&lt;a href=&quot;#samba提权&quot; class=&quot;headerlink&quot; title=&quot;samba提权&quot;&gt;&lt;/a&gt;samba提权&lt;/h2&gt;&lt;h3 id=&quot;利用samba漏洞，获得目标主机root权限&quot;&gt;&lt;a href=&quot;#利用samba漏洞，获</summary>
+      
+    
+    
+    
+    
+    <category term="samba 提权" scheme="http://0xchang.github.io/tags/samba-%E6%8F%90%E6%9D%83/"/>
+    
+  </entry>
   
   <entry>
     <title>sysmlink漏洞</title>
