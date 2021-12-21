@@ -1,7 +1,9 @@
 ---
 title: python永久换第三方库国内源
 date: 2021-11-24 17:36:59
-tags: python pip 
+tags: 
+    - python
+    - pip 
 ---
 
 ## python永久换第三方库国内源

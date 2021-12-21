@@ -1,7 +1,9 @@
 ---
 title: metasploit之meterpreter命令
 date: 2021-12-21 12:22:46
-tags: msf meterpreter 
+tags: 
+    - msf
+    - meterpreter 
 ---
 
 ## metasploit之meterpreter命令

@@ -1,7 +1,10 @@
 ---
 title: redrock-wp-2021
 date: 2021-11-24 22:01:56
-tags: redrock ctf writeup
+tags: 
+    - redrock
+    - ctf
+    - writeup
 ---
 
 ## redrockcrf        wp

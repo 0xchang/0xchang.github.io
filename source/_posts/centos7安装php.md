@@ -1,7 +1,9 @@
 ---
 title: centos7安装php
 date: 2021-11-24 17:30:07
-tags: centos7 php
+tags: 
+    - centos7
+    - php
 ---
 
 ## centos7安装php

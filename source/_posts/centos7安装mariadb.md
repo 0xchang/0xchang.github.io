@@ -1,7 +1,9 @@
 ---
 title: centos7安装mariadb
 date: 2021-11-24 17:20:20
-tags: centos7 mariadb
+tags: 
+    - centos7
+    - mariadb
 ---
 
 ## centos7安装mariadb

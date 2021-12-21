@@ -1,7 +1,9 @@
 ---
 title: metasploit之PostgreSQL
 date: 2021-12-21 12:24:10
-tags: msf PostgreSQL
+tags:
+    - msf 
+    - PostgreSQL
 ---
 
 ## metasploit之PostgreSQL

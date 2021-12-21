@@ -1,7 +1,10 @@
 ---
 title: DDos攻击
 date: 2021-11-24 17:31:47
-tags: ddos python kali
+tags: 
+    - ddos
+    - python
+    - kali
 ---
 
 ## DDos攻击

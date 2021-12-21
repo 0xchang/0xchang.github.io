@@ -1,7 +1,9 @@
 ---
 title: centos7安装apache
 date: 2021-11-24 17:08:42
-tags: apache centos7
+tags: 
+  - apache
+  - centos7
 ---
 
  ## centos7 安装Apache

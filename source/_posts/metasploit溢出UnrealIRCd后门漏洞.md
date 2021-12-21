@@ -1,7 +1,11 @@
 ---
 title: metasploit溢出UnrealIRCd后门漏洞
 date: 2021-12-21 12:23:58
-tags: metasploit unrealircd 后门 漏洞
+tags: 
+    - metasploit
+    - unrealircd
+    - 后门
+    - 漏洞
 ---
 
 ## metasploit溢出UnrealIRCd后门漏洞

@@ -1,7 +1,9 @@
 ---
 title: samba提权
 date: 2021-12-20 17:46:48
-tags: samba 提权
+tags: 
+    - samba
+    - 提权
 ---
 
 ## samba提权

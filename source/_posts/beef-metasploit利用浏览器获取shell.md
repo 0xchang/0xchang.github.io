@@ -1,7 +1,10 @@
 ---
 title: beef+metasploit利用浏览器获取shell
 date: 2021-12-20 19:32:48
-tags: beef msf shell
+tags: 
+    - beef
+    - msf
+    - shell
 ---
 
 ## beef+metasploit利用浏览器获取shell

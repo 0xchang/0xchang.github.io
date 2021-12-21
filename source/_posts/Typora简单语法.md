@@ -1,7 +1,8 @@
 ---
 title: Typora简单语法
 date: 2021-11-24 17:38:15
-tags: typora 
+tags: 
+    - typora 
 ---
 
 ## Typora简单语法

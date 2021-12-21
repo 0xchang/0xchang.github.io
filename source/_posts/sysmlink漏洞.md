@@ -1,7 +1,9 @@
 ---
 title: sysmlink漏洞
 date: 2021-12-20 16:32:26
-tags: sysmlink msf
+tags: 
+    - sysmlink
+    - msf
 ---
 
 ## sysmlink 目录遍历漏洞
