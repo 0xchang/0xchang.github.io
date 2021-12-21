@@ -66,36 +66,36 @@ exit退出软件，执行`service postgresql start`,启动数据库，`netstat -
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG)
 
-找到59行，将#去掉，并且把localhost改为*，88行去掉#,然后保存退出
+找到59行，将#去掉，并且把`localhost`改为*，88行去掉#,然后保存退出
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG)
 
-编辑/etc/postgresql/9.5/main/pg_hba.conf,最后一行添加host all all 0.0.0.0/32 md5，保存退出
+编辑`/etc/postgresql/9.5/main/pg_hba.conf`,最后一行添加`host all all 0.0.0.0/32 md5`，保存退出
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG)
 
-service postgresql restart，重启服务
+`service postgresql restart`，重启服务
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG)
 
-打开msf，workspace --help查看用法
+打开msf，`workspace --help`查看用法
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG)
 
-workspace -v查看工作空间，只有默认的一个
+`workspace -v`查看工作空间，只有默认的一个
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG)
 
-worksapce -a 1,workspace -a 2 添加工作空间1，2，执行workspace -v 查看工作空间
+`worksapce -a 1`,`workspace -a 2` 添加工作空间1，2，执行`workspace -v` 查看工作空间
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG)
 
-workspace -d 1删除工作空间1，执行workspace -v 查看现有工作空间
+`workspace -d 1`删除工作空间1，执行`workspace -v` 查看现有工作空间
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG)
 
-workspace 2切换到工作空间2
+`workspace 2`切换到工作空间2
 
-workspace -d 2删除工作空间2,自动切换到默认工作空间
+`workspace -d 2`删除工作空间2,自动切换到默认工作空间
 
 ![](https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG)
