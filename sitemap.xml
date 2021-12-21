@@ -214,14 +214,14 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/msf-PostgreSQL/</loc>
+    <loc>http://0xchang.github.io/tags/test/</loc>
     <lastmod>2021-12-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/test/</loc>
+    <loc>http://0xchang.github.io/tags/msf-PostgreSQL/</loc>
     <lastmod>2021-12-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -263,14 +263,14 @@
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/sysmlink-msf/</loc>
+    <loc>http://0xchang.github.io/tags/samba-%E6%8F%90%E6%9D%83/</loc>
     <lastmod>2021-12-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://0xchang.github.io/tags/samba-%E6%8F%90%E6%9D%83/</loc>
+    <loc>http://0xchang.github.io/tags/sysmlink-msf/</loc>
     <lastmod>2021-12-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
