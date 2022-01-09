@@ -3,11 +3,11 @@
   <title>0xchang&#39;s Blog</title>
   
   <subtitle>大风起兮云飞扬</subtitle>
-  <link href="https://oxchang.gitee.io/blog/atom.xml" rel="self"/>
+  <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
-  <link href="https://oxchang.gitee.io/blog/"/>
+  <link href="https://0xchang.github.io/"/>
   <updated>2022-01-05T00:23:27.969Z</updated>
-  <id>https://oxchang.gitee.io/blog/</id>
+  <id>https://0xchang.github.io/</id>
   
   <author>
     <name>0xchang</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>反弹shell</title>
-    <link href="https://oxchang.gitee.io/blog/2022/01/05/%E5%8F%8D%E5%BC%B9shell/"/>
-    <id>https://oxchang.gitee.io/blog/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</id>
+    <link href="https://0xchang.github.io/2022/01/05/%E5%8F%8D%E5%BC%B9shell/"/>
+    <id>https://0xchang.github.io/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</id>
     <published>2022-01-05T00:23:27.000Z</published>
     <updated>2022-01-05T00:23:27.969Z</updated>
     
@@ -31,8 +31,8 @@
   
   <entry>
     <title>sql注入</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/28/sql%E6%B3%A8%E5%85%A5/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/28/sql%E6%B3%A8%E5%85%A5/</id>
+    <link href="https://0xchang.github.io/2021/12/28/sql%E6%B3%A8%E5%85%A5/"/>
+    <id>https://0xchang.github.io/2021/12/28/sql%E6%B3%A8%E5%85%A5/</id>
     <published>2021-12-28T06:15:15.000Z</published>
     <updated>2022-01-06T08:35:11.186Z</updated>
     
@@ -47,16 +47,16 @@
     
     
     
-    <category term="sql" scheme="https://oxchang.gitee.io/blog/tags/sql/"/>
+    <category term="sql" scheme="https://0xchang.github.io/tags/sql/"/>
     
-    <category term="注入" scheme="https://oxchang.gitee.io/blog/tags/%E6%B3%A8%E5%85%A5/"/>
+    <category term="注入" scheme="https://0xchang.github.io/tags/%E6%B3%A8%E5%85%A5/"/>
     
   </entry>
   
   <entry>
     <title>使用网络抓包进行网络验证破解</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/28/%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81%E7%A0%B4%E8%A7%A3/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/28/%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81%E7%A0%B4%E8%A7%A3/</id>
+    <link href="https://0xchang.github.io/2021/12/28/%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81%E7%A0%B4%E8%A7%A3/"/>
+    <id>https://0xchang.github.io/2021/12/28/%E4%BD%BF%E7%94%A8%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E8%BF%9B%E8%A1%8C%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81%E7%A0%B4%E8%A7%A3/</id>
     <published>2021-12-28T01:27:52.000Z</published>
     <updated>2021-12-30T00:37:37.147Z</updated>
     
@@ -73,16 +73,16 @@
     
     
     
-    <category term="抓包" scheme="https://oxchang.gitee.io/blog/tags/%E6%8A%93%E5%8C%85/"/>
+    <category term="抓包" scheme="https://0xchang.github.io/tags/%E6%8A%93%E5%8C%85/"/>
     
-    <category term="破解" scheme="https://oxchang.gitee.io/blog/tags/%E7%A0%B4%E8%A7%A3/"/>
+    <category term="破解" scheme="https://0xchang.github.io/tags/%E7%A0%B4%E8%A7%A3/"/>
     
   </entry>
   
   <entry>
     <title>APK静态分析</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</id>
+    <link href="https://0xchang.github.io/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/"/>
+    <id>https://0xchang.github.io/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</id>
     <published>2021-12-28T00:22:15.000Z</published>
     <updated>2021-12-30T00:40:33.010Z</updated>
     
@@ -100,18 +100,18 @@
     
     
     
-    <category term="APK" scheme="https://oxchang.gitee.io/blog/tags/APK/"/>
+    <category term="APK" scheme="https://0xchang.github.io/tags/APK/"/>
     
-    <category term="逆向" scheme="https://oxchang.gitee.io/blog/tags/%E9%80%86%E5%90%91/"/>
+    <category term="逆向" scheme="https://0xchang.github.io/tags/%E9%80%86%E5%90%91/"/>
     
-    <category term="IDA" scheme="https://oxchang.gitee.io/blog/tags/IDA/"/>
+    <category term="IDA" scheme="https://0xchang.github.io/tags/IDA/"/>
     
   </entry>
   
   <entry>
     <title>进程间Messenger通信</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/</id>
+    <link href="https://0xchang.github.io/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/</id>
     <published>2021-12-27T13:49:40.000Z</published>
     <updated>2021-12-30T00:31:07.869Z</updated>
     
@@ -128,16 +128,16 @@
     
     
     
-    <category term="进程" scheme="https://oxchang.gitee.io/blog/tags/%E8%BF%9B%E7%A8%8B/"/>
+    <category term="进程" scheme="https://0xchang.github.io/tags/%E8%BF%9B%E7%A8%8B/"/>
     
-    <category term="Messenger" scheme="https://oxchang.gitee.io/blog/tags/Messenger/"/>
+    <category term="Messenger" scheme="https://0xchang.github.io/tags/Messenger/"/>
     
   </entry>
   
   <entry>
     <title>Android安全之短信欺诈漏洞</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</id>
+    <link href="https://0xchang.github.io/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://0xchang.github.io/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</id>
     <published>2021-12-27T11:46:16.000Z</published>
     <updated>2021-12-30T00:39:49.228Z</updated>
     
@@ -160,18 +160,18 @@
     
     
     
-    <category term="Android" scheme="https://oxchang.gitee.io/blog/tags/Android/"/>
+    <category term="Android" scheme="https://0xchang.github.io/tags/Android/"/>
     
-    <category term="短信" scheme="https://oxchang.gitee.io/blog/tags/%E7%9F%AD%E4%BF%A1/"/>
+    <category term="短信" scheme="https://0xchang.github.io/tags/%E7%9F%AD%E4%BF%A1/"/>
     
-    <category term="欺诈" scheme="https://oxchang.gitee.io/blog/tags/%E6%AC%BA%E8%AF%88/"/>
+    <category term="欺诈" scheme="https://0xchang.github.io/tags/%E6%AC%BA%E8%AF%88/"/>
     
   </entry>
   
   <entry>
     <title>代码混淆</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/</id>
+    <link href="https://0xchang.github.io/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/</id>
     <published>2021-12-27T09:11:46.000Z</published>
     <updated>2021-12-30T07:18:02.574Z</updated>
     
@@ -190,14 +190,14 @@
     
     
     
-    <category term="代码混淆" scheme="https://oxchang.gitee.io/blog/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
+    <category term="代码混淆" scheme="https://0xchang.github.io/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
     
   </entry>
   
   <entry>
     <title>APP加壳</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/APP%E5%8A%A0%E5%A3%B3/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</id>
+    <link href="https://0xchang.github.io/2021/12/27/APP%E5%8A%A0%E5%A3%B3/"/>
+    <id>https://0xchang.github.io/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</id>
     <published>2021-12-27T08:40:29.000Z</published>
     <updated>2021-12-30T00:41:03.539Z</updated>
     
@@ -217,16 +217,16 @@
     
     
     
-    <category term="APP" scheme="https://oxchang.gitee.io/blog/tags/APP/"/>
+    <category term="APP" scheme="https://0xchang.github.io/tags/APP/"/>
     
-    <category term="加壳" scheme="https://oxchang.gitee.io/blog/tags/%E5%8A%A0%E5%A3%B3/"/>
+    <category term="加壳" scheme="https://0xchang.github.io/tags/%E5%8A%A0%E5%A3%B3/"/>
     
   </entry>
   
   <entry>
     <title>南方企业内容管理系统漏洞</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</id>
+    <link href="https://0xchang.github.io/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</id>
     <published>2021-12-27T08:00:51.000Z</published>
     <updated>2021-12-30T00:35:17.696Z</updated>
     
@@ -243,14 +243,14 @@
     
     
     
-    <category term="南方企业" scheme="https://oxchang.gitee.io/blog/tags/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A/"/>
+    <category term="南方企业" scheme="https://0xchang.github.io/tags/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A/"/>
     
   </entry>
   
   <entry>
     <title>中国菜刀配合一句话木马基本使用</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</id>
+    <link href="https://0xchang.github.io/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</id>
     <published>2021-12-27T07:48:22.000Z</published>
     <updated>2021-12-30T00:39:11.787Z</updated>
     
@@ -267,16 +267,16 @@
     
     
     
-    <category term="木马" scheme="https://oxchang.gitee.io/blog/tags/%E6%9C%A8%E9%A9%AC/"/>
+    <category term="木马" scheme="https://0xchang.github.io/tags/%E6%9C%A8%E9%A9%AC/"/>
     
-    <category term="一句话" scheme="https://oxchang.gitee.io/blog/tags/%E4%B8%80%E5%8F%A5%E8%AF%9D/"/>
+    <category term="一句话" scheme="https://0xchang.github.io/tags/%E4%B8%80%E5%8F%A5%E8%AF%9D/"/>
     
   </entry>
   
   <entry>
     <title>图片木马绕过文件内容检测上传webshell</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</id>
+    <link href="https://0xchang.github.io/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</id>
     <published>2021-12-27T07:04:38.000Z</published>
     <updated>2021-12-30T00:38:27.410Z</updated>
     
@@ -291,16 +291,16 @@
     
     
     
-    <category term="webshell" scheme="https://oxchang.gitee.io/blog/tags/webshell/"/>
+    <category term="webshell" scheme="https://0xchang.github.io/tags/webshell/"/>
     
-    <category term="图片木马" scheme="https://oxchang.gitee.io/blog/tags/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC/"/>
+    <category term="图片木马" scheme="https://0xchang.github.io/tags/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC/"/>
     
   </entry>
   
   <entry>
     <title>绕过content_type检测文件类型上传webshell</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</id>
+    <link href="https://0xchang.github.io/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</id>
     <published>2021-12-27T06:15:40.000Z</published>
     <updated>2021-12-30T00:36:50.940Z</updated>
     
@@ -315,16 +315,16 @@
     
     
     
-    <category term="webshell" scheme="https://oxchang.gitee.io/blog/tags/webshell/"/>
+    <category term="webshell" scheme="https://0xchang.github.io/tags/webshell/"/>
     
-    <category term="content_type" scheme="https://oxchang.gitee.io/blog/tags/content-type/"/>
+    <category term="content_type" scheme="https://0xchang.github.io/tags/content-type/"/>
     
   </entry>
   
   <entry>
     <title>绕过前台脚本检测扩展名上传webshell</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/</id>
+    <link href="https://0xchang.github.io/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/</id>
     <published>2021-12-27T01:56:35.000Z</published>
     <updated>2021-12-27T03:20:13.075Z</updated>
     
@@ -346,14 +346,14 @@
     
     
     
-    <category term="-webshell -前端" scheme="https://oxchang.gitee.io/blog/tags/webshell-%E5%89%8D%E7%AB%AF/"/>
+    <category term="-webshell -前端" scheme="https://0xchang.github.io/tags/webshell-%E5%89%8D%E7%AB%AF/"/>
     
   </entry>
   
   <entry>
     <title>Fckeditor漏洞上传webshell</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/</id>
+    <link href="https://0xchang.github.io/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/"/>
+    <id>https://0xchang.github.io/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/</id>
     <published>2021-12-27T00:45:33.000Z</published>
     <updated>2021-12-27T01:55:33.500Z</updated>
     
@@ -370,14 +370,14 @@
     
     
     
-    <category term="-fckeditor -webshell" scheme="https://oxchang.gitee.io/blog/tags/fckeditor-webshell/"/>
+    <category term="-fckeditor -webshell" scheme="https://0xchang.github.io/tags/fckeditor-webshell/"/>
     
   </entry>
   
   <entry>
     <title>metasploit之PostgreSQL</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/21/metasploit%E4%B9%8BPostgreSQL/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</id>
+    <link href="https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8BPostgreSQL/"/>
+    <id>https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</id>
     <published>2021-12-21T04:24:10.000Z</published>
     <updated>2021-12-21T10:21:00.497Z</updated>
     
@@ -392,16 +392,16 @@
     
     
     
-    <category term="msf" scheme="https://oxchang.gitee.io/blog/tags/msf/"/>
+    <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
     
-    <category term="PostgreSQL" scheme="https://oxchang.gitee.io/blog/tags/PostgreSQL/"/>
+    <category term="PostgreSQL" scheme="https://0xchang.github.io/tags/PostgreSQL/"/>
     
   </entry>
   
   <entry>
     <title>metasploit溢出UnrealIRCd后门漏洞</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</id>
+    <link href="https://0xchang.github.io/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://0xchang.github.io/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</id>
     <published>2021-12-21T04:23:58.000Z</published>
     <updated>2021-12-21T10:22:39.198Z</updated>
     
@@ -416,20 +416,20 @@
     
     
     
-    <category term="metasploit" scheme="https://oxchang.gitee.io/blog/tags/metasploit/"/>
+    <category term="metasploit" scheme="https://0xchang.github.io/tags/metasploit/"/>
     
-    <category term="unrealircd" scheme="https://oxchang.gitee.io/blog/tags/unrealircd/"/>
+    <category term="unrealircd" scheme="https://0xchang.github.io/tags/unrealircd/"/>
     
-    <category term="后门" scheme="https://oxchang.gitee.io/blog/tags/%E5%90%8E%E9%97%A8/"/>
+    <category term="后门" scheme="https://0xchang.github.io/tags/%E5%90%8E%E9%97%A8/"/>
     
-    <category term="漏洞" scheme="https://oxchang.gitee.io/blog/tags/%E6%BC%8F%E6%B4%9E/"/>
+    <category term="漏洞" scheme="https://0xchang.github.io/tags/%E6%BC%8F%E6%B4%9E/"/>
     
   </entry>
   
   <entry>
     <title>metasploit之meterpreter命令</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</id>
+    <link href="https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/"/>
+    <id>https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</id>
     <published>2021-12-21T04:22:46.000Z</published>
     <updated>2021-12-21T10:22:55.744Z</updated>
     
@@ -444,16 +444,16 @@
     
     
     
-    <category term="msf" scheme="https://oxchang.gitee.io/blog/tags/msf/"/>
+    <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
     
-    <category term="meterpreter" scheme="https://oxchang.gitee.io/blog/tags/meterpreter/"/>
+    <category term="meterpreter" scheme="https://0xchang.github.io/tags/meterpreter/"/>
     
   </entry>
   
   <entry>
     <title>beef+metasploit利用浏览器获取shell</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</id>
+    <link href="https://0xchang.github.io/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/"/>
+    <id>https://0xchang.github.io/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</id>
     <published>2021-12-20T11:32:48.000Z</published>
     <updated>2021-12-21T10:21:25.192Z</updated>
     
@@ -468,18 +468,18 @@
     
     
     
-    <category term="beef" scheme="https://oxchang.gitee.io/blog/tags/beef/"/>
+    <category term="beef" scheme="https://0xchang.github.io/tags/beef/"/>
     
-    <category term="msf" scheme="https://oxchang.gitee.io/blog/tags/msf/"/>
+    <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
     
-    <category term="shell" scheme="https://oxchang.gitee.io/blog/tags/shell/"/>
+    <category term="shell" scheme="https://0xchang.github.io/tags/shell/"/>
     
   </entry>
   
   <entry>
     <title>samba提权</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/20/samba%E6%8F%90%E6%9D%83/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/20/samba%E6%8F%90%E6%9D%83/</id>
+    <link href="https://0xchang.github.io/2021/12/20/samba%E6%8F%90%E6%9D%83/"/>
+    <id>https://0xchang.github.io/2021/12/20/samba%E6%8F%90%E6%9D%83/</id>
     <published>2021-12-20T09:46:48.000Z</published>
     <updated>2021-12-21T10:23:55.820Z</updated>
     
@@ -494,16 +494,16 @@
     
     
     
-    <category term="samba" scheme="https://oxchang.gitee.io/blog/tags/samba/"/>
+    <category term="samba" scheme="https://0xchang.github.io/tags/samba/"/>
     
-    <category term="提权" scheme="https://oxchang.gitee.io/blog/tags/%E6%8F%90%E6%9D%83/"/>
+    <category term="提权" scheme="https://0xchang.github.io/tags/%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   
   <entry>
     <title>sysmlink漏洞</title>
-    <link href="https://oxchang.gitee.io/blog/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://oxchang.gitee.io/blog/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</id>
+    <link href="https://0xchang.github.io/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/"/>
+    <id>https://0xchang.github.io/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</id>
     <published>2021-12-20T08:32:26.000Z</published>
     <updated>2021-12-21T10:24:07.654Z</updated>
     
@@ -518,9 +518,9 @@
     
     
     
-    <category term="msf" scheme="https://oxchang.gitee.io/blog/tags/msf/"/>
+    <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
     
-    <category term="sysmlink" scheme="https://oxchang.gitee.io/blog/tags/sysmlink/"/>
+    <category term="sysmlink" scheme="https://0xchang.github.io/tags/sysmlink/"/>
     
   </entry>
   
