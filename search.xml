@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>APK静态分析</title>
+    <url>/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
+<ul>
+<li>了解APK（DEX）静态分析的基本步骤</li>
+<li>掌握使用IDApro辅助进行静态分析的方法</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
+<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
+</ul>
+<p>过程：</p>
+<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
+<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
+<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
+<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
+<p>打开crackeme0502，点击“获取注解”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
+<p>打开crackme0502，点击“检测注册码”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
+<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
+<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
+<p>MainActivity$1.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
+<p>MainActivity$2.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
+<p>按空格键将IDA切换至“流程视图”<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
+<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
+<p>然后切换至HEX-view 1选项卡<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
+<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
+<p>ctrl+f寻找,将38改为39</p>
+<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
+<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
+<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
+]]></content>
+      <tags>
+        <tag>APK</tag>
+        <tag>逆向</tag>
+        <tag>IDA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>APP加壳</title>
     <url>/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</url>
     <content><![CDATA[<h2 id="APP加壳"><a href="#APP加壳" class="headerlink" title="APP加壳"></a>APP加壳</h2><p>目的：</p>
@@ -45,46 +85,6 @@
       </tags>
   </entry>
   <entry>
-    <title>APK静态分析</title>
-    <url>/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
-<ul>
-<li>了解APK（DEX）静态分析的基本步骤</li>
-<li>掌握使用IDApro辅助进行静态分析的方法</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
-<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
-</ul>
-<p>过程：</p>
-<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
-<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
-<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
-<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
-<p>打开crackeme0502，点击“获取注解”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
-<p>打开crackme0502，点击“检测注册码”按钮<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
-<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
-<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
-<p>MainActivity$1.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
-<p>MainActivity$2.onClick@VL <img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
-<p>按空格键将IDA切换至“流程视图”<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
-<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
-<p>然后切换至HEX-view 1选项卡<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
-<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
-<p>ctrl+f寻找,将38改为39</p>
-<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
-<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
-<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
-]]></content>
-      <tags>
-        <tag>APK</tag>
-        <tag>逆向</tag>
-        <tag>IDA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android安全之短信欺诈漏洞</title>
     <url>/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<p>目的：</p>
@@ -126,18 +126,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DDos攻击</title>
-    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
-    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>ddos</tag>
-        <tag>python</tag>
-        <tag>kali</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Fckeditor漏洞上传webshell</title>
     <url>/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<p>目的：Fckeditor为在线网页编辑器。本实验演示<code>Fckeditor2.4.2</code>以下版本的一个编辑器上传漏洞。</p>
@@ -174,6 +162,18 @@
 ]]></content>
       <tags>
         <tag>-fckeditor -webshell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DDos攻击</title>
+    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>ddos</tag>
+        <tag>python</tag>
+        <tag>kali</tag>
       </tags>
   </entry>
   <entry>
@@ -349,26 +349,6 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装mariadb</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
-    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>centos7</tag>
-        <tag>mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装php</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
     <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
@@ -392,6 +372,26 @@
       </tags>
   </entry>
   <entry>
+    <title>centos7安装mariadb</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
+    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>centos7</tag>
+        <tag>mariadb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>first-blog</title>
     <url>/2021/11/24/first-blog/</url>
     <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
@@ -403,56 +403,25 @@
       </tags>
   </entry>
   <entry>
-    <title>metasploit之PostgreSQL</title>
-    <url>/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
-    <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
-<p><code>db_connect</code>  链接数据库</p>
-<p><code>db_disconnect</code>    断开连接</p>
-<p><code>vulns</code>     查看数据库扫描的主机的漏洞</p>
-<p><code>workspace</code>   工作空间，相对于独立的</p>
-<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p>
-<p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p>
-<p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p>
-<p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p>
-<p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p>
-<p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p>
-<p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p>
-<p>退出msf，执行<code>su postgres</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p>
-<p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p>
-<p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p>
-<p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p>
-<p>找到59行，将#去掉，并且把<code>localhost</code>改为*，88行去掉#,然后保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p>
-<p>编辑<code>/etc/postgresql/9.5/main/pg_hba.conf</code>,最后一行添加<code>host all all 0.0.0.0/32 md5</code>，保存退出</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p>
-<p><code>service postgresql restart</code>，重启服务</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p>
-<p>打开msf，<code>workspace --help</code>查看用法</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p>
-<p><code>workspace -v</code>查看工作空间，只有默认的一个</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p>
-<p><code>worksapce -a 1</code>,<code>workspace -a 2</code> 添加工作空间1，2，执行<code>workspace -v</code> 查看工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p>
-<p><code>workspace -d 1</code>删除工作空间1，执行<code>workspace -v</code> 查看现有工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p>
-<p><code>workspace 2</code>切换到工作空间2</p>
-<p><code>workspace -d 2</code>删除工作空间2,自动切换到默认工作空间</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>
+    <title>metasploit溢出UnrealIRCd后门漏洞</title>
+    <url>/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="1"></p>
+<p>终端输入msfconsole，进入msf后输入<code>search unreal ircd</code>，搜索相关工具和攻击载荷</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="2"></p>
+<p>终端输入命令<code>use exploit/unix/irc/unreal_ircd_3281backdoor</code>,启用漏洞模块</p>
+<p>输入show options,查看需要设置的相关选项<br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/3.PNG" alt="3"><br>设置目标ip</p>
+<p>run或者exploit,开始攻击，攻击成功后，建立shell会话</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/4.PNG" alt="4"></p>
+<p>终端输入whoami，查看权限root，输入cat /etc/passwd，查看系统账户</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/5.PNG" alt="5"></p>
+<p>本机4444端口建立远程会话</p>
 ]]></content>
       <tags>
-        <tag>msf</tag>
-        <tag>PostgreSQL</tag>
+        <tag>metasploit</tag>
+        <tag>unrealircd</tag>
+        <tag>后门</tag>
+        <tag>漏洞</tag>
       </tags>
   </entry>
   <entry>
@@ -482,28 +451,6 @@
       <tags>
         <tag>msf</tag>
         <tag>meterpreter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>metasploit溢出UnrealIRCd后门漏洞</title>
-    <url>/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="1"></p>
-<p>终端输入msfconsole，进入msf后输入<code>search unreal ircd</code>，搜索相关工具和攻击载荷</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/2.PNG" alt="2"></p>
-<p>终端输入命令<code>use exploit/unix/irc/unreal_ircd_3281backdoor</code>,启用漏洞模块</p>
-<p>输入show options,查看需要设置的相关选项<br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/3.PNG" alt="3"><br>设置目标ip</p>
-<p>run或者exploit,开始攻击，攻击成功后，建立shell会话</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/4.PNG" alt="4"></p>
-<p>终端输入whoami，查看权限root，输入cat /etc/passwd，查看系统账户</p>
-<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/5.PNG" alt="5"></p>
-<p>本机4444端口建立远程会话</p>
-]]></content>
-      <tags>
-        <tag>metasploit</tag>
-        <tag>unrealircd</tag>
-        <tag>后门</tag>
-        <tag>漏洞</tag>
       </tags>
   </entry>
   <entry>
@@ -1128,11 +1075,6 @@
       </tags>
   </entry>
   <entry>
-    <title>反弹shell</title>
-    <url>/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>常用工具</title>
     <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
     <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
@@ -1140,6 +1082,11 @@
       <tags>
         <tag>tools</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>反弹shell</title>
+    <url>/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>正则表达式</title>
@@ -1265,6 +1212,59 @@
 ]]></content>
       <tags>
         <tag>-webshell -前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit之PostgreSQL</title>
+    <url>/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</url>
+    <content><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p>
+<p><code>db_connect</code>  链接数据库</p>
+<p><code>db_disconnect</code>    断开连接</p>
+<p><code>vulns</code>     查看数据库扫描的主机的漏洞</p>
+<p><code>workspace</code>   工作空间，相对于独立的</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p>
+<p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p>
+<p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p>
+<p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p>
+<p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p>
+<p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p>
+<p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p>
+<p>退出msf，执行<code>su postgres</code></p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p>
+<p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p>
+<p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p>
+<p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p>
+<p>找到59行，将#去掉，并且把<code>localhost</code>改为*，88行去掉#,然后保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p>
+<p>编辑<code>/etc/postgresql/9.5/main/pg_hba.conf</code>,最后一行添加<code>host all all 0.0.0.0/32 md5</code>，保存退出</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p>
+<p><code>service postgresql restart</code>，重启服务</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p>
+<p>打开msf，<code>workspace --help</code>查看用法</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p>
+<p><code>workspace -v</code>查看工作空间，只有默认的一个</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p>
+<p><code>worksapce -a 1</code>,<code>workspace -a 2</code> 添加工作空间1，2，执行<code>workspace -v</code> 查看工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p>
+<p><code>workspace -d 1</code>删除工作空间1，执行<code>workspace -v</code> 查看现有工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p>
+<p><code>workspace 2</code>切换到工作空间2</p>
+<p><code>workspace -d 2</code>删除工作空间2,自动切换到默认工作空间</p>
+<p><img src="https://gitee.com/oxchang/img-host/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>
+]]></content>
+      <tags>
+        <tag>msf</tag>
+        <tag>PostgreSQL</tag>
       </tags>
   </entry>
   <entry>
