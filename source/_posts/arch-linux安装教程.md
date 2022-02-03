@@ -174,7 +174,7 @@ tags:
 
   ![image-20220203201653721](https://gitee.com/oxchang/img-host/raw/master/arch-linux安装教程/image-20220203201653721.png)
 
-* 安装yay（可有可无）
+### 0x04安装yay（可有可无）
 
   ```shell
   vim /etc/pacman.conf,最后一行添加以下数据
