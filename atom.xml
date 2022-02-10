@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-02-03T12:53:04.526Z</updated>
+  <updated>2022-02-10T13:52:39.864Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>arch开机启动脚本</title>
+    <link href="https://0xchang.github.io/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/"/>
+    <id>https://0xchang.github.io/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</id>
+    <published>2022-02-10T13:35:42.000Z</published>
+    <updated>2022-02-10T13:52:39.864Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Arch-Linux-添加开机启动脚本"><a href="#Arch-Linux-添加开机启动脚本" class="headerlink" title="Arch Linux 添加开机启动脚本"></a>Arch Linux 添加开机启动脚本</h2><h3 id="0x01-创建一个启动service脚本"><a href="#0x01-创建一个启动service脚本" class="headerlink" title="0x01 创建一个启动service脚本"></a>0x01 创建一个启动service脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/rc-local.service</span><br></pre></td></tr></table></figure><p>以下是rc-local.service的内容</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=&quot;/etc/rc.local Compatibility&quot;</span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">StandardInput=tty</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">SysVStartPriority=99</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure><h3 id="0x02-创建-etc-rc-local-文件"><a href="#0x02-创建-etc-rc-local-文件" class="headerlink" title="0x02 创建 /etc/rc.local 文件"></a>0x02 创建 /etc/rc.local 文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/rc.local</span><br></pre></td></tr></table></figure><p>以下是/etc/rc.local的内容</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/rc.local</span></span><br><span class="line">if test -d /etc/rc.local.d; then</span><br><span class="line">for rcscript in /etc/rc.local.d/*.sh; do</span><br><span class="line">test -r &quot;$&#123;rcscript&#125;&quot; &amp;&amp; sh $&#123;rcscript&#125;</span><br><span class="line">done</span><br><span class="line">unset rcscript</span><br><span class="line">fi</span><br></pre></td></tr></table></figure><h3 id="0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启"><a href="#0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启" class="headerlink" title="0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启"></a>0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod a+x /etc/rc.local</span><br><span class="line">sudo mkdir /etc/rc.local.d</span><br><span class="line">sudo systemctl enable rc-local</span><br></pre></td></tr></table></figure><h3 id="0x04-创建sh脚本放在-etc-rc-local-d-文件夹中"><a href="#0x04-创建sh脚本放在-etc-rc-local-d-文件夹中" class="headerlink" title="0x04 创建sh脚本放在/etc/rc.local.d/文件夹中"></a>0x04 创建sh脚本放在/etc/rc.local.d/文件夹中</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/rc.local.d/paru.sh</span><br><span class="line">(编写内容xxxx)</span><br><span class="line">sudo chmod a+x /etc/rc.local.d/paru.sh</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;Arch-Linux-添加开机启动脚本&quot;&gt;&lt;a href=&quot;#Arch-Linux-添加开机启动脚本&quot; class=&quot;headerlink&quot; title=&quot;Arch Linux 添加开机启动脚本&quot;&gt;&lt;/a&gt;Arch Linux 添加开机启动脚本&lt;/h2&gt;&lt;h3 i</summary>
+      
+    
+    
+    
+    
+    <category term="arch" scheme="https://0xchang.github.io/tags/arch/"/>
+    
+    <category term="开机启动" scheme="https://0xchang.github.io/tags/%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8/"/>
+    
+  </entry>
   
   <entry>
     <title>arch-linux安装教程</title>
@@ -497,30 +521,6 @@
     <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
     
     <category term="shell" scheme="https://0xchang.github.io/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>samba提权</title>
-    <link href="https://0xchang.github.io/2021/12/20/samba%E6%8F%90%E6%9D%83/"/>
-    <id>https://0xchang.github.io/2021/12/20/samba%E6%8F%90%E6%9D%83/</id>
-    <published>2021-12-20T09:46:48.000Z</published>
-    <updated>2022-01-29T11:48:41.628Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p><p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p><p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p><p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p><p>实验完成</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;samba提权&quot;&gt;&lt;a href=&quot;#samba提权&quot; class=&quot;headerlink&quot; title=&quot;samba提权&quot;&gt;&lt;/a&gt;samba提权&lt;/h2&gt;&lt;h3 id=&quot;利用samba漏洞，获得目标主机root权限&quot;&gt;&lt;a href=&quot;#利用samba漏洞，获</summary>
-      
-    
-    
-    
-    
-    <category term="samba" scheme="https://0xchang.github.io/tags/samba/"/>
-    
-    <category term="提权" scheme="https://0xchang.github.io/tags/%E6%8F%90%E6%9D%83/"/>
     
   </entry>
   

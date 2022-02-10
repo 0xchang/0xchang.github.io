@@ -1399,4 +1399,27 @@
         <tag>Messenger</tag>
       </tags>
   </entry>
+  <entry>
+    <title>arch开机启动脚本</title>
+    <url>/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="Arch-Linux-添加开机启动脚本"><a href="#Arch-Linux-添加开机启动脚本" class="headerlink" title="Arch Linux 添加开机启动脚本"></a>Arch Linux 添加开机启动脚本</h2><h3 id="0x01-创建一个启动service脚本"><a href="#0x01-创建一个启动service脚本" class="headerlink" title="0x01 创建一个启动service脚本"></a>0x01 创建一个启动service脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/rc-local.service</span><br></pre></td></tr></table></figure>
+
+<p>以下是rc-local.service的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=&quot;/etc/rc.local Compatibility&quot;</span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">StandardInput=tty</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">SysVStartPriority=99</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x02-创建-etc-rc-local-文件"><a href="#0x02-创建-etc-rc-local-文件" class="headerlink" title="0x02 创建 /etc/rc.local 文件"></a>0x02 创建 /etc/rc.local 文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local</span><br></pre></td></tr></table></figure>
+
+<p>以下是/etc/rc.local的内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/rc.local</span></span><br><span class="line">if test -d /etc/rc.local.d; then</span><br><span class="line">for rcscript in /etc/rc.local.d/*.sh; do</span><br><span class="line">test -r &quot;$&#123;rcscript&#125;&quot; &amp;&amp; sh $&#123;rcscript&#125;</span><br><span class="line">done</span><br><span class="line">unset rcscript</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启"><a href="#0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启" class="headerlink" title="0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启"></a>0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x /etc/rc.local</span><br><span class="line">sudo mkdir /etc/rc.local.d</span><br><span class="line">sudo systemctl enable rc-local</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x04-创建sh脚本放在-etc-rc-local-d-文件夹中"><a href="#0x04-创建sh脚本放在-etc-rc-local-d-文件夹中" class="headerlink" title="0x04 创建sh脚本放在/etc/rc.local.d/文件夹中"></a>0x04 创建sh脚本放在/etc/rc.local.d/文件夹中</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local.d/paru.sh</span><br><span class="line">(编写内容xxxx)</span><br><span class="line">sudo chmod a+x /etc/rc.local.d/paru.sh</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>arch</tag>
+        <tag>开机启动</tag>
+      </tags>
+  </entry>
 </search>
