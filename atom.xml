@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-02-10T13:52:39.864Z</updated>
+  <updated>2022-02-11T08:41:33.089Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>rust修改默认环境变量与源</title>
+    <link href="https://0xchang.github.io/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/"/>
+    <id>https://0xchang.github.io/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</id>
+    <published>2022-02-11T08:27:31.000Z</published>
+    <updated>2022-02-11T08:41:33.089Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p><p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p><p>打开 <em><strong>cmd</strong></em> 配置参数</p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure><p>path 添加%CARGO_HOME%\bin</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;rust修改默认环境变量与源&quot;&gt;&lt;a href=&quot;#rust修改默认环境变量与源&quot; class=&quot;headerlink&quot; title=&quot;rust修改默认环境变量与源&quot;&gt;&lt;/a&gt;rust修改默认环境变量与源&lt;/h2&gt;&lt;h3 id=&quot;0x00-windows-rust</summary>
+      
+    
+    
+    
+    
+    <category term="rust" scheme="https://0xchang.github.io/tags/rust/"/>
+    
+    <category term="环境变量" scheme="https://0xchang.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>arch开机启动脚本</title>
@@ -495,32 +519,6 @@
     <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
     
     <category term="meterpreter" scheme="https://0xchang.github.io/tags/meterpreter/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>beef+metasploit利用浏览器获取shell</title>
-    <link href="https://0xchang.github.io/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/"/>
-    <id>https://0xchang.github.io/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</id>
-    <published>2021-12-20T11:32:48.000Z</published>
-    <updated>2022-01-29T11:48:41.628Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195046684.png" alt="image-20211220195046684"></p><p>将文件中metasploit的<code>enable</code>的<code>false</code>修改为<code>true</code>,保存退出</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195427947.png" alt="image-20211220195427947"></p><p>进入 /usr/share/beef-xss/extensions/metasploit/目录，编辑<code>config.yaml</code>文件，把<code>host</code>的参数跟<code>callback_host</code>参数修改成kali主机ip</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195701762.png" alt="image-20211220195701762"></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220195837527.png" alt="image-20211220195837527"></p><p>将<code>custom path</code>的路径修改为 <code>/usr/share/metasploit-framework/</code>，保存退出</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200034953.png" alt="image-20211220200034953"></p><p>输入命令<code>/etc/init.d/postgresql start</code>，启动postgresql服务，输入命令<code>msfdb init</code>，初始化数据库</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200335286.png" alt="image-20211220200335286"></p><p>终端中输入msfconsole，启动metasploit，输入<code>load msgrpc ServerHost=ip Pass=abc123</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200632568.png" alt="image-20211220200632568"></p><p>打开新终端，输入cd /usr/share/beef-xss/，切换到beef-xss目录下，输入<code>./beef –x</code>加载模块</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220200906579.png" alt="image-20211220200906579"></p><p>打开浏览器，输入<code>http://ip:3000/ui/panel</code>，访问<code>beef</code>，账号密码都是<code>beef</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201119958.png" alt="image-20211220201119958"></p><p>在靶机访问<code>http://ip:3000/demos/butcher/index.html</code></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201335685.png" alt="image-20211220201335685"></p><p>返回kali,看到beef自动连接客户端，提示目标已上线</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201458346.png" alt="image-20211220201458346"></p><p>单击目标ip,<code>Details</code>标签显示了客户端主机详细信息，如火狐浏览器，IE6，浏览器支持flash，支持vbscript脚本，操作系统类型</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220201907661.png" alt="image-20211220201907661"></p><p>单击<code>commands</code>标签，显示插件</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202003645.png" alt="image-20211220202003645"></p><p>终端进入/var/www/html（apache2默认网站目录）,编辑一个<code>xss.html</code>文件，自定义xss.html网页</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202448920.png" alt="image-20211220202448920"></p><p>终端修改/etc/apache2/ports.conf，修改默认端口号为8080，保存退出</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202622345.png" alt="image-20211220202622345"></p><p>终端启动<code>service apache2 start</code>，没有显示表示启动成功</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202805838.png" alt="image-20211220202805838"></p><p>靶机输入<a href="http://192.168.1.2:8080/xss.html%E8%AE%BF%E9%97%AE%E7%BD%91%E9%A1%B5">http://192.168.1.2:8080/xss.html访问网页</a></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220202925168.png" alt="image-20211220202925168"></p><p>返回kali，刷新网页，单击目标ip，点击commans,依次选择<code>Browser</code>,<code>Hooked Domain</code>,<code>Redirect Browser</code>,单击最右侧的<code>RedirectURL</code>,输入<a href="http://192.168.1.2:3000/demos/butcher/index.html,%E4%BD%86%E5%8D%95%E5%87%BB%60Execute%60%EF%BC%8C%E7%9B%AE%E6%A0%87%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E8%AE%BF%E9%97%AE%E6%AD%A4%E7%BD%91%E9%A1%B5">http://192.168.1.2:3000/demos/butcher/index.html,但单击`Execute`，目标主机自动访问此网页</a></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203358764.png" alt="image-20211220203358764"></p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203430757.png" alt="image-20211220203430757"></p><p>单击commands标签，选择<code>Social Engineering</code>,<code>Pretty Theft</code>,最右侧选择框模板弹出，选择facebook模板，窃取账号密码，单击Execute，执行攻击</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203726251.png" alt="image-20211220203726251"></p><p>靶机弹出facebook登录对话框，输入账号密码就会被窃取</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203846921.png" alt="image-20211220203846921"></p><p>在beef的<code>Module Result History</code>标签页中，单击历史记录，发现窃取到账号密码</p><p><img src="https://gitee.com/oxchang/img-host/raw/master/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/image-20211220203919754.png" alt="image-20211220203919754"></p><p>实验完成</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;beef-metasploit利用浏览器获取shell&quot;&gt;&lt;a href=&quot;#beef-metasploit利用浏览器获取shell&quot; class=&quot;headerlink&quot; title=&quot;beef+metasploit利用浏览器获取shell&quot;&gt;&lt;/a&gt;beef+</summary>
-      
-    
-    
-    
-    
-    <category term="beef" scheme="https://0xchang.github.io/tags/beef/"/>
-    
-    <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
-    
-    <category term="shell" scheme="https://0xchang.github.io/tags/shell/"/>
     
   </entry>
   
