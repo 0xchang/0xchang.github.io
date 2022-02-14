@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-02-11T11:59:48.552Z</updated>
+  <updated>2022-02-14T13:52:56.221Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://0xchang.github.io/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/"/>
     <id>https://0xchang.github.io/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</id>
     <published>2022-02-11T08:27:31.000Z</published>
-    <updated>2022-02-11T11:59:48.552Z</updated>
+    <updated>2022-02-14T13:52:56.221Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p><p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p><p>打开 <em><strong>cmd</strong></em> 配置参数</p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure><p>path 添加%CARGO_HOME%\bin</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p><p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p><p>打开 <em><strong>cmd</strong></em> 配置参数</p><figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure><p>path 添加%CARGO_HOME%\bin</p><h3 id="0x01-Linux-rust-换源"><a href="#0x01-Linux-rust-换源" class="headerlink" title="0x01 Linux rust 换源"></a>0x01 Linux rust 换源</h3><p>在~/.cargo目录下新建config文件，然后输入以下内容</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &#x27;ustc&#x27;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;https://mirrors.ustc.edu.cn/crates.io-index&quot;</span><br><span class="line">[http]</span><br><span class="line">check-revoke = false</span><br></pre></td></tr></table></figure>]]></content>
     
     
       
