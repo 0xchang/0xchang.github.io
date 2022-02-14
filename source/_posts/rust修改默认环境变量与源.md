@@ -22,3 +22,18 @@ setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static
 ```
 
 path 添加%CARGO_HOME%\bin
+
+### 0x01 Linux rust 换源
+
+在~/.cargo目录下新建config文件，然后输入以下内容
+
+```config
+[source.crates-io]
+registry = "https://github.com/rust-lang/crates.io-index"
+replace-with = 'ustc'
+[source.ustc]
+registry = "https://mirrors.ustc.edu.cn/crates.io-index"
+[http]
+check-revoke = false
+```
+
