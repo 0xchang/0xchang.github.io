@@ -32,8 +32,6 @@ path 添加%CARGO_HOME%\bin
 registry = "https://github.com/rust-lang/crates.io-index"
 replace-with = 'ustc'
 [source.ustc]
-registry = "https://mirrors.ustc.edu.cn/crates.io-index"
-[http]
-check-revoke = false
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 ```
 
