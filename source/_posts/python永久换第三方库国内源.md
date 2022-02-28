@@ -1,15 +1,15 @@
 ---
 title: python永久换第三方库国内源
 date: 2021-11-24 17:36:59
-tags: 
+tags:
     - python
-    - pip 
+    - pip
 ---
 
 ## python永久换第三方库国内源
 
 ```powershell
-pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/
 ```
 
  国内靠谱的 pip 镜像源有：
@@ -20,3 +20,4 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 (3)阿里: http://mirrors.aliyun.com/pypi/simple/
 
+(4)腾讯: https://mirrors.cloud.tencent.com/pypi/simple/
