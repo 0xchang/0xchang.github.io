@@ -653,12 +653,13 @@
   <entry>
     <title>python永久换第三方库国内源</title>
     <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> http://mirrors.aliyun.com/pypi/simple/</span><br></pre></td></tr></table></figure>
 
 <p> 国内靠谱的 pip 镜像源有：</p>
 <p>(1)清华: <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></p>
 <p>(2)豆瓣: <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></p>
 <p>(3)阿里: <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></p>
+<p>(4)腾讯: <a href="https://mirrors.cloud.tencent.com/pypi/simple/">https://mirrors.cloud.tencent.com/pypi/simple/</a></p>
 ]]></content>
       <tags>
         <tag>python</tag>
