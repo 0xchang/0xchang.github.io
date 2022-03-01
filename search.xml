@@ -318,17 +318,21 @@
 <p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/arch-linux%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20220203193804330.png" alt="image-20220203193804330"></p>
 <p>使用<strong>quit</strong>退出程序</p>
 </li>
+</ul>
+<ul>
 <li><p>磁盘格式化，查看分区情况<strong>lsblk /dev/sda</strong>，输入以下命令进行格式化操作</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkfs.ext4 /dev/sda1</span><br><span class="line">mkfs.ext4 /dev/sda3</span><br><span class="line">mkswap /dev/sda2</span><br><span class="line">swapon /dev/sda2</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/arch-linux%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20220203194117259.png" alt="image-20220203194117259"></p>
 <p>然后进行挂载</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mount /dev/sda3 /mnt</span><br><span class="line">mkdir –p /mnt/boot</span><br><span class="line">mount /dev/sda1 /mnt/boot</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
 <li><p>设置安装镜像源</p>
 <p>使用nano或者vim编辑器编辑对应文件</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nano /etc/pacman.d/mirrorlist</span><br></pre></td></tr></table></figure>
 
-<p>文件最前方加入<strong>Server    =    <a href="http://mirrors.163.com/archlinux//$repo/os//$arch">http://mirrors.163.com/archlinux/\$repo/os/\$arch</a></strong>,<strong>ctrl+o</strong>保存，<strong>ctrl+x</strong>退出</p>
+<p>文件最前方加入<strong>Server    =    <a href="http://mirrors.163.com/archlinux/$repo/os/$arch">http://mirrors.163.com/archlinux/$repo/os/$arch</a></strong>,<strong>ctrl+o</strong>保存，<strong>ctrl+x</strong>退出</p>
 <p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/arch-linux%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/image-20220203194655988.png" alt="image-20220203194655988"></p>
 </li>
 <li><p>安装软件包</p>
@@ -348,15 +352,19 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/locale.gen</span><br></pre></td></tr></table></figure>
 
 <p>将对应文件内容前面的#去掉:</p>
-<p>en_US.UTF-8 UTF-8 </p>
+<p>en_US.UTF-8 UTF-8</p>
 <p>zh_CN.UTF-8UTF-8</p>
 <p>zh_CN GB2312</p>
 <p>之后输入命令,使用en_US.UTF-8作为默认系统编码</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">locale-gen</span><br><span class="line">echo LANG=en_US.UTF-8 &gt; /etc/locale.conf</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
 <li><p>设置时区</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
 <li><p>设置root密码</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">passwd </span><br></pre></td></tr></table></figure></li>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure></li>
 <li><p>创建 ramdisk</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mkinitcpio -p linux</span><br></pre></td></tr></table></figure></li>
 <li><p>安装grub</p>
