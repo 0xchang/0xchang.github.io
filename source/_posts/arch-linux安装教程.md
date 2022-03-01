@@ -1,7 +1,7 @@
 ---
 title: arch-linux安装教程
 date: 2022-02-03 15:27:10
-tags: 
+tags:
 - arch
 - linux
 ---
@@ -42,7 +42,7 @@ tags:
 
   使用**quit**退出程序
 
-  
+
 
 * 磁盘格式化，查看分区情况**lsblk /dev/sda**，输入以下命令进行格式化操作
 
@@ -63,7 +63,7 @@ tags:
   mount /dev/sda1 /mnt/boot
   ```
 
-  
+
 
 * 设置安装镜像源
 
@@ -73,7 +73,7 @@ tags:
   nano /etc/pacman.d/mirrorlist
   ```
 
-  文件最前方加入**Server	=	http://mirrors.163.com/archlinux/\$repo/os/\$arch**,**ctrl+o**保存，**ctrl+x**退出
+  文件最前方加入**Server	=	http://mirrors.163.com/archlinux/$repo/os/$arch**,**ctrl+o**保存，**ctrl+x**退出
 
   ![image-20220203194655988](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/arch-linux安装教程/image-20220203194655988.png)
 
@@ -105,7 +105,7 @@ tags:
 
   将对应文件内容前面的#去掉:
 
-  en_US.UTF-8 UTF-8 
+  en_US.UTF-8 UTF-8
 
   zh_CN.UTF-8UTF-8
 
@@ -118,7 +118,7 @@ tags:
   echo LANG=en_US.UTF-8 > /etc/locale.conf
   ```
 
-  
+
 
 * 设置时区
 
@@ -126,12 +126,12 @@ tags:
   ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
   ```
 
-  
+
 
 * 设置root密码
 
   ```shell
-  passwd 
+  passwd
   ```
 
 * 创建 ramdisk
@@ -197,4 +197,3 @@ tags:
   ![image-20220203203808157](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/arch-linux安装教程/image-20220203203808157.png)
 
   安装完成
-
