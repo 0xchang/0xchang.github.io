@@ -1449,4 +1449,13 @@
         <tag>Messenger</tag>
       </tags>
   </entry>
+  <entry>
+    <title>ssh文件权限问题</title>
+    <url>/2022/03/06/ssh%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="ssh文件权限问题"><a href="#ssh文件权限问题" class="headerlink" title="ssh文件权限问题"></a>ssh文件权限问题</h2><h3 id="0x00-权限过高"><a href="#0x00-权限过高" class="headerlink" title="0x00 权限过高"></a>0x00 权限过高</h3><p>今天使用mobaxterm生成的公钥的上传到服务器，准备登陆时反馈信息，server refused our key，主要原因是~/.ssh文件夹权限过高导致的问题，authorized_keys文件我给的权限是644，.ssh文件夹我给的权限是755，最后使用密钥登录成功。</p>
+]]></content>
+      <tags>
+        <tag>-ssh -权限 -远程ssh连接</tag>
+      </tags>
+  </entry>
 </search>

