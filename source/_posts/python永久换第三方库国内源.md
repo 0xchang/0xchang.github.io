@@ -14,10 +14,11 @@ pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/
 
  国内靠谱的 pip 镜像源有：
 
-(1)清华: https://pypi.tuna.tsinghua.edu.cn/simple
+(1)清华: **pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple**
 
-(2)豆瓣: http://pypi.douban.com/simple/
+(2)豆瓣: **pip config set global.index-url http://pypi.douban.com/simple/**
 
-(3)阿里: http://mirrors.aliyun.com/pypi/simple/
+(3)阿里: **pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/**
 
-(4)腾讯: https://mirrors.cloud.tencent.com/pypi/simple/
+(4)腾讯: **pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple/**
+
