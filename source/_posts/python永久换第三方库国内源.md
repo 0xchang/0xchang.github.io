@@ -9,7 +9,8 @@ tags:
 ## python永久换第三方库国内源
 
 ```powershell
-pip config set global.index-url http://mirrors.aliyun.com/pypi/simple/
+#北京外国语大学镜像站
+pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 ```
 
  国内靠谱的 pip 镜像源有：
