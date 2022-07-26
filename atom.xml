@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-07-26T02:34:03.311Z</updated>
+  <updated>2022-07-26T08:46:44.300Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>eNSP配置</title>
+    <link href="https://0xchang.github.io/2022/07/26/eNSP%E9%85%8D%E7%BD%AE/"/>
+    <id>https://0xchang.github.io/2022/07/26/eNSP%E9%85%8D%E7%BD%AE/</id>
+    <published>2022-07-26T02:39:03.000Z</published>
+    <updated>2022-07-26T08:46:44.300Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="路由器设置ip"><a href="#路由器设置ip" class="headerlink" title="路由器设置ip"></a>路由器设置ip</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view           //进入系统视图</span><br><span class="line">[Huawei]display interface brief     //显示接口信息</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0    //进入接口</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]ip address 192.168.1.254 24     //设置ip地址</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]q    //退出</span><br></pre></td></tr></table></figure><h2 id="路由器设置console认证"><a href="#路由器设置console认证" class="headerlink" title="路由器设置console认证"></a>路由器设置console认证</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Huawei&gt;sys</span><br><span class="line">Enter system view, return user view with Ctrl+Z.</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc service-type terminal //设置ccc为终端用户</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface console 0  //进入console接口</span><br><span class="line">[Huawei-ui-console0]authentication-mode aaa  //验证模式改为aaa</span><br></pre></td></tr></table></figure><h2 id="路由器设置telnet远程登录"><a href="#路由器设置telnet远程登录" class="headerlink" title="路由器设置telnet远程登录"></a>路由器设置telnet远程登录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]aaa     //进入aaa视图</span><br><span class="line">[Huawei-aaa]local-user bbb password cipher 123    //创建用户bbb，设置密码为123</span><br><span class="line">[Huawei-aaa]local-user bbb privilege level 15     //设置用户权限为15</span><br><span class="line">[Huawei-aaa]local-user bbb service-type telnet    //设置用户服务类型telnet</span><br><span class="line">[Huawei-aaa]q             //退出</span><br><span class="line">[Huawei]user-interface vty 0 4      //设置5个人访问路由器</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br></pre></td></tr></table></figure><h2 id="路由器设置ssh远程登录"><a href="#路由器设置ssh远程登录" class="headerlink" title="路由器设置ssh远程登录"></a>路由器设置ssh远程登录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">---服务机</span><br><span class="line">[Huawei]stelnet server enable         //开启ssh服务，默认关闭</span><br><span class="line">[Huawei]rsa local-key-pair create     //创建rsa秘钥</span><br><span class="line">Input the bits in the modulus[default = 512]:1024</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc privilege level 15</span><br><span class="line">[Huawei-aaa]local-user ccc service-type ssh</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface vty 0 4</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br><span class="line">[Huawei-ui-vty0-4]protocol inbound ssh   //开启vty线路的ssh访问功能</span><br><span class="line">[Huawei-ui-vty0-4]q</span><br><span class="line">[Huawei]ssh user ccc authentication-type all   //定义ssh的认证方式</span><br><span class="line">---客户机</span><br><span class="line">[Huawei]ssh client first-time enable    //第一次开启客户端</span><br><span class="line">[Huawei]stelnet 10.1.1.1</span><br></pre></td></tr></table></figure><h2 id="设置空闲时间"><a href="#设置空闲时间" class="headerlink" title="设置空闲时间"></a>设置空闲时间</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]user-interface console 0         //进入console 0</span><br><span class="line">[Huawei-ui-console0]idle-timeout 10      //设置空闲时间10分钟</span><br></pre></td></tr></table></figure><h2 id="设置ACL规则"><a href="#设置ACL规则" class="headerlink" title="设置ACL规则"></a>设置ACL规则</h2><ul><li>高级ACL（简单）<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Huawei]acl 3000            //进入高级acl设置，编号3000</span><br><span class="line">[Huawei-acl-adv-3000]rule 1 deny ip source 192.168.1.1 0 destination 172.20.1.1 0   //0为通配符掩码</span><br><span class="line">[Huawei-acl-adv-3000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]traffic-filter inbound acl 3000  //绑定到接口0/0/0 入口方向</span><br></pre></td></tr></table></figure></li><li>基本ACL<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Huawei]acl 2000            //基本ACL设置，编号2000</span><br><span class="line">[Huawei-acl-basic-2000]rule 1 deny source 192.168.1.2 0   //拒绝192.168.1.2流量</span><br><span class="line">[Huawei-acl-basic-2000]rule 2 permit source 192.168.1.1 0   //允许192.168.1.1流量</span><br><span class="line">[Huawei-acl-basic-2000]rule permit   //全部允许</span><br><span class="line">[Huawei-acl-basic-2000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/1</span><br><span class="line">[Huawei-GigabitEthernet0/0/1]traffic-filter outbound acl  2000   //绑定到0/0/1的出口方向</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;路由器设置ip&quot;&gt;&lt;a href=&quot;#路由器设置ip&quot; class=&quot;headerlink&quot; title=&quot;路由器设置ip&quot;&gt;&lt;/a&gt;路由器设置ip&lt;/h2&gt;&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cl</summary>
+      
+    
+    
+    
+    
+    <category term="eNSP" scheme="https://0xchang.github.io/tags/eNSP/"/>
+    
+    <category term="华为" scheme="https://0xchang.github.io/tags/%E5%8D%8E%E4%B8%BA/"/>
+    
+  </entry>
   
   <entry>
     <title>cisco 路由器设置用户名和密码</title>
@@ -489,30 +513,6 @@
     
     
     <category term="-fckeditor -webshell" scheme="https://0xchang.github.io/tags/fckeditor-webshell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>metasploit之PostgreSQL</title>
-    <link href="https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8BPostgreSQL/"/>
-    <id>https://0xchang.github.io/2021/12/21/metasploit%E4%B9%8BPostgreSQL/</id>
-    <published>2021-12-21T04:24:10.000Z</published>
-    <updated>2022-02-11T11:59:47.982Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="metasploit之PostgreSQL"><a href="#metasploit之PostgreSQL" class="headerlink" title="metasploit之PostgreSQL"></a>metasploit之PostgreSQL</h2><h3 id="目的：-Metasploit自带数据库（PostgreSQL）操作"><a href="#目的：-Metasploit自带数据库（PostgreSQL）操作" class="headerlink" title="目的： Metasploit自带数据库（PostgreSQL）操作"></a>目的： Metasploit自带数据库（PostgreSQL）操作</h3><h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p><code>db_status</code>     查看数据库连接状态</p><p><code>db_connect</code>  链接数据库</p><p><code>db_disconnect</code>    断开连接</p><p><code>vulns</code>     查看数据库扫描的主机的漏洞</p><p><code>workspace</code>   工作空间，相对于独立的</p><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msfconsole,<code>db_status</code>查看数据库连接状态，如果已连接执行<code>db_disconnect</code></p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/1.PNG"></p><p>exit退出软件，执行<code>service postgresql start</code>,启动数据库，<code>netstat -ntlp | grep postgre</code>查询是否启动成功，端口为<code>5432</code></p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/2.PNG"></p><p>重新运行msf,<code>db_status</code>查看是否连接<code>数据库</code></p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/3.PNG"></p><p><code>db_disconnect</code>断开连接，<code>db_status</code>查看连接状态</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/4.PNG"></p><p>手动使用命令连接数据库，须知<code>数据库名</code>，<code>用户名</code>，<code>ip</code>以及<code>密码</code>，新建窗口，查询数据库配置文件，执行<code>find / -name database.yml</code></p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/5.PNG"></p><p><code>cat /usr/share/metasploit-framework/config/database.yml</code>，查看配置文件</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/6.PNG"></p><p>返回msf界面，db_connect查看使用方法，选择第二种<code>db_connect 用户名:密码@ip/数据库名</code>，配置信息是<code>development</code>标签内的</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/7.PNG"><br><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/8.PNG"></p><p>退出msf，执行<code>su postgres</code></p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/9.PNG"></p><p>创建新用户sub1及密码：<code>createuser sub1 -P</code>,回车并输入密码123456两次，<code>createdb --owner=sub1 test</code>连接数据库test，完成后exit退出</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/10.PNG"></p><p>运行msfconsole，db_disconnect断开连接，执行<code>db_connect sub1:123456@localhost/test</code>连接刚才的数据库，<code>db_status</code>查看状态</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/11.PNG"></p><p>退出msf,编辑<code>/etc/postgresql/9.5/main/postgresql.conf</code>文件，<code>shift+：</code>输入<code>set number</code>调出行号</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/12.PNG"></p><p>找到59行，将#去掉，并且把<code>localhost</code>改为*，88行去掉#,然后保存退出</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/13.PNG"></p><p>编辑<code>/etc/postgresql/9.5/main/pg_hba.conf</code>,最后一行添加<code>host all all 0.0.0.0/32 md5</code>，保存退出</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/14.PNG"></p><p><code>service postgresql restart</code>，重启服务</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/15.PNG"></p><p>打开msf，<code>workspace --help</code>查看用法</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/16.PNG"></p><p><code>workspace -v</code>查看工作空间，只有默认的一个</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/17.PNG"></p><p><code>worksapce -a 1</code>,<code>workspace -a 2</code> 添加工作空间1，2，执行<code>workspace -v</code> 查看工作空间</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/18.PNG"></p><p><code>workspace -d 1</code>删除工作空间1，执行<code>workspace -v</code> 查看现有工作空间</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/19.PNG"></p><p><code>workspace 2</code>切换到工作空间2</p><p><code>workspace -d 2</code>删除工作空间2,自动切换到默认工作空间</p><p><img src="https://oxchang.coding.net/p/image-one/d/image/git/raw/master/metasploit%E4%B9%8BPostgreSQL/20.PNG"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;metasploit之PostgreSQL&quot;&gt;&lt;a href=&quot;#metasploit之PostgreSQL&quot; class=&quot;headerlink&quot; title=&quot;metasploit之PostgreSQL&quot;&gt;&lt;/a&gt;metasploit之PostgreSQL&lt;/</summary>
-      
-    
-    
-    
-    
-    <category term="msf" scheme="https://0xchang.github.io/tags/msf/"/>
-    
-    <category term="PostgreSQL" scheme="https://0xchang.github.io/tags/PostgreSQL/"/>
     
   </entry>
   
