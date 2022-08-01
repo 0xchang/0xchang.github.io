@@ -1,13 +1,13 @@
 ---
-title: cisco 路由器设置用户名和密码
-date: 2022-07-25 10:09:04
+title: cisco配置
+date: 2022-08-01 09:19:00
 tags:
 - cisco
 - 路由器
 ---
 
-
-## 设置console密码
+## 路由器
+### 设置console密码
 ```cisco
 Router>enable                     //特权模式
 Router#configure terminal         //全局模式
@@ -18,7 +18,7 @@ Router(config-line)#login         //开启密码
 ```
 ![console 密码](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/console密码.JPG)
 
-## 设置特权模式密码
+### 设置特权模式密码
 ```cisco
 Router>enable
 Router#configure terminal
@@ -29,7 +29,7 @@ Router(config)#login                //开启密码
 ```
 ![特权密码](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/特权密码.JPG)
 
-## 设置远程登录telnet密码
+### 设置远程登录telnet密码
 ```cisco
 Router>enable
 Router#configure terminal
@@ -39,7 +39,7 @@ Router(config-line)#login local     //开启密码
 ```
 ![telnet 密码](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet%20%E5%AF%86%E7%A0%81.JPG)
 
-## 设置远程登录telnet用户名和密码
+### 设置远程登录telnet用户名和密码
 * 登录权限为普通
 
 ```cisco
@@ -52,7 +52,7 @@ Router(config-line)#login  local
 ```
 ![telnet-特权模式](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet普通权限.JPG)
 
-## 设置远程登录telnet用户名和密码（特权模式）
+### 设置远程登录telnet用户名和密码（特权模式）
 * 登录后为特权模式
 
 ```cisco
@@ -66,7 +66,7 @@ Router(config-line)#no login        //不进行密码检查
 ```
 ![telnet-user-password](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet-user-password.JPG)
 
-## 登录超时自动断开
+### 登录超时自动断开
 ```cisco
 Router>enable
 Router#configure terminal
@@ -74,14 +74,14 @@ Router(config)#line vty 0 4
 Router(config-line)#exec-timeout 20 0    //20分钟0秒自动断开
 ```
 
-## 登录次数限制与时间锁定
+### 登录次数限制与时间锁定
 ```cisco
 Router>enable
 Router#configure terminal
 Router(config)#login block-for 1800 attempts 10 within 600    //600秒内登录错误10次，锁定1800秒
 ```
 
-## 配置ssh登录
+### 配置ssh登录
 ```cisco
 Router>enable
 Router#configure terminal
@@ -104,8 +104,8 @@ router1(config-line)#login local
 router1(config-line)#transport input ssh     //设置登录模式为ssh，默认为all
 ```
 
-## privilege等级介绍
-### privilege等级切换
+### privilege等级介绍
+#### privilege等级切换
 * privilege一共有15个等级，没有enable密码的情况下，不能从低等级切换到高等级，否则会报错
 ```
 router1>en 2
@@ -121,7 +121,7 @@ Password:
 router1#           //不同的级别使用的命令会不一样
 ```
 
-## 配置日志服务器
+### 配置日志服务器
 ```
 Router>enable
 Router#configure terminal
@@ -131,7 +131,7 @@ router1(config)#logging x.x.x.x           //设置日志服务器地址
 router1(config)#service timestamps log datetime  //设置时间戳
 ```
 
-## 路由器配置
+### 路由器配置
 ```
 Router>enable
 Router#configure terminal
@@ -141,8 +141,8 @@ Router(config-if)#no shutdown    //启动接口
 Router(config-if)#ip route 目的地址 子网掩码 路由器下一跳      //设置静态路由
 ```
 
-## ACL配置
-### 标准ACL
+### ACL配置
+#### 标准ACL
 * 顺序匹配原则
 * 标准访问控制列表因为只能限制源IP地址，因此应该把ACL放到离目标最近的端口出方向上。
 ```
@@ -153,7 +153,7 @@ Router(config)#access-list 1 permit any         //允许任何流量通过
 Router(config)#interface fastEthernet 0/1       //进入接口0/1
 Router(config-if)#ip access-group 1 out         //设置ACL为出方向
 ```
-### 扩展ACL
+#### 扩展ACL
 * 扩展ACL可以对数据包中的源、目标IP地址以及端口号进行检查，所以可以将该ACL放置在通信路径中的任一位置。但是，如果放到离目标近的地方，每台路由器都要对数据进行处理，会更多的消耗路由器和带宽资源。放到离源最近的路由器端口入方向直接就将拒绝数据丢弃，可以减少其他路由器的资源占用以及带宽占用。
 ```
 Router>enable

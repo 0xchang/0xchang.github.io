@@ -6,7 +6,8 @@ tags:
 - 华为
 ---
 
-## 路由器设置ip
+## 路由器
+### 路由器设置ip
 ```
 <Huawei>system-view           //进入系统视图
 [Huawei]display interface brief     //显示接口信息
@@ -15,7 +16,7 @@ tags:
 [Huawei-GigabitEthernet0/0/0]q    //退出
 ```
 
-## 路由器设置console认证
+### 路由器设置console认证
 ```
 <Huawei>sys
 Enter system view, return user view with Ctrl+Z.
@@ -27,7 +28,7 @@ Enter system view, return user view with Ctrl+Z.
 [Huawei-ui-console0]authentication-mode aaa  //验证模式改为aaa
 ```
 
-## 路由器设置telnet远程登录
+### 路由器设置telnet远程登录
 ```
 <Huawei>system-view
 [Huawei]aaa     //进入aaa视图
@@ -38,7 +39,7 @@ Enter system view, return user view with Ctrl+Z.
 [Huawei]user-interface vty 0 4      //设置5个人访问路由器
 [Huawei-ui-vty0-4]authentication-mode aaa
 ```
-## 路由器设置ssh远程登录
+### 路由器设置ssh远程登录
 ```
 ---服务机
 [Huawei]stelnet server enable         //开启ssh服务，默认关闭
@@ -58,13 +59,13 @@ Input the bits in the modulus[default = 512]:1024
 [Huawei]ssh client first-time enable    //第一次开启客户端
 [Huawei]stelnet 10.1.1.1
 ```
-## 设置空闲时间
+### 设置空闲时间
 ```
 <Huawei>system-view
 [Huawei]user-interface console 0         //进入console 0
 [Huawei-ui-console0]idle-timeout 10      //设置空闲时间10分钟
 ```
-## 设置ACL规则
+### 设置ACL规则
 * 高级ACL（简单）
 ```
 [Huawei]acl 3000            //进入高级acl设置，编号3000
