@@ -19,7 +19,7 @@ tags:
 
 ### ELMA：
 
-题目：![cover](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/redrock-wp-2021/cover.png)
+题目：![cover](http://121.5.125.62:88/image/redrock-wp-2021/cover.png)
 
 根据hint，进入对应网站[http://www.atoolbox.net/Tool.php?Id=699](http://www.atoolbox.net/Tool.php?Id=699)
 
@@ -27,7 +27,7 @@ tags:
 
 进去是一个残缺的二维码
 
-![二维码](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/redrock-wp-2021/image-20211124225503078.png)
+![二维码](http://121.5.125.62:88/image/redrock-wp-2021/image-20211124225503078.png)
 
 修补角上的方块，微信扫码可得到flag，redrock{Welc_0meToR3dRo_ckCup}
 
@@ -512,7 +512,7 @@ import disdef hello():    #usr_flag=input('EasyEasyEasy!')    #if (len(usr_flag)
 
 打开御剑，目录扫描，有个robots.txt，访问就是flag。
 
-![image-20211124233218128](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/redrock-wp-2021/image-20211124233218128.png)
+![image-20211124233218128](http://121.5.125.62:88/image/redrock-wp-2021/image-20211124233218128.png)
 
 ### 卷卷的backdoor：
 
@@ -584,7 +584,7 @@ payload=/ping.php?ip=127.0.0.1;cd%09../../../../../;ls;less%09`ls`;
 
 查看页面源代码，最后一行<!--visit /source can get source code-->，下载文件查看源代码
 
-![image-20211125102957237](https://oxchang.coding.net/p/image-one/d/image/git/raw/master/redrock-wp-2021/image-20211125102957237.png)
+![image-20211125102957237](http://121.5.125.62:88/image/redrock-wp-2021/image-20211125102957237.png)
 
 有关键代码
 
