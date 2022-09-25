@@ -19,15 +19,15 @@ tags:
 
 过程：
 
-打开eclipse，点击file-import，选择android目录下的existing android code into workspace![image-20211229100046569](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png)
+打开eclipse，点击file-import，选择android目录下的existing android code into workspace![image-20211229100046569](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100046569.png)
 
-选择simpleedu28项目![image-20211229100118574](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png)
+选择simpleedu28项目![image-20211229100118574](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100118574.png)
 
-导入后的项目![image-20211229100200697](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png)
+导入后的项目![image-20211229100200697](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100200697.png)
 
-在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件![image-20211229100257165](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png)
+在工程目录res/layout的界面代码，这里可以通过控制代码，编辑相应的函数生成欺诈短信，点击activity_main.xml，可以看到界面布局的文件![image-20211229100257165](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100257165.png)
 
-在mainactivity中添加运行欺诈短信的代码，点开`msgdemo2\src\com.example.msgdemol\mainactivity.java`![image-20211229100406295](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png)
+在mainactivity中添加运行欺诈短信的代码，点开`msgdemo2\src\com.example.msgdemol\mainactivity.java`![image-20211229100406295](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229100406295.png)
 
 在mainactivity的init()函数添加如下代码，为button设置监听事件
 
@@ -53,7 +53,7 @@ createFakeMsg(MainActivity.this,num,con);}
 
 在MainActivity的init()函数,跳转到init函数位置添加上一步的代码
 
-![image-20211229101856123](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png)createFakeMsg的具体代码
+![image-20211229101856123](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229101856123.png)createFakeMsg的具体代码
 
 ```java
 /**
@@ -109,13 +109,13 @@ createFakeMsg(MainActivity.this,num,con);}
 
 在已经设计好的欺诈短信发送界面，有两部分内容：伪造号码与伪造内容。这里的伪造号码，这是发件人的号码，因为是发给自己，所以没有收件人号码，。至于内容可以随意填写内容，使短信更具欺诈性。
 
-AVD中打开虚拟机Simpleedu28虚拟安卓![image-20211229102354469](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png)
+AVD中打开虚拟机Simpleedu28虚拟安卓![image-20211229102354469](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102354469.png)
 
-右键MSGDEMO2，选择run as-android application按钮![image-20211229102712162](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png)
+右键MSGDEMO2，选择run as-android application按钮![image-20211229102712162](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102712162.png)
 
-虚拟端返回运行后结果![image-20211229102740838](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png)
+虚拟端返回运行后结果![image-20211229102740838](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102740838.png)
 
 点击发送，手机接收欺诈短信
 
-![image-20211229102848974](http://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png)
+![image-20211229102848974](https://121.5.125.62:88/image/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/image-20211229102848974.png)
 

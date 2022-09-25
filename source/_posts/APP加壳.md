@@ -18,45 +18,45 @@ tags:
 
 过程：
 
-导入项目ForceApkObj,点击源程序项目。![image-20211229085141078](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085141078.png)
+导入项目ForceApkObj,点击源程序项目。![image-20211229085141078](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085141078.png)
 
-右键项目，选择`Android Tools`,`Export Signed Application Package`![image-20211229085259329](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085259329.png)
+右键项目，选择`Android Tools`,`Export Signed Application Package`![image-20211229085259329](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085259329.png)
 
-默认，点击next![image-20211229085322221](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085322221.png)
+默认，点击next![image-20211229085322221](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085322221.png)
 
-选择`create keystore`,点击browse选择目录，密码随便设（123456），填完参数点击next![image-20211229085707268](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085707268.png)
+选择`create keystore`,点击browse选择目录，密码随便设（123456），填完参数点击next![image-20211229085707268](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085707268.png)
 
-创建密钥信息（SimpleEdu11;123456;123456;100;SimpleEdu），点击next![image-20211229085847492](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085847492.png)
+创建密钥信息（SimpleEdu11;123456;123456;100;SimpleEdu），点击next![image-20211229085847492](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085847492.png)
 
-选择APK生成位置，点击Browse，默认为SimpleEdu11![image-20211229085932751](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085932751.png)
+选择APK生成位置，点击Browse，默认为SimpleEdu11![image-20211229085932751](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085932751.png)
 
-点击finish完成操作![image-20211229085956125](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085956125.png)
+点击finish完成操作![image-20211229085956125](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085956125.png)
 
-成功生成源程序APK文件![image-20211229090057678](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090057678.png)
+成功生成源程序APK文件![image-20211229090057678](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090057678.png)
 
-右击脱壳程序项目ReforceApk，点击`Android Tools`，`Export UnSigned Application Package`![image-20211229090206565](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090206565.png)
+右击脱壳程序项目ReforceApk，点击`Android Tools`，`Export UnSigned Application Package`![image-20211229090206565](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090206565.png)
 
-接下来的步骤和源程序相同，生成脱壳程序APK![image-20211229090304049](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090304049.png)
+接下来的步骤和源程序相同，生成脱壳程序APK![image-20211229090304049](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090304049.png)
 
 右击脱壳程序apk，解压到…，得到解压文件
 
-修改dex文件的名称为ForceApkObj.dex![image-20211229091116540](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091116540.png)
+修改dex文件的名称为ForceApkObj.dex![image-20211229091116540](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091116540.png)
 
-将FoceApkOBj.dex文件与ForceApkObj.apk文件放在C:\AndroidSec\SimpleEdu11\DexShellTools\force，如下为加壳程序的代码，它的作用是将源程序APK和脱壳程序dex文件合成新的dex文件![image-20211229091826511](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091826511.png)
+将FoceApkOBj.dex文件与ForceApkObj.apk文件放在C:\AndroidSec\SimpleEdu11\DexShellTools\force，如下为加壳程序的代码，它的作用是将源程序APK和脱壳程序dex文件合成新的dex文件![image-20211229091826511](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091826511.png)
 
-点击按键![image-20211229091948817](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091948817.png)
+点击按键![image-20211229091948817](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091948817.png)
 
-选择`Debug As`，`2`![image-20211229092002112](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092002112.png)
+选择`Debug As`，`2`![image-20211229092002112](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092002112.png)
 
-成功运行![image-20211229092026132](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092026132.png)
+成功运行![image-20211229092026132](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092026132.png)
 
-按照导入的文件路径，找到生成的dex文件![image-20211229092046674](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092046674.png)
+按照导入的文件路径，找到生成的dex文件![image-20211229092046674](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092046674.png)
 
-右击脱壳程序，用压缩工具打开![image-20211229092237838](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092237838.png)
+右击脱壳程序，用压缩工具打开![image-20211229092237838](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092237838.png)
 
-将class文件替换脱壳程序中的dex文件![image-20211229092303091](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092303091.png)
+将class文件替换脱壳程序中的dex文件![image-20211229092303091](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092303091.png)
 
-重新签名，将之前替换好的APK放入`APK重签名`文件中![image-20211229092406804](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092406804.png)
+重新签名，将之前替换好的APK放入`APK重签名`文件中![image-20211229092406804](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092406804.png)
 
-双击签名程序后生成NewApk.apk![image-20211229092513149](http://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092513149.png)
+双击签名程序后生成NewApk.apk![image-20211229092513149](https://121.5.125.62:88/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092513149.png)
 

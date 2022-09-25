@@ -20,13 +20,13 @@ tags:
 
 * 默认选择第一项
 
-![image-20220203153912752](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203153912752.png)
+![image-20220203153912752](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203153912752.png)
 
-* 一般默认开启ssh服务，建议用ssh链接可以复制粘贴比比较方便![image-20220203154610491](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203154610491.png)如果没有开启ssh可以使用**systemctl start sshd**开启服务，使用**passwd**修改密码之后使用**ip a**查看ip地址之后使用ssh连接![image-20220203155023782](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203155023782-16438746240531.png)
+* 一般默认开启ssh服务，建议用ssh链接可以复制粘贴比比较方便![image-20220203154610491](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203154610491.png)如果没有开启ssh可以使用**systemctl start sshd**开启服务，使用**passwd**修改密码之后使用**ip a**查看ip地址之后使用ssh连接![image-20220203155023782](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203155023782-16438746240531.png)
 
-* 测试网络连通性![image-20220203155831482](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203155831482.png)
+* 测试网络连通性![image-20220203155831482](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203155831482.png)
 
-* 磁盘分区：运行命令**parted /dev/sda** ![image-20220203183147074](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203183147074.png)
+* 磁盘分区：运行命令**parted /dev/sda** ![image-20220203183147074](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203183147074.png)
 
   创建主引导记录分区表**mklabel msdos**,依次输入以下命令
 
@@ -38,7 +38,7 @@ tags:
   print
   ```
 
-  ![image-20220203193804330](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203193804330.png)
+  ![image-20220203193804330](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203193804330.png)
 
   使用**quit**退出程序
 
@@ -53,7 +53,7 @@ tags:
   swapon /dev/sda2
   ```
 
-  ![image-20220203194117259](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203194117259.png)
+  ![image-20220203194117259](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203194117259.png)
 
   然后进行挂载
 
@@ -75,7 +75,7 @@ tags:
 
   文件最前方加入**Server	=	http://mirrors.163.com/archlinux/$repo/os/$arch**,**ctrl+o**保存，**ctrl+x**退出
 
-  ![image-20220203194655988](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203194655988.png)
+  ![image-20220203194655988](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203194655988.png)
 
 * 安装软件包
 
@@ -87,7 +87,7 @@ tags:
 
 * 配置文件系统
 
-  对分区表进行设置**genfstab -U -P /mnt >> /mnt/etc/fstab**![image-20220203195507094](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203195507094.png)
+  对分区表进行设置**genfstab -U -P /mnt >> /mnt/etc/fstab**![image-20220203195507094](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203195507094.png)
 
 * chroot进入新系统
 
@@ -148,7 +148,7 @@ tags:
   grub-mkconfig -o /boot/grub/grub.cfg #配置grub
   ```
 
-  ![image-20220203200708506](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203200708506.png)
+  ![image-20220203200708506](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203200708506.png)
 
 * 配置网络和主机名
 
@@ -166,13 +166,13 @@ tags:
   visudo #修改sudo相关配置，去掉相关位置#即可
   ```
 
-  ![image-20220203201447697](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203201447697.png)
+  ![image-20220203201447697](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203201447697.png)
 
 * **exit**退出chroot环境，**reboot**重启系统
 
   输入用户名登录进入系统成功
 
-  ![image-20220203201653721](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203201653721.png)
+  ![image-20220203201653721](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203201653721.png)
 
 ### 0x04安装yay（可有可无）
 
@@ -194,6 +194,6 @@ tags:
   pacman -S yay
   ```
 
-  ![image-20220203203808157](http://121.5.125.62:88/image/arch-linux安装教程/image-20220203203808157.png)
+  ![image-20220203203808157](https://121.5.125.62:88/image/arch-linux安装教程/image-20220203203808157.png)
 
   安装完成

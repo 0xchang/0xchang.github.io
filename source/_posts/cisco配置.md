@@ -16,7 +16,7 @@ Router(config)#line console 0     //进入0号控制台
 Router(config-line)#password 111  //设置密码111
 Router(config-line)#login         //开启密码
 ```
-![console 密码](http://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/console密码.JPG)
+![console 密码](https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/console密码.JPG)
 
 ### 设置特权模式密码
 ```cisco
@@ -27,7 +27,7 @@ Router(config)#enable password 111  //设置明文密码
 Router(config)#enable secret 222    //设置加密密码，会导致password失效
 Router(config)#login                //开启密码
 ```
-![特权密码](http://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/特权密码.JPG)
+![特权密码](https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/特权密码.JPG)
 
 ### 设置远程登录telnet密码
 ```cisco
@@ -37,7 +37,7 @@ Router(config)#line vty 0 4         //设置0-4（共5个）用户可以进行Te
 Router(config-line)#password 111    //设置密码111
 Router(config-line)#login local     //开启密码
 ```
-![telnet 密码](http://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet%20%E5%AF%86%E7%A0%81.JPG)
+![telnet 密码](https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet%20%E5%AF%86%E7%A0%81.JPG)
 
 ### 设置远程登录telnet用户名和密码
 * 登录权限为普通
@@ -50,7 +50,7 @@ Router(config)#username aaa secret cisco     //加密
 Router(config)#line vty 0 4
 Router(config-line)#login  local
 ```
-![telnet-特权模式](http://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet普通权限.JPG)
+![telnet-特权模式](https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet普通权限.JPG)
 
 ### 设置远程登录telnet用户名和密码（特权模式）
 * 登录后为特权模式
@@ -64,7 +64,7 @@ Router(config-line)#login  local
 Router(config-line)#no password     //取消telnet远程登录
 Router(config-line)#no login        //不进行密码检查
 ```
-![telnet-user-password](http://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet-user-password.JPG)
+![telnet-user-password](https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet-user-password.JPG)
 
 ### 登录超时自动断开
 ```cisco
