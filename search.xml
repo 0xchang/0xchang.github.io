@@ -1577,4 +1577,23 @@
         <tag>Messenger</tag>
       </tags>
   </entry>
+  <entry>
+    <title>openssl+nginx+https</title>
+    <url>/2022/09/26/openssl-nginx-https/</url>
+    <content><![CDATA[<h2 id="使用openssl和nginx配置88端口为https协议"><a href="#使用openssl和nginx配置88端口为https协议" class="headerlink" title="使用openssl和nginx配置88端口为https协议"></a>使用openssl和nginx配置88端口为https协议</h2><ul>
+<li>该方法的证书属于无效证书,可以从第三方认证机构购买,原文:<a href="https://www.jb51.net/article/217964.htm">https://www.jb51.net/article/217964.htm</a></li>
+</ul>
+<h3 id="安装nginx（跳过）"><a href="#安装nginx（跳过）" class="headerlink" title="安装nginx（跳过）"></a>安装nginx（跳过）</h3><h3 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h3><ol>
+<li>生成CA私钥<br><code>root@debian:~# openssl genrsa -out local.key 2048</code><br><img src="https://121.5.125.62:88/image/openssl-nginx-https/CA%E7%A7%81%E9%92%A5.JPG" alt="CA私钥"></li>
+<li>生成CA证书请求<br><code>root@debian:~# openssl req -new -key local.key -out local.csr</code><br><img src="https://121.5.125.62:88/image/openssl-nginx-https/CA%E8%AF%81%E4%B9%A6%E8%AF%B7%E6%B1%82.JPG" alt="CA证书请求"></li>
+<li>生成CA根证书<br><code>openssl x509 -req -in local.csr -extensions v3_ca -signkey local.key -out local.crt</code><br><img src="https://121.5.125.62:88/image/openssl-nginx-https/CA%E6%A0%B9%E8%AF%81%E4%B9%A6.JPG" alt="CA根证书"></li>
+</ol>
+<h3 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">        listen 88 ssl;                              #监听88端口，并开启ssl</span><br><span class="line">        keepalive_timeout 100;                      #开启keepalive 激活keepalive长连接,减少客户端请求次数</span><br><span class="line">        ssl_certificate /root/local.crt;            #server端证书位置</span><br><span class="line">        ssl_certificate_key /root/local.key;        #server端私钥位置</span><br><span class="line">        ssl_session_cache shared:SSL:10m;           #缓存session会话</span><br><span class="line">        ssl_session_timeout 10m;                    # session会话    10分钟过期</span><br><span class="line">        ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        server_name localhost;</span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        #默认使用302临时重定向,不改变请求的方法(如post还是post),301永久重定向,307临时重定向不改变请求的方法</span><br><span class="line">        error_page 497 301 =307 https://$host:$server_port$request_uri;   </span><br><span class="line"></span><br><span class="line">        #根目录</span><br><span class="line">        root /var/www/test;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">          index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>nginx</tag>
+        <tag>openssl</tag>
+        <tag>https</tag>
+      </tags>
+  </entry>
 </search>

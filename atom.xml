@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-09-11T08:16:13.778Z</updated>
+  <updated>2022-09-26T03:09:35.044Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>openssl+nginx+https</title>
+    <link href="https://0xchang.github.io/2022/09/26/openssl-nginx-https/"/>
+    <id>https://0xchang.github.io/2022/09/26/openssl-nginx-https/</id>
+    <published>2022-09-26T02:03:08.000Z</published>
+    <updated>2022-09-26T03:09:35.044Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用openssl和nginx配置88端口为https协议"><a href="#使用openssl和nginx配置88端口为https协议" class="headerlink" title="使用openssl和nginx配置88端口为https协议"></a>使用openssl和nginx配置88端口为https协议</h2><ul><li>该方法的证书属于无效证书,可以从第三方认证机构购买,原文:<a href="https://www.jb51.net/article/217964.htm">https://www.jb51.net/article/217964.htm</a></li></ul><h3 id="安装nginx（跳过）"><a href="#安装nginx（跳过）" class="headerlink" title="安装nginx（跳过）"></a>安装nginx（跳过）</h3><h3 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h3><ol><li>生成CA私钥<br><code>root@debian:~# openssl genrsa -out local.key 2048</code><br><img src="https://121.5.125.62:88/image/openssl-nginx-https/CA%E7%A7%81%E9%92%A5.JPG" alt="CA私钥"></li><li>生成CA证书请求<br><code>root@debian:~# openssl req -new -key local.key -out local.csr</code><br><img src="https://121.5.125.62:88/image/openssl-nginx-https/CA%E8%AF%81%E4%B9%A6%E8%AF%B7%E6%B1%82.JPG" alt="CA证书请求"></li><li>生成CA根证书<br><code>openssl x509 -req -in local.csr -extensions v3_ca -signkey local.key -out local.crt</code><br><img src="https://121.5.125.62:88/image/openssl-nginx-https/CA%E6%A0%B9%E8%AF%81%E4%B9%A6.JPG" alt="CA根证书"></li></ol><h3 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">        listen 88 ssl;                              #监听88端口，并开启ssl</span><br><span class="line">        keepalive_timeout 100;                      #开启keepalive 激活keepalive长连接,减少客户端请求次数</span><br><span class="line">        ssl_certificate /root/local.crt;            #server端证书位置</span><br><span class="line">        ssl_certificate_key /root/local.key;        #server端私钥位置</span><br><span class="line">        ssl_session_cache shared:SSL:10m;           #缓存session会话</span><br><span class="line">        ssl_session_timeout 10m;                    # session会话    10分钟过期</span><br><span class="line">        ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        server_name localhost;</span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        #默认使用302临时重定向,不改变请求的方法(如post还是post),301永久重定向,307临时重定向不改变请求的方法</span><br><span class="line">        error_page 497 301 =307 https://$host:$server_port$request_uri;   </span><br><span class="line"></span><br><span class="line">        #根目录</span><br><span class="line">        root /var/www/test;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">          index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;使用openssl和nginx配置88端口为https协议&quot;&gt;&lt;a href=&quot;#使用openssl和nginx配置88端口为https协议&quot; class=&quot;headerlink&quot; title=&quot;使用openssl和nginx配置88端口为https协议&quot;&gt;&lt;/a</summary>
+      
+    
+    
+    
+    
+    <category term="nginx" scheme="https://0xchang.github.io/tags/nginx/"/>
+    
+    <category term="openssl" scheme="https://0xchang.github.io/tags/openssl/"/>
+    
+    <category term="https" scheme="https://0xchang.github.io/tags/https/"/>
+    
+  </entry>
   
   <entry>
     <title>ubuntu添加kali源</title>
@@ -491,30 +517,6 @@
     <category term="webshell" scheme="https://0xchang.github.io/tags/webshell/"/>
     
     <category term="图片木马" scheme="https://0xchang.github.io/tags/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>绕过content_type检测文件类型上传webshell</title>
-    <link href="https://0xchang.github.io/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/"/>
-    <id>https://0xchang.github.io/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</id>
-    <published>2021-12-27T06:15:40.000Z</published>
-    <updated>2022-09-25T17:18:08.536Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p><ul><li>理解绕过Content-Type检测文件类型上传的原理</li><li>学习绕过Content-Type检测文件类型上传的过程</li></ul><p>原理:</p><ul><li>当浏览器在上传文件到服务器的时候，服务器对说上传文件的Content-Type类型进行检测，如果是白名单允许的，则可以正常上传，否则上传失败。</li><li>绕过Content–Type文件类型检测，就是用BurpSuite截取并修改数据包中文件的Content-Type类型，使其符合白名单的规则，达到上传的目的。</li></ul><p>过程：</p><ul><li><p>打开火狐浏览器，修改代理127.0.0.1:8080<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103046467.png" alt="image-20211228103046467"></p></li><li><p>打开burp，点击intercept is off<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103152265.png" alt="image-20211228103152265"></p></li><li><p>打开浏览器,输入<a href="http://192.168.1.3:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BBcontent_type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell%E3%80%82![image-20211228103256712](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)">http://192.168.1.3:8080/up,进入文件上传漏洞演示脚本，点击content_type检测文件类型上传webshell。![image-20211228103256712](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)</a></p></li><li><p>上传php文件，前台显示错误窗口<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103342121.png" alt="image-20211228103342121"></p></li><li><p>Burp开启抓包</p></li><li><p>Burp抓到的数据包,在数据包中的content-type的application-stream修改为image/gif<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103504817.png" alt="image-20211228103504817"></p></li><li><p>点击forward，发送数据包，前台提示上传lubr.php成功<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103538500.png" alt="image-20211228103538500"></p></li><li><p>浏览器输入地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA![image-20211228103621026](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)">http://192.168.1.3:8080/up/uploads/lubr.php，页面没有错误提示![image-20211228103621026](https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)</a></p></li><li><p>打开中国菜刀，添加木马地址，密码，lubr，脚本类型php(eval)，点击添加<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103730160.png" alt="image-20211228103730160"></p></li><li><p>双击添加记录，可查看完整目录<img src="https://121.5.125.62:88/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103747989.png" alt="image-20211228103747989"></p></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;绕过content-type检测文件类型上传webshell&quot;&gt;&lt;a href=&quot;#绕过content-type检测文件类型上传webshell&quot; class=&quot;headerlink&quot; title=&quot;绕过content_type检测文件类型上传webshell&quot;&gt;</summary>
-      
-    
-    
-    
-    
-    <category term="webshell" scheme="https://0xchang.github.io/tags/webshell/"/>
-    
-    <category term="content_type" scheme="https://0xchang.github.io/tags/content-type/"/>
     
   </entry>
   
