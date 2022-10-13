@@ -15,13 +15,13 @@ tags:
 ### 创建CA证书
 1. 生成CA私钥
 `root@debian:~# openssl genrsa -out local.key 2048`
-![CA私钥](https://121.5.125.62:88/image/openssl-nginx-https/CA私钥.JPG)
+![CA私钥](http://121.5.125.62/image/openssl-nginx-https/CA私钥.JPG)
 2. 生成CA证书请求
 `root@debian:~# openssl req -new -key local.key -out local.csr`
-![CA证书请求](https://121.5.125.62:88/image/openssl-nginx-https/CA证书请求.JPG)
+![CA证书请求](http://121.5.125.62/image/openssl-nginx-https/CA证书请求.JPG)
 3. 生成CA根证书
 `openssl x509 -req -in local.csr -extensions v3_ca -signkey local.key -out local.crt`
-![CA根证书](https://121.5.125.62:88/image/openssl-nginx-https/CA根证书.JPG)
+![CA根证书](http://121.5.125.62/image/openssl-nginx-https/CA根证书.JPG)
 
 ### 配置nginx
 ```

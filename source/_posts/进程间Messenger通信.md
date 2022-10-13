@@ -40,21 +40,21 @@ tags:
 
 打开eclipse，点击file-import，弹出import窗口
 
-选择android下的existing android code into workspace![image-20211229103119506](https://121.5.125.62:88/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103119506.png)
+选择android下的existing android code into workspace![image-20211229103119506](http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103119506.png)
 
-点击next，弹出导入窗口，接着点击browse，选择simpleedu31![image-20211229103215577](https://121.5.125.62:88/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103215577.png)
+点击next，弹出导入窗口，接着点击browse，选择simpleedu31![image-20211229103215577](http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103215577.png)
 
 点击finish导入
 
-打开avd虚拟机simpleedu31，右键项目，选择run as-android application![image-20211229103526330](https://121.5.125.62:88/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103526330.png)
+打开avd虚拟机simpleedu31，右键项目，选择run as-android application![image-20211229103526330](http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103526330.png)
 
-程序运行![image-20211229104428625](https://121.5.125.62:88/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104428625.png)
+程序运行![image-20211229104428625](http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104428625.png)
 
-点击bind,启动messengerservice![image-20211229104450082](https://121.5.125.62:88/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104450082.png)
+点击bind,启动messengerservice![image-20211229104450082](http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104450082.png)
 
-点击message向MessengerService发送消息，messengerservice收到消息后弹出显示框![image-20211229104520678](https://121.5.125.62:88/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104520678.png)
+点击message向MessengerService发送消息，messengerservice收到消息后弹出显示框![image-20211229104520678](http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104520678.png)
 
-点击callback，messengerservice收到消息后会构造一个信息返回给mainactivity![image-20211229104539221](https://121.5.125.62:88/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104539221.png)
+点击callback，messengerservice收到消息后会构造一个信息返回给mainactivity![image-20211229104539221](http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104539221.png)
 
 点击unbind停止messengerservice服务，messengerservice服务停止之后点击message，callback，均不会有反应
 
