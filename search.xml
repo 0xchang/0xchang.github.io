@@ -138,28 +138,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Nmap简单使用</title>
-    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
-
-<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>nmap</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Fckeditor漏洞上传webshell</title>
     <url>/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<p>目的：Fckeditor为在线网页编辑器。本实验演示<code>Fckeditor2.4.2</code>以下版本的一个编辑器上传漏洞。</p>
@@ -196,6 +174,28 @@
 ]]></content>
       <tags>
         <tag>-fckeditor -webshell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nmap简单使用</title>
+    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>nmap</tag>
       </tags>
   </entry>
   <entry>
@@ -375,6 +375,29 @@
       </tags>
   </entry>
   <entry>
+    <title>arch开机启动脚本</title>
+    <url>/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</url>
+    <content><![CDATA[<h2 id="Arch-Linux-添加开机启动脚本"><a href="#Arch-Linux-添加开机启动脚本" class="headerlink" title="Arch Linux 添加开机启动脚本"></a>Arch Linux 添加开机启动脚本</h2><h3 id="0x01-创建一个启动service脚本"><a href="#0x01-创建一个启动service脚本" class="headerlink" title="0x01 创建一个启动service脚本"></a>0x01 创建一个启动service脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/rc-local.service</span><br></pre></td></tr></table></figure>
+
+<p>以下是rc-local.service的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=&quot;/etc/rc.local Compatibility&quot;</span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">StandardInput=tty</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">SysVStartPriority=99</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x02-创建-etc-rc-local-文件"><a href="#0x02-创建-etc-rc-local-文件" class="headerlink" title="0x02 创建 /etc/rc.local 文件"></a>0x02 创建 /etc/rc.local 文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local</span><br></pre></td></tr></table></figure>
+
+<p>以下是/etc/rc.local的内容</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/rc.local</span></span><br><span class="line">if test -d /etc/rc.local.d; then</span><br><span class="line">for rcscript in /etc/rc.local.d/*.sh; do</span><br><span class="line">test -r &quot;$&#123;rcscript&#125;&quot; &amp;&amp; sh $&#123;rcscript&#125;</span><br><span class="line">done</span><br><span class="line">unset rcscript</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启"><a href="#0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启" class="headerlink" title="0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启"></a>0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x /etc/rc.local</span><br><span class="line">sudo mkdir /etc/rc.local.d</span><br><span class="line">sudo systemctl enable rc-local</span><br></pre></td></tr></table></figure>
+
+<h3 id="0x04-创建sh脚本放在-etc-rc-local-d-文件夹中"><a href="#0x04-创建sh脚本放在-etc-rc-local-d-文件夹中" class="headerlink" title="0x04 创建sh脚本放在/etc/rc.local.d/文件夹中"></a>0x04 创建sh脚本放在/etc/rc.local.d/文件夹中</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local.d/paru.sh</span><br><span class="line">(编写内容xxxx)</span><br><span class="line">sudo chmod a+x /etc/rc.local.d/paru.sh</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>arch</tag>
+        <tag>开机启动</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>beef+metasploit利用浏览器获取shell</title>
     <url>/2021/12/20/beef-metasploit%E5%88%A9%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%8E%B7%E5%8F%96shell/</url>
     <content><![CDATA[<h2 id="beef-metasploit利用浏览器获取shell"><a href="#beef-metasploit利用浏览器获取shell" class="headerlink" title="beef+metasploit利用浏览器获取shell"></a>beef+metasploit利用浏览器获取shell</h2><h3 id="利用beef获得目标主机shell"><a href="#利用beef获得目标主机shell" class="headerlink" title="利用beef获得目标主机shell"></a>利用beef获得目标主机shell</h3><h4 id="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"><a href="#原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。" class="headerlink" title="原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。"></a>原理：beef是一个用于合法研究和测试目的的专业浏览器漏洞利用框架。它允许有经验的渗透测试人员或系统管理员对目标进行攻击测试。攻击成功以后会加载浏览器劫持会话。BEEF可以利用XSS跨站脚本漏洞。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，将beef和metasploit进行关联，终端进入<code>beef-xss</code>目录，编辑文件<code>config.yaml</code></p>
@@ -496,60 +519,6 @@
       </tags>
   </entry>
   <entry>
-    <title>arch开机启动脚本</title>
-    <url>/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</url>
-    <content><![CDATA[<h2 id="Arch-Linux-添加开机启动脚本"><a href="#Arch-Linux-添加开机启动脚本" class="headerlink" title="Arch Linux 添加开机启动脚本"></a>Arch Linux 添加开机启动脚本</h2><h3 id="0x01-创建一个启动service脚本"><a href="#0x01-创建一个启动service脚本" class="headerlink" title="0x01 创建一个启动service脚本"></a>0x01 创建一个启动service脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/rc-local.service</span><br></pre></td></tr></table></figure>
-
-<p>以下是rc-local.service的内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=&quot;/etc/rc.local Compatibility&quot;</span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/etc/rc.local start</span><br><span class="line">TimeoutSec=0</span><br><span class="line">StandardInput=tty</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line">SysVStartPriority=99</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-
-<h3 id="0x02-创建-etc-rc-local-文件"><a href="#0x02-创建-etc-rc-local-文件" class="headerlink" title="0x02 创建 /etc/rc.local 文件"></a>0x02 创建 /etc/rc.local 文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local</span><br></pre></td></tr></table></figure>
-
-<p>以下是/etc/rc.local的内容</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /etc/rc.local</span></span><br><span class="line">if test -d /etc/rc.local.d; then</span><br><span class="line">for rcscript in /etc/rc.local.d/*.sh; do</span><br><span class="line">test -r &quot;$&#123;rcscript&#125;&quot; &amp;&amp; sh $&#123;rcscript&#125;</span><br><span class="line">done</span><br><span class="line">unset rcscript</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-
-<h3 id="0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启"><a href="#0x03-添加文件执行权限，添加-etc-rc-local-d文件夹，设置开机自启" class="headerlink" title="0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启"></a>0x03 添加文件执行权限，添加/etc/rc.local.d文件夹，设置开机自启</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo chmod a+x /etc/rc.local</span><br><span class="line">sudo mkdir /etc/rc.local.d</span><br><span class="line">sudo systemctl enable rc-local</span><br></pre></td></tr></table></figure>
-
-<h3 id="0x04-创建sh脚本放在-etc-rc-local-d-文件夹中"><a href="#0x04-创建sh脚本放在-etc-rc-local-d-文件夹中" class="headerlink" title="0x04 创建sh脚本放在/etc/rc.local.d/文件夹中"></a>0x04 创建sh脚本放在/etc/rc.local.d/文件夹中</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/rc.local.d/paru.sh</span><br><span class="line">(编写内容xxxx)</span><br><span class="line">sudo chmod a+x /etc/rc.local.d/paru.sh</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>arch</tag>
-        <tag>开机启动</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>eNSP配置</title>
-    <url>/2022/07/26/eNSP%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="路由器设置ip"><a href="#路由器设置ip" class="headerlink" title="路由器设置ip"></a>路由器设置ip</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view           //进入系统视图</span><br><span class="line">[Huawei]display interface brief     //显示接口信息</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0    //进入接口</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]ip address 192.168.1.254 24     //设置ip地址</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]q    //退出</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由器设置console认证"><a href="#路由器设置console认证" class="headerlink" title="路由器设置console认证"></a>路由器设置console认证</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;sys</span><br><span class="line">Enter system view, return user view with Ctrl+Z.</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc service-type terminal //设置ccc为终端用户</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface console 0  //进入console接口</span><br><span class="line">[Huawei-ui-console0]authentication-mode aaa  //验证模式改为aaa</span><br></pre></td></tr></table></figure>
-
-<h3 id="路由器设置telnet远程登录"><a href="#路由器设置telnet远程登录" class="headerlink" title="路由器设置telnet远程登录"></a>路由器设置telnet远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]aaa     //进入aaa视图</span><br><span class="line">[Huawei-aaa]local-user bbb password cipher 123    //创建用户bbb，设置密码为123</span><br><span class="line">[Huawei-aaa]local-user bbb privilege level 15     //设置用户权限为15</span><br><span class="line">[Huawei-aaa]local-user bbb service-type telnet    //设置用户服务类型telnet</span><br><span class="line">[Huawei-aaa]q             //退出</span><br><span class="line">[Huawei]user-interface vty 0 4      //设置5个人访问路由器</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br></pre></td></tr></table></figure>
-<h3 id="路由器设置ssh远程登录"><a href="#路由器设置ssh远程登录" class="headerlink" title="路由器设置ssh远程登录"></a>路由器设置ssh远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---服务机</span><br><span class="line">[Huawei]stelnet server enable         //开启ssh服务，默认关闭</span><br><span class="line">[Huawei]rsa local-key-pair create     //创建rsa秘钥</span><br><span class="line">Input the bits in the modulus[default = 512]:1024</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc privilege level 15</span><br><span class="line">[Huawei-aaa]local-user ccc service-type ssh</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface vty 0 4</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br><span class="line">[Huawei-ui-vty0-4]protocol inbound ssh   //开启vty线路的ssh访问功能</span><br><span class="line">[Huawei-ui-vty0-4]q</span><br><span class="line">[Huawei]ssh user ccc authentication-type all   //定义ssh的认证方式</span><br><span class="line">---客户机</span><br><span class="line">[Huawei]ssh client first-time enable    //第一次开启客户端</span><br><span class="line">[Huawei]stelnet 10.1.1.1</span><br></pre></td></tr></table></figure>
-<h3 id="设置空闲时间"><a href="#设置空闲时间" class="headerlink" title="设置空闲时间"></a>设置空闲时间</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]user-interface console 0         //进入console 0</span><br><span class="line">[Huawei-ui-console0]idle-timeout 10      //设置空闲时间10分钟</span><br></pre></td></tr></table></figure>
-<h3 id="设置ACL规则"><a href="#设置ACL规则" class="headerlink" title="设置ACL规则"></a>设置ACL规则</h3><ul>
-<li>高级ACL（简单）<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 3000            //进入高级acl设置，编号3000</span><br><span class="line">[Huawei-acl-adv-3000]rule 1 deny ip source 192.168.1.1 0 destination 172.20.1.1 0   //0为通配符掩码</span><br><span class="line">[Huawei-acl-adv-3000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]traffic-filter inbound acl 3000  //绑定到接口0/0/0 入口方向</span><br></pre></td></tr></table></figure></li>
-<li>基本ACL<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 2000            //基本ACL设置，编号2000</span><br><span class="line">[Huawei-acl-basic-2000]rule 1 deny source 192.168.1.2 0   //拒绝192.168.1.2流量</span><br><span class="line">[Huawei-acl-basic-2000]rule 2 permit source 192.168.1.1 0   //允许192.168.1.1流量</span><br><span class="line">[Huawei-acl-basic-2000]rule permit   //全部允许</span><br><span class="line">[Huawei-acl-basic-2000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/1</span><br><span class="line">[Huawei-GigabitEthernet0/0/1]traffic-filter outbound acl  2000   //绑定到0/0/1的出口方向</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>eNSP</tag>
-        <tag>华为</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>first-blog</title>
-    <url>/2021/11/24/first-blog/</url>
-    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
-<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
-<p>11</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>cisco配置</title>
     <url>/2022/08/01/cisco%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="设置console密码"><a href="#设置console密码" class="headerlink" title="设置console密码"></a>设置console密码</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Router&gt;enable                     //特权模式</span><br><span class="line">Router#configure terminal         //全局模式</span><br><span class="line">Enter configuration commands, one per line.  End with CNTL/Z.</span><br><span class="line">Router(config)#line console 0     //进入0号控制台</span><br><span class="line">Router(config-line)#password 111  //设置密码111</span><br><span class="line">Router(config-line)#login         //开启密码</span><br></pre></td></tr></table></figure>
@@ -592,6 +561,37 @@
       <tags>
         <tag>cisco</tag>
         <tag>路由器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>first-blog</title>
+    <url>/2021/11/24/first-blog/</url>
+    <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
+<p><img src="/2021/11/24/first-blog/image-20211124165347049.png"></p>
+<p>11</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>eNSP配置</title>
+    <url>/2022/07/26/eNSP%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><h3 id="路由器设置ip"><a href="#路由器设置ip" class="headerlink" title="路由器设置ip"></a>路由器设置ip</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view           //进入系统视图</span><br><span class="line">[Huawei]display interface brief     //显示接口信息</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0    //进入接口</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]ip address 192.168.1.254 24     //设置ip地址</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]q    //退出</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由器设置console认证"><a href="#路由器设置console认证" class="headerlink" title="路由器设置console认证"></a>路由器设置console认证</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;sys</span><br><span class="line">Enter system view, return user view with Ctrl+Z.</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc service-type terminal //设置ccc为终端用户</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface console 0  //进入console接口</span><br><span class="line">[Huawei-ui-console0]authentication-mode aaa  //验证模式改为aaa</span><br></pre></td></tr></table></figure>
+
+<h3 id="路由器设置telnet远程登录"><a href="#路由器设置telnet远程登录" class="headerlink" title="路由器设置telnet远程登录"></a>路由器设置telnet远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]aaa     //进入aaa视图</span><br><span class="line">[Huawei-aaa]local-user bbb password cipher 123    //创建用户bbb，设置密码为123</span><br><span class="line">[Huawei-aaa]local-user bbb privilege level 15     //设置用户权限为15</span><br><span class="line">[Huawei-aaa]local-user bbb service-type telnet    //设置用户服务类型telnet</span><br><span class="line">[Huawei-aaa]q             //退出</span><br><span class="line">[Huawei]user-interface vty 0 4      //设置5个人访问路由器</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br></pre></td></tr></table></figure>
+<h3 id="路由器设置ssh远程登录"><a href="#路由器设置ssh远程登录" class="headerlink" title="路由器设置ssh远程登录"></a>路由器设置ssh远程登录</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---服务机</span><br><span class="line">[Huawei]stelnet server enable         //开启ssh服务，默认关闭</span><br><span class="line">[Huawei]rsa local-key-pair create     //创建rsa秘钥</span><br><span class="line">Input the bits in the modulus[default = 512]:1024</span><br><span class="line">[Huawei]aaa</span><br><span class="line">[Huawei-aaa]local-user ccc password cipher 123</span><br><span class="line">[Huawei-aaa]local-user ccc privilege level 15</span><br><span class="line">[Huawei-aaa]local-user ccc service-type ssh</span><br><span class="line">[Huawei-aaa]q</span><br><span class="line">[Huawei]user-interface vty 0 4</span><br><span class="line">[Huawei-ui-vty0-4]authentication-mode aaa</span><br><span class="line">[Huawei-ui-vty0-4]protocol inbound ssh   //开启vty线路的ssh访问功能</span><br><span class="line">[Huawei-ui-vty0-4]q</span><br><span class="line">[Huawei]ssh user ccc authentication-type all   //定义ssh的认证方式</span><br><span class="line">---客户机</span><br><span class="line">[Huawei]ssh client first-time enable    //第一次开启客户端</span><br><span class="line">[Huawei]stelnet 10.1.1.1</span><br></pre></td></tr></table></figure>
+<h3 id="设置空闲时间"><a href="#设置空闲时间" class="headerlink" title="设置空闲时间"></a>设置空闲时间</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Huawei&gt;system-view</span><br><span class="line">[Huawei]user-interface console 0         //进入console 0</span><br><span class="line">[Huawei-ui-console0]idle-timeout 10      //设置空闲时间10分钟</span><br></pre></td></tr></table></figure>
+<h3 id="设置ACL规则"><a href="#设置ACL规则" class="headerlink" title="设置ACL规则"></a>设置ACL规则</h3><ul>
+<li>高级ACL（简单）<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 3000            //进入高级acl设置，编号3000</span><br><span class="line">[Huawei-acl-adv-3000]rule 1 deny ip source 192.168.1.1 0 destination 172.20.1.1 0   //0为通配符掩码</span><br><span class="line">[Huawei-acl-adv-3000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/0</span><br><span class="line">[Huawei-GigabitEthernet0/0/0]traffic-filter inbound acl 3000  //绑定到接口0/0/0 入口方向</span><br></pre></td></tr></table></figure></li>
+<li>基本ACL<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[Huawei]acl 2000            //基本ACL设置，编号2000</span><br><span class="line">[Huawei-acl-basic-2000]rule 1 deny source 192.168.1.2 0   //拒绝192.168.1.2流量</span><br><span class="line">[Huawei-acl-basic-2000]rule 2 permit source 192.168.1.1 0   //允许192.168.1.1流量</span><br><span class="line">[Huawei-acl-basic-2000]rule permit   //全部允许</span><br><span class="line">[Huawei-acl-basic-2000]q</span><br><span class="line">[Huawei]interface GigabitEthernet 0/0/1</span><br><span class="line">[Huawei-GigabitEthernet0/0/1]traffic-filter outbound acl  2000   //绑定到0/0/1的出口方向</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>eNSP</tag>
+        <tag>华为</tag>
       </tags>
   </entry>
   <entry>
@@ -729,22 +729,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python永久换第三方库国内源</title>
-    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#北京外国语大学镜像站</span></span><br><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://mirrors.bfsu.edu.cn/pypi/web/simple</span><br></pre></td></tr></table></figure>
-
-<p> 国内靠谱的 pip 镜像源有：</p>
-<p>(1)清华: <strong>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></strong></p>
-<p>(2)豆瓣: <strong>pip config set global.index-url <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></strong></p>
-<p>(3)阿里: <strong>pip config set global.index-url <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></strong></p>
-<p>(4)腾讯: <strong>pip config set global.index-url <a href="https://mirrors.cloud.tencent.com/pypi/simple/">https://mirrors.cloud.tencent.com/pypi/simple/</a></strong></p>
-]]></content>
-      <tags>
-        <tag>python</tag>
-        <tag>pip</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pyautogui的简单基础</title>
     <url>/2021/11/24/pyautogui%E7%9A%84%E7%AE%80%E5%8D%95%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h2 id="pyautogui的简单基础"><a href="#pyautogui的简单基础" class="headerlink" title="pyautogui的简单基础"></a>pyautogui的简单基础</h2><h3 id="安装pyautogui"><a href="#安装pyautogui" class="headerlink" title="安装pyautogui"></a>安装pyautogui</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">pip install pyautogui</span><br></pre></td></tr></table></figure>
@@ -770,6 +754,41 @@
       </tags>
   </entry>
   <entry>
+    <title>openssl+nginx+https</title>
+    <url>/2022/09/26/openssl-nginx-https/</url>
+    <content><![CDATA[<h2 id="使用openssl和nginx配置88端口为https协议"><a href="#使用openssl和nginx配置88端口为https协议" class="headerlink" title="使用openssl和nginx配置88端口为https协议"></a>使用openssl和nginx配置88端口为https协议</h2><ul>
+<li>该方法的证书属于无效证书,可以从第三方认证机构购买,原文:<a href="https://www.jb51.net/article/217964.htm">https://www.jb51.net/article/217964.htm</a></li>
+</ul>
+<h3 id="安装nginx（跳过）"><a href="#安装nginx（跳过）" class="headerlink" title="安装nginx（跳过）"></a>安装nginx（跳过）</h3><h3 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h3><ol>
+<li>生成CA私钥<br><code>root@debian:~# openssl genrsa -out local.key 2048</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E7%A7%81%E9%92%A5.JPG" alt="CA私钥"></li>
+<li>生成CA证书请求<br><code>root@debian:~# openssl req -new -key local.key -out local.csr</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E8%AF%81%E4%B9%A6%E8%AF%B7%E6%B1%82.JPG" alt="CA证书请求"></li>
+<li>生成CA根证书<br><code>openssl x509 -req -in local.csr -extensions v3_ca -signkey local.key -out local.crt</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E6%A0%B9%E8%AF%81%E4%B9%A6.JPG" alt="CA根证书"></li>
+</ol>
+<h3 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">        listen 88 ssl;                              #监听88端口，并开启ssl</span><br><span class="line">        keepalive_timeout 100;                      #开启keepalive 激活keepalive长连接,减少客户端请求次数</span><br><span class="line">        ssl_certificate /root/local.crt;            #server端证书位置</span><br><span class="line">        ssl_certificate_key /root/local.key;        #server端私钥位置</span><br><span class="line">        ssl_session_cache shared:SSL:10m;           #缓存session会话</span><br><span class="line">        ssl_session_timeout 10m;                    # session会话    10分钟过期</span><br><span class="line">        ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        server_name localhost;</span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        #默认使用302临时重定向,不改变请求的方法(如post还是post),301永久重定向,307临时重定向不改变请求的方法</span><br><span class="line">        error_page 497 301 =307 https://$host:$server_port$request_uri;   </span><br><span class="line"></span><br><span class="line">        #根目录</span><br><span class="line">        root /var/www/test;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">          index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>nginx</tag>
+        <tag>openssl</tag>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python永久换第三方库国内源</title>
+    <url>/2021/11/24/python%E6%B0%B8%E4%B9%85%E6%8D%A2%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="python永久换第三方库国内源"><a href="#python永久换第三方库国内源" class="headerlink" title="python永久换第三方库国内源"></a>python永久换第三方库国内源</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#北京外国语大学镜像站</span></span><br><span class="line">pip config <span class="built_in">set</span> global.index<span class="literal">-url</span> https://mirrors.bfsu.edu.cn/pypi/web/simple</span><br></pre></td></tr></table></figure>
+
+<p> 国内靠谱的 pip 镜像源有：</p>
+<p>(1)清华: <strong>pip config set global.index-url <a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></strong></p>
+<p>(2)豆瓣: <strong>pip config set global.index-url <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></strong></p>
+<p>(3)阿里: <strong>pip config set global.index-url <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></strong></p>
+<p>(4)腾讯: <strong>pip config set global.index-url <a href="https://mirrors.cloud.tencent.com/pypi/simple/">https://mirrors.cloud.tencent.com/pypi/simple/</a></strong></p>
+]]></content>
+      <tags>
+        <tag>python</tag>
+        <tag>pip</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>rust修改默认环境变量与源</title>
     <url>/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</url>
     <content><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p>
@@ -785,24 +804,6 @@
       <tags>
         <tag>rust</tag>
         <tag>环境变量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>samba提权</title>
-    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
-    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
-<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
-<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
-<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>samba</tag>
-        <tag>提权</tag>
       </tags>
   </entry>
   <entry>
@@ -965,6 +966,24 @@
       </tags>
   </entry>
   <entry>
+    <title>samba提权</title>
+    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
+    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
+<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
+<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
+<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>samba</tag>
+        <tag>提权</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sql注入</title>
     <url>/2021/12/28/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="sql-注入"><a href="#sql-注入" class="headerlink" title="sql 注入"></a>sql 注入</h2><h3 id="一般过程"><a href="#一般过程" class="headerlink" title="一般过程"></a>一般过程</h3><ol>
@@ -1117,6 +1136,15 @@
       </tags>
   </entry>
   <entry>
+    <title>ssh文件权限问题</title>
+    <url>/2022/03/06/ssh%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="ssh文件权限问题"><a href="#ssh文件权限问题" class="headerlink" title="ssh文件权限问题"></a>ssh文件权限问题</h2><h3 id="0x00-权限过高"><a href="#0x00-权限过高" class="headerlink" title="0x00 权限过高"></a>0x00 权限过高</h3><p>今天使用mobaxterm生成的公钥的上传到服务器，准备登陆时反馈信息，server refused our key，主要原因是~/.ssh文件夹权限过高导致的问题，authorized_keys文件我给的权限是644，.ssh文件夹我给的权限是755，最后使用密钥登录成功。</p>
+]]></content>
+      <tags>
+        <tag>-ssh -权限 -远程ssh连接</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>sysmlink漏洞</title>
     <url>/2021/12/20/sysmlink%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<h2 id="sysmlink-目录遍历漏洞"><a href="#sysmlink-目录遍历漏洞" class="headerlink" title="sysmlink 目录遍历漏洞"></a>sysmlink 目录遍历漏洞</h2><h3 id="利用sysmlink漏洞读取目标主机的passwd文件内容"><a href="#利用sysmlink漏洞读取目标主机的passwd文件内容" class="headerlink" title="利用sysmlink漏洞读取目标主机的passwd文件内容"></a>利用sysmlink漏洞读取目标主机的passwd文件内容</h3><h4 id="原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。"><a href="#原理：Samba是一套实现SMB（server-messages-block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含-的目录遍历符的软连接-，可以进行目录遍历以及访问任意文件。" class="headerlink" title="原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。"></a>原理：Samba是一套实现SMB（server messages block）协议，跨平台进行文件共享和打印共享服务的程序，samba的sambd默认配置在可写文件共享时，存在目录遍历漏洞，远程用户可以通过smbclient端使用一个对称命，创建一个包含..的目录遍历符的软连接 ，可以进行目录遍历以及访问任意文件。</h4><h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>使用<code>nmap -sV ip</code> 扫描主机，确认开放<code>445</code>，<code>139</code>端口且安装了<code>samba</code>服务，版本为3</p>
@@ -1142,13 +1170,18 @@
       </tags>
   </entry>
   <entry>
-    <title>ssh文件权限问题</title>
-    <url>/2022/03/06/ssh%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="ssh文件权限问题"><a href="#ssh文件权限问题" class="headerlink" title="ssh文件权限问题"></a>ssh文件权限问题</h2><h3 id="0x00-权限过高"><a href="#0x00-权限过高" class="headerlink" title="0x00 权限过高"></a>0x00 权限过高</h3><p>今天使用mobaxterm生成的公钥的上传到服务器，准备登陆时反馈信息，server refused our key，主要原因是~/.ssh文件夹权限过高导致的问题，authorized_keys文件我给的权限是644，.ssh文件夹我给的权限是755，最后使用密钥登录成功。</p>
+    <title>ubuntu添加kali源</title>
+    <url>/2022/09/11/ubuntu%E6%B7%BB%E5%8A%A0kali%E6%BA%90/</url>
+    <content><![CDATA[<h3 id="原博客"><a href="#原博客" class="headerlink" title="原博客"></a>原博客</h3><p><a href="https://www.cnblogs.com/liyilong/p/13789586.html">https://www.cnblogs.com/liyilong/p/13789586.html</a></p>
+<h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br><span class="line">deb-src https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置公钥"><a href="#设置公钥" class="headerlink" title="设置公钥"></a>设置公钥</h3><ol>
+<li><p>方法一</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-key adv --keyserver keyserver.ubuntu.com --recv ED444FF07D8D0BF6</span><br></pre></td></tr></table></figure></li>
+<li><p>方法二</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys ED444FF07D8D0BF6</span><br><span class="line">gpg --export --armor ED444FF07D8D0BF6 |apt-key add -</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
-      <tags>
-        <tag>-ssh -权限 -远程ssh连接</tag>
-      </tags>
   </entry>
   <entry>
     <title>中国菜刀配合一句话木马基本使用</title>
@@ -1189,20 +1222,6 @@
         <tag>木马</tag>
         <tag>一句话</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>ubuntu添加kali源</title>
-    <url>/2022/09/11/ubuntu%E6%B7%BB%E5%8A%A0kali%E6%BA%90/</url>
-    <content><![CDATA[<h3 id="原博客"><a href="#原博客" class="headerlink" title="原博客"></a>原博客</h3><p><a href="https://www.cnblogs.com/liyilong/p/13789586.html">https://www.cnblogs.com/liyilong/p/13789586.html</a></p>
-<h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deb https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br><span class="line">deb-src https://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置公钥"><a href="#设置公钥" class="headerlink" title="设置公钥"></a>设置公钥</h3><ol>
-<li><p>方法一</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-key adv --keyserver keyserver.ubuntu.com --recv ED444FF07D8D0BF6</span><br></pre></td></tr></table></figure></li>
-<li><p>方法二</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys ED444FF07D8D0BF6</span><br><span class="line">gpg --export --armor ED444FF07D8D0BF6 |apt-key add -</span><br></pre></td></tr></table></figure></li>
-</ol>
-]]></content>
   </entry>
   <entry>
     <title>代码混淆</title>
@@ -1320,290 +1339,13 @@
       </tags>
   </entry>
   <entry>
-    <title>南方企业内容管理系统漏洞</title>
-    <url>/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</url>
-    <content><![CDATA[<h2 id="南方企业内容管理系统漏洞"><a href="#南方企业内容管理系统漏洞" class="headerlink" title="南方企业内容管理系统漏洞"></a>南方企业内容管理系统漏洞</h2><p>目的：</p>
-<ul>
-<li>熟悉南方数据企业网站管理系统</li>
-<li>学习南方数据企业网站管理系统常见渗透手法</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>数据库备份拿webshell</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li><p>浏览器输入<code>http://192.168.1.3:8002/admin/Login.asp</code>,进入后台<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083557740.png" alt="image-20211229083557740"></p>
-</li>
-<li><p>输入admin和密码123456,进入到后台管理界面<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083647733.png" alt="image-20211229083647733"></p>
-</li>
-<li><p>在荣誉管理选项卡下，选择添加企业荣誉，即可弹出可上传文件页面<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083914421.png" alt="image-20211229083914421"></p>
-</li>
-<li><p>点击浏览上传木马文件，把1.asp修改为1.jpg，点击上传<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084027790.png" alt="image-20211229084027790"></p>
-</li>
-<li><p>得到文件地址UploadFiles/xxxxxxxxxxxxx.jpg<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084137287.png" alt="image-20211229084137287"></p>
-</li>
-<li><p>打开系统管理下的数据库备份，即可进入数据库备份页面，并将刚刚得到的木马文件的路径复制到当前数据库路径，并填写数据库备份名称ok.asp<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084434435.png" alt="image-20211229084434435"></p>
-</li>
-<li><p>点击确定，即可得到数据库备份的路径admin/Databackup/ok.asp.asa<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084504206.png" alt="image-20211229084504206"></p>
-</li>
-<li><p>在火狐浏览器输入<code>http://192.168.1.3:8002/admin/Databackup/ok.asp</code>,即可访问木马，已经成功拿到webshell（密码：123456）<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084709207.png" alt="image-20211229084709207"></p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>南方企业</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>反弹shell</title>
-    <url>/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</url>
-    <content><![CDATA[<h2 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h2><ul>
-<li>getshell：获取到目标的自行权限</li>
-<li>webshell：网站后门，通过web服务进行命令执行</li>
-<li>反弹shell：把命令行的输入输出转移到其他主机</li>
-</ul>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>通常用于被控端因防火墙受限、权限不足、端口被占用等情形。</p>
-]]></content>
-      <tags>
-        <tag>shell</tag>
-        <tag>反弹</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图片木马绕过文件内容检测上传webshell</title>
-    <url>/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</url>
-    <content><![CDATA[<h2 id="图片木马绕过文件内容检测上传webshell"><a href="#图片木马绕过文件内容检测上传webshell" class="headerlink" title="图片木马绕过文件内容检测上传webshell"></a>图片木马绕过文件内容检测上传webshell</h2><p>目的：</p>
-<ul>
-<li>理解绕过内容验证上传的原理</li>
-<li>学习绕过内容验证上传的过程</li>
-</ul>
-<p>原理</p>
-<ul>
-<li>一般文件内容验证使用getimagesize()函数检测，会判断文件是否是一个有效的文件图片，如果是，则允许上传，否则的话不允许上传</li>
-<li>本实例就是将一句话木马插入到一个【合法】的图片文件当中，然后用中国菜刀远程连接</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li>打开火狐，进入网址<a href="http://192.168.1.3:8080/up%EF%BC%8C%E8%BF%9B%E5%85%A5%E6%9E%84%E9%80%A0%E5%9B%BE%E7%89%87%E9%A9%AC%E7%BB%95%E8%BF%87%E4%B8%8A%E4%BC%A0webshell![image-20211228104158522](http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)">http://192.168.1.3:8080/up，进入构造图片马绕过上传webshell![image-20211228104158522](http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)</a></li>
-<li>选择上传木马，后缀php改为php.jpg</li>
-<li>点击上传，提示错误</li>
-<li><img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104300084.png" alt="image-20211228104300084"></li>
-<li>制作图片马，将要上传的木马与图片一个文件下<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104350818.png" alt="image-20211228104350818"></li>
-<li>打开cmd，进入对应目录<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104423625.png" alt="image-20211228104423625"></li>
-<li>输入copy pic.jpg/b+lubr.php/a PicLubr.jpg，将lubr.php插入到pic.jpg中<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104518932.png" alt="image-20211228104518932"></li>
-<li>在火狐上传PicLubr.jpg，后缀名改为PicLubr.jpg.php，然后上传<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104707308.png" alt="image-20211228104707308"></li>
-<li>输入连接访问木马文件<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104737829.png" alt="image-20211228104737829"></li>
-<li>打开中国菜刀，添加木马连接，输入密码lubr，脚本类型php(eval)</li>
-<li>双击添加的shell，即可访问网站的完整目录<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104832489.png" alt="image-20211228104832489"></li>
-</ul>
-]]></content>
-      <tags>
-        <tag>webshell</tag>
-        <tag>图片木马</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用工具</title>
-    <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
-]]></content>
-      <tags>
-        <tag>tools</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则表达式</title>
-    <url>/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
-<p>[]表示里面的任何一个字符</p>
-<p>a{1，5}表示a有1到5之间个字符</p>
-<p>{0，}表示0个或者无穷个</p>
-<p>*表示{0，}</p>
-<p>+表示{1，}</p>
-<p>？表示{0，1}</p>
-<p>[^a,b,c]表示除了a,b,c的其他字符</p>
-<p>^是字符串开头</p>
-<p>$是字符串结尾</p>
-<p>（？&lt;=（a））表示以a开头</p>
-<p>（？=（a））表示以a结尾</p>
-<p>\d , \w  , \ s 匹配数字，字符，空格</p>
-<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>绕过content_type检测文件类型上传webshell</title>
-    <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
-    <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
-<ul>
-<li>理解绕过Content-Type检测文件类型上传的原理</li>
-<li>学习绕过Content-Type检测文件类型上传的过程</li>
-</ul>
-<p>原理:</p>
-<ul>
-<li>当浏览器在上传文件到服务器的时候，服务器对说上传文件的Content-Type类型进行检测，如果是白名单允许的，则可以正常上传，否则上传失败。</li>
-<li>绕过Content–Type文件类型检测，就是用BurpSuite截取并修改数据包中文件的Content-Type类型，使其符合白名单的规则，达到上传的目的。</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li><p>打开火狐浏览器，修改代理127.0.0.1:8080<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103046467.png" alt="image-20211228103046467"></p>
-</li>
-<li><p>打开burp，点击intercept is off<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103152265.png" alt="image-20211228103152265"></p>
-</li>
-<li><p>打开浏览器,输入<a href="http://192.168.1.3:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BBcontent_type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell%E3%80%82![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)">http://192.168.1.3:8080/up,进入文件上传漏洞演示脚本，点击content_type检测文件类型上传webshell。![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)</a></p>
-</li>
-<li><p>上传php文件，前台显示错误窗口<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103342121.png" alt="image-20211228103342121"></p>
-</li>
-<li><p>Burp开启抓包</p>
-</li>
-<li><p>Burp抓到的数据包,在数据包中的content-type的application-stream修改为image/gif<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103504817.png" alt="image-20211228103504817"></p>
-</li>
-<li><p>点击forward，发送数据包，前台提示上传lubr.php成功<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103538500.png" alt="image-20211228103538500"></p>
-</li>
-<li><p>浏览器输入地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)">http://192.168.1.3:8080/up/uploads/lubr.php，页面没有错误提示![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)</a></p>
-</li>
-<li><p>打开中国菜刀，添加木马地址，密码，lubr，脚本类型php(eval)，点击添加<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103730160.png" alt="image-20211228103730160"></p>
-</li>
-<li><p>双击添加记录，可查看完整目录<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103747989.png" alt="image-20211228103747989"></p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>webshell</tag>
-        <tag>content_type</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>绕过前台脚本检测扩展名上传webshell</title>
-    <url>/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/</url>
-    <content><![CDATA[<p>目的：</p>
-<ul>
-<li>理解绕过前台脚本检测扩展名上传的原理 </li>
-<li>学习绕过前台脚本检测扩展名上传的过程 </li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>当用户在客户端选择文件点击上传的时候，客户端还没有向服务器发送任何消息，就对本地文件进行检测来判断是否是可以上传的类型，这种方式称为前台脚本检测扩展名</li>
-<li>绕过前台脚本检测扩展名，就是将所要上传文件的扩展名更改为符合脚本检测规则的扩展名，通过BurpSuite工具，截取数据包，并将数据包中文件扩展名更改回原来的，达到绕过的目的</li>
-</ul>
-<p>过程：</p>
-<ul>
-<li>打开火狐，设置代理为127.0.0.1:8080 </li>
-</ul>
-<p><img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/1.JPG"></p>
-<ul>
-<li>打开burp，点击proxy下的intercept，intercept is off，同样要在options标签设置代理，端口与浏览器设置一致 </li>
-</ul>
-<p><img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/2.JPG"></p>
-<ul>
-<li><p>绕过验证</p>
-<ul>
-<li>在火狐输入地址<a href="http://ip:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BB%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0Webshell">http://ip:8080/up,进入文件上传漏洞演示脚本，点击绕过前台脚本检测扩展名上传Webshell</a></li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/3.JPG"></p>
-<ul>
-<li>点击浏览，上传木马，后缀为php，前台显示错误窗口</li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/4.JPG"></p>
-<ul>
-<li>打开burp打开抓包，将php后缀修改为jpg后重新上传文件<br><img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/5.JPG"></li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/6.JPG"></p>
-<ul>
-<li>Burp抓到包后，将文件后缀修改为php</li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/7.JPG"></p>
-<ul>
-<li>点击forward，发送数据包，前台提示lubr.php上传成功</li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/8.JPG"></p>
-</li>
-<li><p>连接木马</p>
-<ul>
-<li>连接木马，在浏览器输入木马的完整地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E7%BD%91%E9%A1%B5%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA">http://192.168.1.3:8080/up/uploads/lubr.php，网页没有错误提示</a></li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/9.JPG"></p>
-<ul>
-<li>打开中国菜刀，添加木马地址，<a href="http://192.168.1.3:8080/up/uploads/lubr.php,%E5%AF%86%E7%A0%81lubr,%E9%80%89%E6%8B%A9%E8%84%9A%E6%9C%AC%E7%B1%BB%E5%9E%8Bphp(eval)%EF%BC%8C%E7%82%B9%E5%87%BB%E6%B7%BB%E5%8A%A0">http://192.168.1.3:8080/up/uploads/lubr.php,密码lubr,选择脚本类型php(eval)，点击添加</a></li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/10.JPG"></p>
-<ul>
-<li>双击添加记录，即可查看完整目录</li>
-</ul>
-<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/11.JPG"></p>
-</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>-webshell -前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>进程间Messenger通信</title>
-    <url>/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/</url>
-    <content><![CDATA[<h2 id="进程间Messenger通信"><a href="#进程间Messenger通信" class="headerlink" title="进程间Messenger通信"></a>进程间Messenger通信</h2><p>目的：</p>
-<ul>
-<li>通过JAVA编程理解Android进程通信</li>
-</ul>
-<p>原理：</p>
-<ul>
-<li>Android程序中的进程间数据传递的问题到许多机制，比如aidl, Messenger, 以及Intent, ContentProvider以及底层的binder。Messenger是Android提供的一个工具类。使用Messenger可以避免编写AIDL文件来进行进程间通信，简化进程间通信的功能。Messenger，信使，其指向一个Handler，他人可以使用信使向Handler发送消息。信使实现了基于消息队列的跨进程的通讯，在一个进程中 创建一个指向Handler的信使，然后把信使返回给其他的进程，使得其它的进程可以向这个进程发送消息。在Messenger内部有一个 IMessenger接口指针，其在Messenger的构造函数中指向了一个Handler中的IMessenger，这样就保存了一个指向 Handler的指针。</li>
-<li>基本原理：服务端的Messenger需要在onBind方法中返回IBinder实例：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> messenger.getBinder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>客户端则需要在如下代码中创建与之关联的客户端Messenger：</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 得到了一个binder作为桥梁，创建客户端的信使</span></span><br><span class="line">    messenger = <span class="keyword">new</span> Messenger(service);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>两边的信使通过IBinder实例关联起来后，就可以通过send方法来互相发送消息了。 如果需要回调，则将另一个Messenger放到Message的replayTo属性中发送给另一端，由另一端来执行回调函数。</li>
-</ul>
-<p>过程：</p>
-<p>打开eclipse，点击file-import，弹出import窗口</p>
-<p>选择android下的existing android code into workspace<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103119506.png" alt="image-20211229103119506"></p>
-<p>点击next，弹出导入窗口，接着点击browse，选择simpleedu31<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103215577.png" alt="image-20211229103215577"></p>
-<p>点击finish导入</p>
-<p>打开avd虚拟机simpleedu31，右键项目，选择run as-android application<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103526330.png" alt="image-20211229103526330"></p>
-<p>程序运行<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104428625.png" alt="image-20211229104428625"></p>
-<p>点击bind,启动messengerservice<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104450082.png" alt="image-20211229104450082"></p>
-<p>点击message向MessengerService发送消息，messengerservice收到消息后弹出显示框<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104520678.png" alt="image-20211229104520678"></p>
-<p>点击callback，messengerservice收到消息后会构造一个信息返回给mainactivity<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104539221.png" alt="image-20211229104539221"></p>
-<p>点击unbind停止messengerservice服务，messengerservice服务停止之后点击message，callback，均不会有反应</p>
-]]></content>
-      <tags>
-        <tag>进程</tag>
-        <tag>Messenger</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>openssl+nginx+https</title>
-    <url>/2022/09/26/openssl-nginx-https/</url>
-    <content><![CDATA[<h2 id="使用openssl和nginx配置88端口为https协议"><a href="#使用openssl和nginx配置88端口为https协议" class="headerlink" title="使用openssl和nginx配置88端口为https协议"></a>使用openssl和nginx配置88端口为https协议</h2><ul>
-<li>该方法的证书属于无效证书,可以从第三方认证机构购买,原文:<a href="https://www.jb51.net/article/217964.htm">https://www.jb51.net/article/217964.htm</a></li>
-</ul>
-<h3 id="安装nginx（跳过）"><a href="#安装nginx（跳过）" class="headerlink" title="安装nginx（跳过）"></a>安装nginx（跳过）</h3><h3 id="创建CA证书"><a href="#创建CA证书" class="headerlink" title="创建CA证书"></a>创建CA证书</h3><ol>
-<li>生成CA私钥<br><code>root@debian:~# openssl genrsa -out local.key 2048</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E7%A7%81%E9%92%A5.JPG" alt="CA私钥"></li>
-<li>生成CA证书请求<br><code>root@debian:~# openssl req -new -key local.key -out local.csr</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E8%AF%81%E4%B9%A6%E8%AF%B7%E6%B1%82.JPG" alt="CA证书请求"></li>
-<li>生成CA根证书<br><code>openssl x509 -req -in local.csr -extensions v3_ca -signkey local.key -out local.crt</code><br><img src="http://121.5.125.62/image/openssl-nginx-https/CA%E6%A0%B9%E8%AF%81%E4%B9%A6.JPG" alt="CA根证书"></li>
-</ol>
-<h3 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">        listen 88 ssl;                              #监听88端口，并开启ssl</span><br><span class="line">        keepalive_timeout 100;                      #开启keepalive 激活keepalive长连接,减少客户端请求次数</span><br><span class="line">        ssl_certificate /root/local.crt;            #server端证书位置</span><br><span class="line">        ssl_certificate_key /root/local.key;        #server端私钥位置</span><br><span class="line">        ssl_session_cache shared:SSL:10m;           #缓存session会话</span><br><span class="line">        ssl_session_timeout 10m;                    # session会话    10分钟过期</span><br><span class="line">        ssl_ciphers HIGH:!aNULL:!MD5;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        server_name localhost;</span><br><span class="line">        charset utf-8;</span><br><span class="line"></span><br><span class="line">        #默认使用302临时重定向,不改变请求的方法(如post还是post),301永久重定向,307临时重定向不改变请求的方法</span><br><span class="line">        error_page 497 301 =307 https://$host:$server_port$request_uri;   </span><br><span class="line"></span><br><span class="line">        #根目录</span><br><span class="line">        root /var/www/test;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">          index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>nginx</tag>
-        <tag>openssl</tag>
-        <tag>https</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>信安题库</title>
     <url>/2022/10/28/%E4%BF%A1%E5%AE%89%E9%A2%98%E5%BA%93/</url>
     <content><![CDATA[<ul>
 <li><code>select &#39;ACCP&#39; from dual</code>的执行结果是<code>ACCP</code>，dual是一个虚表。</li>
 <li>cisco的配置通过<code>ftp</code>协议备份。</li>
 <li>linux关于登录程序的配置文件默认为<code>/etc/login.defs</code></li>
-<li><code>PASS_MAX_DAYS 90</code>指登录密码有效期为90天，<code>PASS_WARN_AGE 7</code>是指登录密码过期前七天提示修改，<code>FALL_DELAY 10</code>指，<code>SYSLOG_SG_ENAB yes</code>指当限定超级用于组管理日志是时使用。</li>
+<li><code>PASS_MAX_DAYS 90</code>指登录密码有效期为90天，<code>PASS_WARN_AGE 7</code>是指登录密码过期前七天提示修改，<code>FAIL_DELAY 10</code>指错误等待时间，<code>SYSLOG_SG_ENAB yes</code>指当限定超级用于组管理日志是时使用。</li>
 <li>oracle数据库中，<code>Truncate</code>名高龄删除整个表中的数据且无法回滚。</li>
 <li>windows系统通过配置<code>账户锁定策略</code>对登录进行限制。</li>
 <li>windows操作系统，本机登录权限对<code>everyone</code>用户组不开放。</li>
@@ -1757,5 +1499,267 @@
 <li>在信息安全等级保护工作中，<code>公安机关</code>、<code>国家保密工作部门</code>、<code>国家密码管理部门</code>、<code>工业和信息化部门</code>是信息安全职能部门。</li>
 </ul>
 ]]></content>
+      <tags>
+        <tag>测评师</tag>
+        <tag>题库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>南方企业内容管理系统漏洞</title>
+    <url>/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h2 id="南方企业内容管理系统漏洞"><a href="#南方企业内容管理系统漏洞" class="headerlink" title="南方企业内容管理系统漏洞"></a>南方企业内容管理系统漏洞</h2><p>目的：</p>
+<ul>
+<li>熟悉南方数据企业网站管理系统</li>
+<li>学习南方数据企业网站管理系统常见渗透手法</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>数据库备份拿webshell</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li><p>浏览器输入<code>http://192.168.1.3:8002/admin/Login.asp</code>,进入后台<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083557740.png" alt="image-20211229083557740"></p>
+</li>
+<li><p>输入admin和密码123456,进入到后台管理界面<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083647733.png" alt="image-20211229083647733"></p>
+</li>
+<li><p>在荣誉管理选项卡下，选择添加企业荣誉，即可弹出可上传文件页面<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083914421.png" alt="image-20211229083914421"></p>
+</li>
+<li><p>点击浏览上传木马文件，把1.asp修改为1.jpg，点击上传<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084027790.png" alt="image-20211229084027790"></p>
+</li>
+<li><p>得到文件地址UploadFiles/xxxxxxxxxxxxx.jpg<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084137287.png" alt="image-20211229084137287"></p>
+</li>
+<li><p>打开系统管理下的数据库备份，即可进入数据库备份页面，并将刚刚得到的木马文件的路径复制到当前数据库路径，并填写数据库备份名称ok.asp<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084434435.png" alt="image-20211229084434435"></p>
+</li>
+<li><p>点击确定，即可得到数据库备份的路径admin/Databackup/ok.asp.asa<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084504206.png" alt="image-20211229084504206"></p>
+</li>
+<li><p>在火狐浏览器输入<code>http://192.168.1.3:8002/admin/Databackup/ok.asp</code>,即可访问木马，已经成功拿到webshell（密码：123456）<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084709207.png" alt="image-20211229084709207"></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>南方企业</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>反弹shell</title>
+    <url>/2022/01/05/%E5%8F%8D%E5%BC%B9shell/</url>
+    <content><![CDATA[<h2 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h2><ul>
+<li>getshell：获取到目标的自行权限</li>
+<li>webshell：网站后门，通过web服务进行命令执行</li>
+<li>反弹shell：把命令行的输入输出转移到其他主机</li>
+</ul>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>通常用于被控端因防火墙受限、权限不足、端口被占用等情形。</p>
+]]></content>
+      <tags>
+        <tag>shell</tag>
+        <tag>反弹</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则表达式</title>
+    <url>/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
+<p>[]表示里面的任何一个字符</p>
+<p>a{1，5}表示a有1到5之间个字符</p>
+<p>{0，}表示0个或者无穷个</p>
+<p>*表示{0，}</p>
+<p>+表示{1，}</p>
+<p>？表示{0，1}</p>
+<p>[^a,b,c]表示除了a,b,c的其他字符</p>
+<p>^是字符串开头</p>
+<p>$是字符串结尾</p>
+<p>（？&lt;=（a））表示以a开头</p>
+<p>（？=（a））表示以a结尾</p>
+<p>\d , \w  , \ s 匹配数字，字符，空格</p>
+<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>图片木马绕过文件内容检测上传webshell</title>
+    <url>/2021/12/27/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/</url>
+    <content><![CDATA[<h2 id="图片木马绕过文件内容检测上传webshell"><a href="#图片木马绕过文件内容检测上传webshell" class="headerlink" title="图片木马绕过文件内容检测上传webshell"></a>图片木马绕过文件内容检测上传webshell</h2><p>目的：</p>
+<ul>
+<li>理解绕过内容验证上传的原理</li>
+<li>学习绕过内容验证上传的过程</li>
+</ul>
+<p>原理</p>
+<ul>
+<li>一般文件内容验证使用getimagesize()函数检测，会判断文件是否是一个有效的文件图片，如果是，则允许上传，否则的话不允许上传</li>
+<li>本实例就是将一句话木马插入到一个【合法】的图片文件当中，然后用中国菜刀远程连接</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li>打开火狐，进入网址<a href="http://192.168.1.3:8080/up%EF%BC%8C%E8%BF%9B%E5%85%A5%E6%9E%84%E9%80%A0%E5%9B%BE%E7%89%87%E9%A9%AC%E7%BB%95%E8%BF%87%E4%B8%8A%E4%BC%A0webshell![image-20211228104158522](http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)">http://192.168.1.3:8080/up，进入构造图片马绕过上传webshell![image-20211228104158522](http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104158522.png)</a></li>
+<li>选择上传木马，后缀php改为php.jpg</li>
+<li>点击上传，提示错误</li>
+<li><img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104300084.png" alt="image-20211228104300084"></li>
+<li>制作图片马，将要上传的木马与图片一个文件下<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104350818.png" alt="image-20211228104350818"></li>
+<li>打开cmd，进入对应目录<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104423625.png" alt="image-20211228104423625"></li>
+<li>输入copy pic.jpg/b+lubr.php/a PicLubr.jpg，将lubr.php插入到pic.jpg中<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104518932.png" alt="image-20211228104518932"></li>
+<li>在火狐上传PicLubr.jpg，后缀名改为PicLubr.jpg.php，然后上传<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104707308.png" alt="image-20211228104707308"></li>
+<li>输入连接访问木马文件<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104737829.png" alt="image-20211228104737829"></li>
+<li>打开中国菜刀，添加木马连接，输入密码lubr，脚本类型php(eval)</li>
+<li>双击添加的shell，即可访问网站的完整目录<img src="http://121.5.125.62/image/%E5%9B%BE%E7%89%87%E6%9C%A8%E9%A9%AC%E7%BB%95%E8%BF%87%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%A3%80%E6%B5%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228104832489.png" alt="image-20211228104832489"></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>webshell</tag>
+        <tag>图片木马</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用工具</title>
+    <url>/2021/11/24/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><p>图片隐写：zsteg，stegslove，outguess，pngcheck。</p>
+]]></content>
+      <tags>
+        <tag>tools</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>绕过前台脚本检测扩展名上传webshell</title>
+    <url>/2021/12/27/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/</url>
+    <content><![CDATA[<p>目的：</p>
+<ul>
+<li>理解绕过前台脚本检测扩展名上传的原理 </li>
+<li>学习绕过前台脚本检测扩展名上传的过程 </li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>当用户在客户端选择文件点击上传的时候，客户端还没有向服务器发送任何消息，就对本地文件进行检测来判断是否是可以上传的类型，这种方式称为前台脚本检测扩展名</li>
+<li>绕过前台脚本检测扩展名，就是将所要上传文件的扩展名更改为符合脚本检测规则的扩展名，通过BurpSuite工具，截取数据包，并将数据包中文件扩展名更改回原来的，达到绕过的目的</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li>打开火狐，设置代理为127.0.0.1:8080 </li>
+</ul>
+<p><img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/1.JPG"></p>
+<ul>
+<li>打开burp，点击proxy下的intercept，intercept is off，同样要在options标签设置代理，端口与浏览器设置一致 </li>
+</ul>
+<p><img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/2.JPG"></p>
+<ul>
+<li><p>绕过验证</p>
+<ul>
+<li>在火狐输入地址<a href="http://ip:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BB%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0Webshell">http://ip:8080/up,进入文件上传漏洞演示脚本，点击绕过前台脚本检测扩展名上传Webshell</a></li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/3.JPG"></p>
+<ul>
+<li>点击浏览，上传木马，后缀为php，前台显示错误窗口</li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/4.JPG"></p>
+<ul>
+<li>打开burp打开抓包，将php后缀修改为jpg后重新上传文件<br><img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/5.JPG"></li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/6.JPG"></p>
+<ul>
+<li>Burp抓到包后，将文件后缀修改为php</li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/7.JPG"></p>
+<ul>
+<li>点击forward，发送数据包，前台提示lubr.php上传成功</li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/8.JPG"></p>
+</li>
+<li><p>连接木马</p>
+<ul>
+<li>连接木马，在浏览器输入木马的完整地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E7%BD%91%E9%A1%B5%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA">http://192.168.1.3:8080/up/uploads/lubr.php，网页没有错误提示</a></li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/9.JPG"></p>
+<ul>
+<li>打开中国菜刀，添加木马地址，<a href="http://192.168.1.3:8080/up/uploads/lubr.php,%E5%AF%86%E7%A0%81lubr,%E9%80%89%E6%8B%A9%E8%84%9A%E6%9C%AC%E7%B1%BB%E5%9E%8Bphp(eval)%EF%BC%8C%E7%82%B9%E5%87%BB%E6%B7%BB%E5%8A%A0">http://192.168.1.3:8080/up/uploads/lubr.php,密码lubr,选择脚本类型php(eval)，点击添加</a></li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/10.JPG"></p>
+<ul>
+<li>双击添加记录，即可查看完整目录</li>
+</ul>
+<p>  <img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87%E5%89%8D%E5%8F%B0%E8%84%9A%E6%9C%AC%E6%A3%80%E6%B5%8B%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8A%E4%BC%A0webshell/11.JPG"></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>-webshell -前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>绕过content_type检测文件类型上传webshell</title>
+    <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
+    <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
+<ul>
+<li>理解绕过Content-Type检测文件类型上传的原理</li>
+<li>学习绕过Content-Type检测文件类型上传的过程</li>
+</ul>
+<p>原理:</p>
+<ul>
+<li>当浏览器在上传文件到服务器的时候，服务器对说上传文件的Content-Type类型进行检测，如果是白名单允许的，则可以正常上传，否则上传失败。</li>
+<li>绕过Content–Type文件类型检测，就是用BurpSuite截取并修改数据包中文件的Content-Type类型，使其符合白名单的规则，达到上传的目的。</li>
+</ul>
+<p>过程：</p>
+<ul>
+<li><p>打开火狐浏览器，修改代理127.0.0.1:8080<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103046467.png" alt="image-20211228103046467"></p>
+</li>
+<li><p>打开burp，点击intercept is off<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103152265.png" alt="image-20211228103152265"></p>
+</li>
+<li><p>打开浏览器,输入<a href="http://192.168.1.3:8080/up,%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BBcontent_type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell%E3%80%82![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)">http://192.168.1.3:8080/up,进入文件上传漏洞演示脚本，点击content_type检测文件类型上传webshell。![image-20211228103256712](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103256712.png)</a></p>
+</li>
+<li><p>上传php文件，前台显示错误窗口<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103342121.png" alt="image-20211228103342121"></p>
+</li>
+<li><p>Burp开启抓包</p>
+</li>
+<li><p>Burp抓到的数据包,在数据包中的content-type的application-stream修改为image/gif<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103504817.png" alt="image-20211228103504817"></p>
+</li>
+<li><p>点击forward，发送数据包，前台提示上传lubr.php成功<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103538500.png" alt="image-20211228103538500"></p>
+</li>
+<li><p>浏览器输入地址<a href="http://192.168.1.3:8080/up/uploads/lubr.php%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%B2%A1%E6%9C%89%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)">http://192.168.1.3:8080/up/uploads/lubr.php，页面没有错误提示![image-20211228103621026](http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103621026.png)</a></p>
+</li>
+<li><p>打开中国菜刀，添加木马地址，密码，lubr，脚本类型php(eval)，点击添加<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103730160.png" alt="image-20211228103730160"></p>
+</li>
+<li><p>双击添加记录，可查看完整目录<img src="http://121.5.125.62/image/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/image-20211228103747989.png" alt="image-20211228103747989"></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>webshell</tag>
+        <tag>content_type</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>进程间Messenger通信</title>
+    <url>/2021/12/27/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<h2 id="进程间Messenger通信"><a href="#进程间Messenger通信" class="headerlink" title="进程间Messenger通信"></a>进程间Messenger通信</h2><p>目的：</p>
+<ul>
+<li>通过JAVA编程理解Android进程通信</li>
+</ul>
+<p>原理：</p>
+<ul>
+<li>Android程序中的进程间数据传递的问题到许多机制，比如aidl, Messenger, 以及Intent, ContentProvider以及底层的binder。Messenger是Android提供的一个工具类。使用Messenger可以避免编写AIDL文件来进行进程间通信，简化进程间通信的功能。Messenger，信使，其指向一个Handler，他人可以使用信使向Handler发送消息。信使实现了基于消息队列的跨进程的通讯，在一个进程中 创建一个指向Handler的信使，然后把信使返回给其他的进程，使得其它的进程可以向这个进程发送消息。在Messenger内部有一个 IMessenger接口指针，其在Messenger的构造函数中指向了一个Handler中的IMessenger，这样就保存了一个指向 Handler的指针。</li>
+<li>基本原理：服务端的Messenger需要在onBind方法中返回IBinder实例：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">return</span> messenger.getBinder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>客户端则需要在如下代码中创建与之关联的客户端Messenger：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 得到了一个binder作为桥梁，创建客户端的信使</span></span><br><span class="line">    messenger = <span class="keyword">new</span> Messenger(service);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>两边的信使通过IBinder实例关联起来后，就可以通过send方法来互相发送消息了。 如果需要回调，则将另一个Messenger放到Message的replayTo属性中发送给另一端，由另一端来执行回调函数。</li>
+</ul>
+<p>过程：</p>
+<p>打开eclipse，点击file-import，弹出import窗口</p>
+<p>选择android下的existing android code into workspace<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103119506.png" alt="image-20211229103119506"></p>
+<p>点击next，弹出导入窗口，接着点击browse，选择simpleedu31<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103215577.png" alt="image-20211229103215577"></p>
+<p>点击finish导入</p>
+<p>打开avd虚拟机simpleedu31，右键项目，选择run as-android application<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229103526330.png" alt="image-20211229103526330"></p>
+<p>程序运行<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104428625.png" alt="image-20211229104428625"></p>
+<p>点击bind,启动messengerservice<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104450082.png" alt="image-20211229104450082"></p>
+<p>点击message向MessengerService发送消息，messengerservice收到消息后弹出显示框<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104520678.png" alt="image-20211229104520678"></p>
+<p>点击callback，messengerservice收到消息后会构造一个信息返回给mainactivity<img src="http://121.5.125.62/image/%E8%BF%9B%E7%A8%8B%E9%97%B4Messenger%E9%80%9A%E4%BF%A1/image-20211229104539221.png" alt="image-20211229104539221"></p>
+<p>点击unbind停止messengerservice服务，messengerservice服务停止之后点击message，callback，均不会有反应</p>
+]]></content>
+      <tags>
+        <tag>进程</tag>
+        <tag>Messenger</tag>
+      </tags>
   </entry>
 </search>
