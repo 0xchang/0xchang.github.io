@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-11-08T01:46:35.827Z</updated>
+  <updated>2022-12-26T03:26:57.975Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>平方求解欧拉</title>
+    <link href="https://0xchang.github.io/2022/12/26/%E5%B9%B3%E6%96%B9%E6%B1%82%E8%A7%A3%E6%AC%A7%E6%8B%89/"/>
+    <id>https://0xchang.github.io/2022/12/26/%E5%B9%B3%E6%96%B9%E6%B1%82%E8%A7%A3%E6%AC%A7%E6%8B%89/</id>
+    <published>2022-12-26T03:06:45.000Z</published>
+    <updated>2022-12-26T03:26:57.975Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近遇到一个根据欧拉数求解原数的例子，即已知Euler(Q)的值，求解Q，另已知Q=q^2，且q为质数。</p><h2 id="欧拉函数性质"><a href="#欧拉函数性质" class="headerlink" title="欧拉函数性质"></a>欧拉函数性质</h2><ol><li>欧拉函数为积性函数。（对于数论函数 f(n) 不恒等于0，当 (m,n) = 1 时，满足 f(mn) = f(m)f(n) ，则称 f(n) 为积性函数） φ(mn) = φ(m)φ(n)，(m,n) = 1</li><li>若 (m,n) = d，则φ(mn) = dφ(m)φ(n)/φ(d)</li><li>若m、n满足m|n，则φ(mn) = mφ(n)</li><li>若m、n满足m|n，则φ(m)|φ(n)</li><li>对于质数p，其欧拉函数公式为φ(p) = p-1</li><li>对于质数p，pk的欧拉函数公式为φ(pk) = (p-1) x p^（k-1）</li><li>小于等于n且整除n的所有正整数的欧拉函数值之和等于n，即n = Σd|nφ(d)</li><li>欧拉定理：若(a,m) = 1，则 aφ(m) ≡ 1 (mod m)。</li><li>扩展欧拉定理</li></ol><ul><li>ax ≡ ax mod φ(m) (mod m)，(a,m) = 1</li><li>或ax ≡ ax  (mod m)，(a,m) ≠ 1且x &lt; φ(m)</li><li>或 ax ≡ ax mod φ(m) + φ(m) (mod m)，(a,m) ≠ 1且x ≥ φ(m)</li></ul><p>根据6可知，当k=2时，Euler(q x q)=q x (q-1)；当已知Euler(Q)时，求解q就不难了。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Euler(Q)+0.25=(q-0.5)^2;</span><br><span class="line">100Euler(Q)+25=(10q-5)^2;</span><br><span class="line">10q=sqrt(100Euler(Q)+25)+5</span><br><span class="line">q=(sqrt(100Euler(Q)+25)+5)/10</span><br></pre></td></tr></table></figure><p>根据以上求解直接写出求解的python脚本(考虑精度问题，没有使用math.sqrt，直接使用二分法求解平方根)。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;input Euler(q*q):&#x27;</span>))</span><br><span class="line">x=<span class="number">100</span>*x+<span class="number">25</span></span><br><span class="line">low, high, ans = <span class="number">0</span>, x, -<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> low &lt;= high:</span><br><span class="line">    mid = (low + high) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> mid * mid &lt;= x:</span><br><span class="line">        ans = mid</span><br><span class="line">        low = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        high = mid - <span class="number">1</span></span><br><span class="line">ans+=<span class="number">5</span></span><br><span class="line">q=ans//<span class="number">10</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;q is &#x27;</span>,q)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;最近遇到一个根据欧拉数求解原数的例子，即已知Euler(Q)的值，求解Q，另已知Q=q^2，且q为质数。&lt;/p&gt;
+&lt;h2 id=&quot;欧拉函数性质&quot;&gt;&lt;a href=&quot;#欧拉函数性质&quot; class=&quot;headerlink&quot; title=&quot;欧拉函数性质&quot;&gt;&lt;/a&gt;欧拉函数性质&lt;/</summary>
+      
+    
+    
+    
+    
+    <category term="欧拉函数" scheme="https://0xchang.github.io/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/"/>
+    
+    <category term="密码学" scheme="https://0xchang.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+    
+    <category term="平方" scheme="https://0xchang.github.io/tags/%E5%B9%B3%E6%96%B9/"/>
+    
+  </entry>
   
   <entry>
     <title>信安题库</title>
@@ -494,32 +521,6 @@
     
     
     <category term="南方企业" scheme="https://0xchang.github.io/tags/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>中国菜刀配合一句话木马基本使用</title>
-    <link href="https://0xchang.github.io/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
-    <id>https://0xchang.github.io/2021/12/27/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</id>
-    <published>2021-12-27T07:48:22.000Z</published>
-    <updated>2022-10-13T03:08:37.342Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="中国菜刀配合一句话木马基本使用"><a href="#中国菜刀配合一句话木马基本使用" class="headerlink" title="中国菜刀配合一句话木马基本使用"></a>中国菜刀配合一句话木马基本使用</h2><p>目的：</p><ul><li>学习一句话木马</li><li>学习菜刀的使用</li></ul><p>原理：<br>菜刀的主要功能是用来连接一句话木马的，asp、aspx、php的一句话菜刀都可以连，只是这几种一句话语句不一样。</p><ul><li><p>asp的一句话是：<code>&lt;%eval request(“pass”)%&gt;</code></p></li><li><p>aspx的一句话是：<code>&lt;%@ Page Language=”Jscript”%&gt;&lt;%eval(Request.Item[&quot;pass&quot;],”unsafe”);%&gt;</code></p></li><li><p>php的一句话是：<code>&lt;?php @eval($_POST[&#39;pass&#39;]);?&gt;</code></p></li></ul><p>过程：</p><ul><li><p>打开火狐，<a href="http://192.168.1.3:8080/up%EF%BC%8C%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E6%BC%94%E7%A4%BA%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%82%B9%E5%87%BB%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E8%BF%9E%E6%8E%A5%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC![image-20211228105130236](http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105130236.png)">http://192.168.1.3:8080/up，打开文件上传漏洞演示脚本，点击中国菜刀连接一句话木马![image-20211228105130236](http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105130236.png)</a></p></li><li><p>点击浏览，上传php文件，木马地址为<a href="http://192.168.1.3:8080/up/images/lubr.php![image-20211228105156422](http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105156422.png)">http://192.168.1.3:8080/up/images/lubr.php![image-20211228105156422](http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105156422.png)</a></p></li><li><p>打开中国菜刀</p></li><li><p>添加木马地址，密码为lubr，脚本类型php(eval)<img src="http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105329855.png" alt="image-20211228105329855"></p></li><li><p>添加到主界面<img src="http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105353101.png" alt="image-20211228105353101"></p></li><li><p>右键文件管理，即可查看目标服务器的完整目录，也可进行创建文件，修改文件，修改和下载等相关操作<img src="http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105418680.png" alt="image-20211228105418680"></p></li><li><p>右键单击浏览网站，即可实现浏览器功能，浏览该站点<img src="http://121.5.125.62/image/%E4%B8%AD%E5%9B%BD%E8%8F%9C%E5%88%80%E9%85%8D%E5%90%88%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20211228105439630.png" alt="image-20211228105439630"></p></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;中国菜刀配合一句话木马基本使用&quot;&gt;&lt;a href=&quot;#中国菜刀配合一句话木马基本使用&quot; class=&quot;headerlink&quot; title=&quot;中国菜刀配合一句话木马基本使用&quot;&gt;&lt;/a&gt;中国菜刀配合一句话木马基本使用&lt;/h2&gt;&lt;p&gt;目的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;学</summary>
-      
-    
-    
-    
-    
-    <category term="木马" scheme="https://0xchang.github.io/tags/%E6%9C%A8%E9%A9%AC/"/>
-    
-    <category term="一句话" scheme="https://0xchang.github.io/tags/%E4%B8%80%E5%8F%A5%E8%AF%9D/"/>
     
   </entry>
   

