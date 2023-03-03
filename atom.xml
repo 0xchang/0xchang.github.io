@@ -6,7 +6,7 @@
   <link href="https://0xchang.github.io/atom.xml" rel="self"/>
   
   <link href="https://0xchang.github.io/"/>
-  <updated>2023-02-01T08:19:23.247Z</updated>
+  <updated>2023-03-03T03:02:40.605Z</updated>
   <id>https://0xchang.github.io/</id>
   
   <author>
@@ -17,28 +17,32 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="https://0xchang.github.io/2023/02/01/3.PNG/"/>
-    <id>https://0xchang.github.io/2023/02/01/3.PNG/</id>
-    <published>2023-02-01T08:19:23.247Z</published>
-    <updated>2023-02-01T08:19:23.247Z</updated>
+    <title>linux修改用户名</title>
+    <link href="https://0xchang.github.io/2023/03/03/linux%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%90%8D/"/>
+    <id>https://0xchang.github.io/2023/03/03/linux%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%90%8D/</id>
+    <published>2023-03-03T02:56:27.000Z</published>
+    <updated>2023-03-03T03:02:40.605Z</updated>
+    
+    <content type="html"><![CDATA[<p>修改用户名需要注意要同时修改用户名，家目录，组用户，使用root权限修改，且要修改的用户不能登录系统。</p><h3 id="修改用户"><a href="#修改用户" class="headerlink" title="修改用户"></a>修改用户</h3><ul><li>修改用户名，还需要修改用户家目录</li><li><code>usermod -l newname -d /home/newname -m oldname</code><h3 id="修改用户组"><a href="#修改用户组" class="headerlink" title="修改用户组"></a>修改用户组</h3></li><li><code>groupmod -n newgroup oldgroup</code></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;修改用户名需要注意要同时修改用户名，家目录，组用户，使用root权限修改，且要修改的用户不能登录系统。&lt;/p&gt;
+&lt;h3 id=&quot;修改用户&quot;&gt;&lt;a href=&quot;#修改用户&quot; class=&quot;headerlink&quot; title=&quot;修改用户&quot;&gt;&lt;/a&gt;修改用户&lt;/h3&gt;&lt;ul&gt;
+&lt;</summary>
+      
     
     
     
     
+    <category term="linux" scheme="https://0xchang.github.io/tags/linux/"/>
     
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="https://0xchang.github.io/2023/02/01/[1.PNG/"/>
-    <id>https://0xchang.github.io/2023/02/01/[1.PNG/</id>
-    <published>2023-02-01T08:18:15.053Z</published>
-    <updated>2023-02-01T08:18:15.053Z</updated>
+    <category term="用户名" scheme="https://0xchang.github.io/tags/%E7%94%A8%E6%88%B7%E5%90%8D/"/>
     
+    <category term="usermod" scheme="https://0xchang.github.io/tags/usermod/"/>
     
-    
-    
+    <category term="groupmod" scheme="https://0xchang.github.io/tags/groupmod/"/>
     
   </entry>
   
@@ -494,6 +498,32 @@
     <category term="短信" scheme="https://0xchang.github.io/tags/%E7%9F%AD%E4%BF%A1/"/>
     
     <category term="欺诈" scheme="https://0xchang.github.io/tags/%E6%AC%BA%E8%AF%88/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>代码混淆</title>
+    <link href="https://0xchang.github.io/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
+    <id>https://0xchang.github.io/2021/12/27/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/</id>
+    <published>2021-12-27T09:11:46.000Z</published>
+    <updated>2022-10-13T03:08:37.343Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="代码混淆"><a href="#代码混淆" class="headerlink" title="代码混淆"></a>代码混淆</h2><p>目的：</p><ul><li>JAVA编程实现Android手机代码混淆，并使用反编译查看效果</li></ul><p>原理：</p><ul><li>代码混淆(Obfuscated code)亦称花指令，是保护APP常见技术之一，方法是将程序代码转换成一种功能上等价，但是难于阅读和理解的形式，本实验介绍使用代码混淆技术对抗静态分析。混淆就是对发布出去的程序进行重新组织和处理，使得处理后的代码与处理前代码完成相同的功能，而混淆后的代码很难被反编译，即使反编译成功也很难得出程序的真正语义。被混淆过的程序代码，仍然遵照原来的档案格式和指令集，执行结果也与混淆前一样，只是混淆器将代码中的所有变量、函数、类的名称变为简短的英文字母代号，在缺乏相应的函数名和程序注释的情况下，即使被反编译，也将难以阅读。同时混淆是不可逆的，在混淆的过程中一些不影响正常运行的信息将永久丢失，这些信息的丢失使程序变得更加难以理解。混淆器的作用不仅仅是保护代码，它也有精简编译后程序大小的作用。由于以上介绍的缩短变量和函数名以及丢失部分信息的原因，编译后jar文件体积大约能减少25% ，这对当前费用较贵的无线网络传输是有一定意义的。</li></ul><p>过程：</p><ul><li><p>打开Eclipse，依次按照New-Project的顺序点击，然后选择 Android Application Project，新建一个可以执行的工程<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092846142.png" alt="image-20211229092846142"></p></li><li><p>添加应用名称与项目名称（name为SimpleEdu23,第一个SDK选择API14，其余默认），其他设置默认选择<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229092927117.png" alt="image-20211229092927117"></p></li><li><p>点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093002017.png" alt="image-20211229093002017"></p></li><li><p>选择相应位置，点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093028747.png" alt="image-20211229093028747"></p></li><li><p>选择Blank Activity，点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093051916.png" alt="image-20211229093051916"></p></li><li><p>输入Activity名称等信息，点击finish<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093159974.png" alt="image-20211229093159974"></p></li><li><p>打开android工程的project.properties文件<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093358762.png" alt="image-20211229093358762"></p></li><li><p>在project.properties文件中增加下面一行代码proguard.config=prouard-project.txt<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093451991.png" alt="image-20211229093451991"></p></li><li><p>项目在<a href="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/%E4%B8%AD%E5%A6%82%E6%9E%9C%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%EF%BC%8C%E9%9C%80%E8%A6%81%E5%9C%A8%E6%B7%B7%E6%B7%86%E7%9A%84%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8A%A0%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E5%A3%B0%E6%98%8E%EF%BC%8C%E9%83%A8%E5%88%86%E7%AC%AC%E4%B8%89%E6%96%B9jar%E5%8C%85%E8%99%BD%E7%84%B6%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%84%9A%E6%9C%AC%E4%B8%AD%E8%BF%9B%E8%A1%8C%E4%BA%86%E5%A3%B0%E6%98%8E%EF%BC%8C%E4%BD%86%E6%98%AF%E5%9C%A8%E6%B7%B7%E6%B7%86%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%BB%8F%E5%B8%B8%E4%BC%9A%E5%8F%91%E7%8E%B0%E5%86%85%E9%83%A8%E7%B1%BB%E6%88%96%E8%80%85%E5%BC%95%E7%94%A8%E6%96%87%E4%BB%B6%E6%89%BE%E4%B8%8D%E5%88%B0%E7%9A%84%E7%8E%B0%E8%B1%A1%EF%BC%8C%E8%BF%99%E7%A7%8D%E7%8E%B0%E8%B1%A1%E5%9C%A8android-support-v4.jar%E4%B8%AD%E6%9B%B4%E4%B8%BA%E5%B8%B8%E8%A7%81![image-20211229093615763](http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)">http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/中如果引入第三方jar包，需要在混淆的脚本文件中加入第三方jar包声明，部分第三方jar包虽然在混淆脚本中进行了声明，但是在混淆过程中经常会发现内部类或者引用文件找不到的现象，这种现象在android-support-v4.jar中更为常见![image-20211229093615763](http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229093615763.png)</a></p></li><li><p>在proguard-project.txt添加以下代码</p></li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-libraryjars ./libs/android-support-v4.jar</span><br><span class="line">-downwarn android.support.v4.**</span><br><span class="line">-downwarn **CompatHoneycomb</span><br><span class="line">-downwarn **CompatHoneycombMR2</span><br><span class="line">-downwarn **CompatCreatorHoneycombMR2</span><br><span class="line">-keep <span class="class"><span class="keyword">interface</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.<span class="title">app</span>.**</span>&#123;*;&#125;</span><br><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.**</span>&#123;*;&#125;</span><br><span class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">support</span>.<span class="title">v4</span>.**</span></span><br><span class="line"><span class="class">-<span class="title">keep</span> <span class="title">public</span> <span class="title">class</span> * <span class="keyword">extends</span> <span class="title">android</span>.<span class="title">app</span>.<span class="title">Fragment</span></span></span><br></pre></td></tr></table></figure><ul><li><p>点击file，选择export<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094244824.png" alt="image-20211229094244824"></p></li><li><p>选择export android application<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094303845.png" alt="image-20211229094303845"></p></li><li><p>点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094340365.png" alt="image-20211229094340365"></p></li><li><p>生成证书加密（点击browse选择路径），本实验所有密码为123456<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094428828.png" alt="image-20211229094428828"></p></li><li><p>选择Alias并输入密码，点击next<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094501941.png" alt="image-20211229094501941"></p></li><li><p>点击browse选择生成的APK保存路径<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229094535011.png" alt="image-20211229094535011"></p></li><li><p>使用JD-GUI<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095219086.png" alt="image-20211229095219086"></p></li><li><p>用解压缩工具解压simpleedu23.apk，得到classes.dex<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095342782.png" alt="image-20211229095342782"></p></li><li><p>将classes.dex与dex2jar放在同一目录<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095427029.png" alt="image-20211229095427029"></p></li><li><p>Cmd执行指令d2j-dex2jar.bat classes.dex<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095743092.png" alt="image-20211229095743092"></p></li><li><p>在dex2jar目录下获得目标程序的源代码<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095802525.png" alt="image-20211229095802525"></p></li><li><p>用jd-gui打开jar包，得到反编译后的源代码<img src="http://121.5.125.62/image/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86//image-20211229095848546.png" alt="image-20211229095848546"></p></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;代码混淆&quot;&gt;&lt;a href=&quot;#代码混淆&quot; class=&quot;headerlink&quot; title=&quot;代码混淆&quot;&gt;&lt;/a&gt;代码混淆&lt;/h2&gt;&lt;p&gt;目的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JAVA编程实现Android手机代码混淆，并使用反编译查看效果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;</summary>
+      
+    
+    
+    
+    
+    <category term="代码混淆" scheme="https://0xchang.github.io/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/"/>
     
   </entry>
   

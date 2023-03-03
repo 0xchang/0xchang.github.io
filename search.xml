@@ -1797,11 +1797,6 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2023/02/01/3.PNG/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>ret2text</title>
     <url>/2023/02/01/ret2text/</url>
     <content><![CDATA[<h3 id="机器环境"><a href="#机器环境" class="headerlink" title="机器环境"></a>机器环境</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">gcc version 11.3.0 (Debian 11.3.0-5)</span><br><span class="line">debian11</span><br><span class="line">Linux 5.10.0-16-amd64 #1 SMP Debian 5.10.127-1 (2022-06-30) x86_64 GNU/Linux</span><br></pre></td></tr></table></figure>
@@ -1829,8 +1824,20 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
-    <url>/2023/02/01/%5B1.PNG/</url>
-    <content><![CDATA[]]></content>
+    <title>linux修改用户名</title>
+    <url>/2023/03/03/linux%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%90%8D/</url>
+    <content><![CDATA[<p>修改用户名需要注意要同时修改用户名，家目录，组用户，使用root权限修改，且要修改的用户不能登录系统。</p>
+<h3 id="修改用户"><a href="#修改用户" class="headerlink" title="修改用户"></a>修改用户</h3><ul>
+<li>修改用户名，还需要修改用户家目录</li>
+<li><code>usermod -l newname -d /home/newname -m oldname</code><h3 id="修改用户组"><a href="#修改用户组" class="headerlink" title="修改用户组"></a>修改用户组</h3></li>
+<li><code>groupmod -n newgroup oldgroup</code></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>用户名</tag>
+        <tag>usermod</tag>
+        <tag>groupmod</tag>
+      </tags>
   </entry>
 </search>
